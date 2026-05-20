@@ -1,0 +1,45 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   Design tokens — shared across every advertiser landing page.
+
+   Each advertiser overrides --accent and --accent-soft in its own page
+   stylesheet so the family of pages feels coherent but never identical.
+   ────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Neutral palette — the "paper" of the guide */
+  --paper:        #FAF6F0;
+  --paper-warm:   #F2EBDE;
+  --ink:          #1A1F26;
+  --ink-soft:     #4A5560;
+  --ink-muted:    #8A93A0;
+  --rule:         #E5DDD0;
+
+  /* Per-advertiser overrides (set in page CSS) */
+  --accent:       #0F2A3D;
+  --accent-soft:  #2B5972;
+  --accent-tint:  #E8E2D6;
+  --accent-ink:   #FAF6F0;
+
+  /* Typography */
+  --font-serif:   "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
+  --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Scale */
+  --step--1: clamp(0.83rem, 0.78rem + 0.2vw, 0.92rem);
+  --step-0:  clamp(1.00rem, 0.95rem + 0.25vw, 1.10rem);
+  --step-1:  clamp(1.20rem, 1.10rem + 0.5vw, 1.40rem);
+  --step-2:  clamp(1.50rem, 1.30rem + 1.0vw, 1.85rem);
+  --step-3:  clamp(1.95rem, 1.55rem + 2.0vw, 2.65rem);
+  --step-4:  clamp(2.50rem, 1.90rem + 3.0vw, 3.75rem);
+  --step-5:  clamp(3.10rem, 2.20rem + 4.5vw, 5.25rem);
+
+  /* Layout */
+  --measure:     38rem;
+  --gutter:      clamp(1.25rem, 4vw, 2.5rem);
+  --section-y:   clamp(3rem, 7vw, 5.5rem);
+  --radius:      2px;
+  --radius-lg:   6px;
+
+  /* Motion */
+  --ease:        cubic-bezier(0.2, 0.7, 0.2, 1);
+}

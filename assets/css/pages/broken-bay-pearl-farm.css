@@ -1,0 +1,83 @@
+/* Broken Bay Pearl Farm — per-advertiser palette and hero. */
+
+:root {
+  --accent:       #0E3147;   /* Hawkesbury deep */
+  --accent-soft:  #2E6584;   /* river haze */
+  --accent-tint:  #EFE8DC;   /* shucked-shell cream */
+  --accent-ink:   #FAF6F0;
+}
+
+/* Hero art — layered SVG-like gradients evoking river, mist, mother-of-pearl.
+   Replace .hero__art's background with a real photograph by dropping
+   /assets/img/broken-bay-pearl-farm/hero.jpg in and uncommenting below. */
+
+.hero__art {
+  background:
+    /* shimmer */
+    radial-gradient(ellipse at 30% 25%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 45%),
+    radial-gradient(ellipse at 75% 15%, rgba(232,223,211,0.22) 0%, rgba(232,223,211,0) 50%),
+    /* river surface */
+    linear-gradient(180deg,
+      #1B3F5A 0%,
+      #14344C 35%,
+      #0E2A40 70%,
+      #082234 100%);
+}
+
+/* When you have a real hero photo:
+.hero__art {
+  background:
+    linear-gradient(180deg, rgba(8,34,52,0.25), rgba(8,34,52,0.5)),
+    url('/assets/img/broken-bay-pearl-farm/hero.jpg') center/cover no-repeat;
+}
+*/
+
+/* Decorative ripple — subtle horizontal lines, like a pearl-bed line on a calm river */
+.hero__art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to bottom,
+      transparent 0,
+      transparent calc(50% - 0.5px),
+      rgba(255,255,255,0.06) calc(50% - 0.5px),
+      rgba(255,255,255,0.06) 50%,
+      transparent 50%);
+  background-size: 100% 7rem;
+  opacity: 0.6;
+  mask-image: linear-gradient(180deg, transparent, black 30%, black 70%, transparent);
+  pointer-events: none;
+}
+
+/* Gallery tiles — soft maritime placeholders until real images are dropped in.
+   Each tile uses an evocative gradient; swap for <img> when photos arrive. */
+.gallery__tile--1 { background: radial-gradient(circle at 30% 40%, #C9D8E0, #6E8C9D); }
+.gallery__tile--2 { background: radial-gradient(circle at 70% 30%, #E6DAC4, #B5A07B); }
+.gallery__tile--3 { background: radial-gradient(circle at 50% 50%, #2E6584, #0E3147); }
+.gallery__tile--4 { background: radial-gradient(circle at 30% 70%, #F1E7D5, #C2B597); }
+.gallery__tile--5 { background: radial-gradient(circle at 60% 40%, #8FA9B6, #34536A); }
+.gallery__tile--6 { background: radial-gradient(circle at 40% 60%, #D9CFB9, #8B7C5E); }
+.gallery__tile--7 { background: radial-gradient(circle at 50% 30%, #1B3F5A, #082234); }
+.gallery__tile--8 { background: radial-gradient(circle at 70% 70%, #EFE8DC, #B6A98B); }
+
+/* Decorative motif — pearl glyph used near section headings */
+.pearl-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0 2rem;
+  color: var(--accent-soft);
+}
+.pearl-rule::before,
+.pearl-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+.pearl-rule__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #FFFFFF, var(--accent-soft));
+  box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px var(--rule);
+}

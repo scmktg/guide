@@ -1,45 +1,51 @@
 /* ──────────────────────────────────────────────────────────────────────────
    Design tokens — shared across every advertiser landing page.
 
-   Each advertiser overrides --accent and --accent-soft in its own page
-   stylesheet so the family of pages feels coherent but never identical.
+   The system leans Apple-product-page: sleek, sans-serif first, generous
+   whitespace, restrained colour. A single serif italic family is reserved
+   for editorial accents (pull quotes, plate captions, page index).
+
+   Each advertiser overrides --accent in its own page stylesheet so the
+   family of pages feels coherent without being identical.
    ────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* Neutral palette — the "paper" of the guide */
-  --paper:        #FAF6F0;
-  --paper-warm:   #F2EBDE;
-  --ink:          #1A1F26;
-  --ink-soft:     #4A5560;
-  --ink-muted:    #8A93A0;
-  --rule:         #E5DDD0;
+  /* Neutral palette — Apple-leaning off-white */
+  --paper:        #FBFBFD;
+  --paper-warm:   #F5F5F7;
+  --ink:          #1D1D1F;
+  --ink-soft:     #424245;
+  --ink-muted:    #86868B;
+  --rule:         #D2D2D7;
+  --rule-soft:    #E8E8ED;
 
   /* Per-advertiser overrides (set in page CSS) */
-  --accent:       #0F2A3D;
+  --accent:       #0E3147;
   --accent-soft:  #2B5972;
-  --accent-tint:  #E8E2D6;
-  --accent-ink:   #FAF6F0;
+  --accent-tint:  #EEF2F5;
+  --accent-ink:   #FBFBFD;
 
-  /* Typography */
+  /* Typography — Inter as the system-like sans, Cormorant for editorial accents */
+  --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   --font-serif:   "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
-  --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Scale */
-  --step--1: clamp(0.83rem, 0.78rem + 0.2vw, 0.92rem);
-  --step-0:  clamp(1.00rem, 0.95rem + 0.25vw, 1.10rem);
-  --step-1:  clamp(1.20rem, 1.10rem + 0.5vw, 1.40rem);
-  --step-2:  clamp(1.50rem, 1.30rem + 1.0vw, 1.85rem);
-  --step-3:  clamp(1.95rem, 1.55rem + 2.0vw, 2.65rem);
-  --step-4:  clamp(2.50rem, 1.90rem + 3.0vw, 3.75rem);
-  --step-5:  clamp(3.10rem, 2.20rem + 4.5vw, 5.25rem);
+  /* Scale — pushed larger at the top for product-page display headlines */
+  --step--1: clamp(0.81rem, 0.76rem + 0.2vw, 0.88rem);
+  --step-0:  clamp(1.00rem, 0.96rem + 0.20vw, 1.08rem);
+  --step-1:  clamp(1.22rem, 1.10rem + 0.55vw, 1.46rem);
+  --step-2:  clamp(1.55rem, 1.30rem + 1.1vw, 2.00rem);
+  --step-3:  clamp(2.10rem, 1.55rem + 2.5vw, 3.10rem);
+  --step-4:  clamp(2.80rem, 2.00rem + 3.6vw, 4.50rem);
+  --step-5:  clamp(3.40rem, 2.40rem + 5.2vw, 6.50rem);
 
   /* Layout */
   --measure:     38rem;
   --gutter:      clamp(1.25rem, 4vw, 2.5rem);
-  --section-y:   clamp(3rem, 7vw, 5.5rem);
-  --radius:      2px;
-  --radius-lg:   6px;
+  --section-y:   clamp(4rem, 9vw, 7.5rem);
+  --radius:      14px;
+  --radius-lg:   22px;
 
   /* Motion */
   --ease:        cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
 }

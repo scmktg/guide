@@ -231,13 +231,64 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
 }
 
 .eyebrow {
-  display: inline-block;
-  font-size: 0.76rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.74rem;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--accent);
   margin: 0 0 1rem;
+}
+.eyebrow::before {
+  content: "";
+  width: 1.4rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* ── Editorial section header (numbered, ruled) ───────────────────── */
+.section-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  max-width: var(--max);
+  margin: clamp(2rem, 5vw, 3.5rem) auto 0;
+  padding: clamp(1.25rem, 3vw, 1.75rem) var(--gutter) 0;
+  border-top: 1px solid var(--rule);
+}
+.section-meta + section,
+.section-meta + .offer,
+.section-meta + .contacts,
+.section-meta + aside.offer {
+  padding-top: clamp(1rem, 3vw, 1.5rem);
+}
+.section-meta + .description {
+  padding-top: clamp(1rem, 3vw, 1.5rem);
+}
+.section-meta + .gallery-section { padding-top: clamp(1rem, 3vw, 1.5rem); }
+.section-meta + .amenities { padding-top: clamp(1rem, 3vw, 1.5rem); }
+.section-meta + .dining { padding-top: clamp(1rem, 3vw, 1.5rem); }
+.section-meta__num {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1rem + 0.4vw, 1.45rem);
+  color: var(--accent);
+  letter-spacing: 0.01em;
+  flex: 0 0 auto;
+  line-height: 1;
+}
+.section-meta__label {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  line-height: 1.2;
 }
 
 /* ── Description ──────────────────────────────────────────────────────── */
@@ -369,7 +420,7 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
 
 /* ── Gallery ─────────────────────────────────────────────────────────── */
 .gallery-section {
-  padding: clamp(2.5rem, 5vw, 3.5rem) var(--gutter) clamp(3rem, 7vw, 5rem);
+  padding: clamp(1rem, 3vw, 1.75rem) var(--gutter) clamp(3rem, 7vw, 5rem);
   max-width: var(--max);
   margin: 0 auto;
 }

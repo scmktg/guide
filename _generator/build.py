@@ -27,11 +27,89 @@ PAGES_CSS = ROOT / "assets" / "css" / "pages"
 
 # ── Helpers ──────────────────────────────────────────────────────────────
 
+# ── Image library ──────────────────────────────────────────────────────
+# Themed Unsplash photo IDs by category. Each business is mapped to a
+# category in HERO_CATEGORY below. Gallery is six Central Coast shots
+# rotated across every page so visuals stay coherent without dipping
+# into stock-photo-fatigue territory.
+UNSPLASH_IDS = {
+    "mexican-cantina":   "photo-1565299585323-38d6b0865b47",
+    "thai-massage":      "photo-1544161515-4ab6ce6db874",
+    "beach-restaurant":  "photo-1455587734955-081b22074882",
+    "music-bar":         "photo-1514933651103-005eec06c04b",
+    "fashion-boutique":  "photo-1567401893414-76b7b1e5a7a5",
+    "bbq-smokehouse":    "photo-1544025162-d76694265947",
+    "boat-hire":         "photo-1502209524164-acea936639a2",
+    "day-spa":           "photo-1540555700478-4be289fbecef",
+    "dining-precinct":   "photo-1517248135467-4c7edcad34c4",
+    "aero-club":         "photo-1436491865332-7a61a109cc05",
+    "farm-park":         "photo-1500595046743-cd271d694d30",
+    "alpaca-farm":       "photo-1452857297128-d9c29adba80b",
+    "high-ropes":        "photo-1448375240586-882707db888b",
+    "photo-gallery":     "photo-1577720580479-7d839d829c73",
+    "gin-distillery":    "photo-1514362545857-3bc16c4c7d1b",
+    "chocolate-factory": "photo-1481391319762-47dff72954d9",
+    "reptile-park":      "photo-1504208434309-cb69f4fe52b0",
+    "hat-shop":          "photo-1521369909029-2afed882baee",
+    "pearl-oysters":     "photo-1611516491426-03025e6043c8",
+    "hotel-restaurant":  "photo-1414235077428-338989a2e8c0",
+    "bistro-bar":        "photo-1513104890138-7c749659a591",
+    "waterfront-hotel":  "photo-1571896349842-33c89424de2d",
+    # Gallery — Central Coast / coastal NSW
+    "coast-1":           "photo-1507525428034-b723cf961d3e",
+    "coast-2":           "photo-1505228395891-9a51e7e86bf6",
+    "coast-3":           "photo-1441974231531-c6227db76b6e",
+    "coast-4":           "photo-1506905925346-21bda4d32df4",
+    "coast-5":           "photo-1542273917363-3b1817f69a2d",
+    "coast-6":           "photo-1591608971362-f08b2a75731a",
+}
+
+# slug → category key in UNSPLASH_IDS for hero
+HERO_CATEGORY = {
+    "mexicoast-cantina":         "mexican-cantina",
+    "mangkorn-massage":          "thai-massage",
+    "dunes-by-dish":             "beach-restaurant",
+    "the-savoy-bar-and-music":   "music-bar",
+    "plain-janes-store":         "fashion-boutique",
+    "cue-and-crew":              "bbq-smokehouse",
+    "bateau-tuggerah":           "boat-hire",
+    "wildfire-day-spa":          "day-spa",
+    "wyong-milk-factory":        "dining-precinct",
+    "central-coast-aero-club":   "aero-club",
+    "amazement-farm-fun-park":   "farm-park",
+    "iris-lodge-alpacas":        "alpaca-farm",
+    "treetops-adventure":        "high-ropes",
+    "ken-duncan-gallery":        "photo-gallery",
+    "distillery-botanica":       "gin-distillery",
+    "chocolate-factory-gosford": "chocolate-factory",
+    "australian-reptile-park":   "reptile-park",
+    "coastal-hatters":           "hat-shop",
+    "broken-bay-pearl-farm":     "pearl-oysters",
+    "pelicans-restaurant":       "hotel-restaurant",
+    "beachie-bar-and-bistro":    "bistro-bar",
+    "beachcomber":               "waterfront-hotel",
+}
+
+GALLERY_KEYS = ["coast-1", "coast-2", "coast-3", "coast-4", "coast-5", "coast-6"]
+
+def _unsplash(key: str, w: int, h: int) -> str:
+    """Construct an Unsplash CDN URL. The `images.unsplash.com` host is a
+    long-running CDN and serves any well-formed photo ID at any size."""
+    photo_id = UNSPLASH_IDS.get(key)
+    if not photo_id:
+        # Unknown category — fall back to a coast shot.
+        photo_id = UNSPLASH_IDS["coast-1"]
+    return f"https://images.unsplash.com/{photo_id}?auto=format&fit=crop&w={w}&q=80"
+
 def hero_img(slug: str) -> str:
-    return f"https://picsum.photos/seed/{slug}-hero/2400/1400"
+    return _unsplash(HERO_CATEGORY.get(slug, "coast-1"), 2400, 1400)
 
 def gallery_img(slug: str, n: int) -> str:
-    return f"https://picsum.photos/seed/{slug}-g{n}/900/900"
+    # n is 1-based (1..6). Rotate the start by hashing the slug so each
+    # business shows the same six images in a different order.
+    start = sum(ord(c) for c in slug) % len(GALLERY_KEYS)
+    key = GALLERY_KEYS[(start + n - 1) % len(GALLERY_KEYS)]
+    return _unsplash(key, 1200, 1200)
 
 def tel_href(phone: str | None) -> str:
     if not phone:
@@ -180,29 +258,38 @@ PAGE_TEMPLATE = """<!doctype html>
   </section>
 
   {cta_block}
-  <!-- ─── Short description ──────────────────────────────────────── -->
+  <div class="section-meta">
+    <span class="section-meta__num">01.</span>
+    <span class="section-meta__label">About</span>
+  </div>
   <section class="description">
-    <p class="eyebrow">About</p>
     <h2>{description_headline}</h2>
     <p>{description_p1}</p>
     <p>{description_p2}</p>
   </section>
 
-  <!-- ─── Guest offer ────────────────────────────────────────────── -->
+  <div class="section-meta">
+    <span class="section-meta__num">02.</span>
+    <span class="section-meta__label">For Beachcomber guests</span>
+  </div>
   <aside class="offer" aria-label="Offer for Guide readers">
-    <span class="offer__label">For Beachcomber guests</span>
+    <span class="offer__label">Guest perk</span>
     <h3>{offer_headline}</h3>
     <p>{offer_body}</p>
     <span class="offer__code">{offer_code}</span>
   </aside>
 
+  <div class="section-meta">
+    <span class="section-meta__num">03.</span>
+    <span class="section-meta__label">Visit &amp; connect</span>
+  </div>
   {contacts_block}
+  <div class="section-meta">
+    <span class="section-meta__num">04.</span>
+    <span class="section-meta__label">{gallery_headline}</span>
+  </div>
   <!-- ─── Gallery ────────────────────────────────────────────────── -->
   <section class="gallery-section" aria-label="Gallery">
-    <header class="gallery-section__head">
-      <p class="eyebrow">Gallery</p>
-      <h2>{gallery_headline}</h2>
-    </header>
     <div class="gallery">
       <figure class="gallery__tile"><img src="{g1}" alt="" loading="lazy" /></figure>
       <figure class="gallery__tile"><img src="{g2}" alt="" loading="lazy" /></figure>
@@ -354,17 +441,23 @@ HOTEL_TEMPLATE = """<!doctype html>
   </section>
 
   {cta_block}
+  <div class="section-meta">
+    <span class="section-meta__num">01.</span>
+    <span class="section-meta__label">About the hotel</span>
+  </div>
   <section class="description">
-    <p class="eyebrow">The hotel</p>
     <h2>{description_headline}</h2>
     <p>{description_p1}</p>
     <p>{description_p2}</p>
     <p>{description_p3}</p>
   </section>
 
+  <div class="section-meta">
+    <span class="section-meta__num">02.</span>
+    <span class="section-meta__label">Facilities</span>
+  </div>
   <section class="amenities">
     <header class="amenities__head">
-      <p class="eyebrow">Facilities</p>
       <h2>What's on site.</h2>
     </header>
     <ul class="amenities__list">
@@ -373,9 +466,12 @@ HOTEL_TEMPLATE = """<!doctype html>
     {check_block}
   </section>
 
+  <div class="section-meta">
+    <span class="section-meta__num">03.</span>
+    <span class="section-meta__label">Eat at the hotel</span>
+  </div>
   <section class="dining">
     <header class="dining__head">
-      <p class="eyebrow">Eat at the hotel</p>
       <h2>Two ways to settle in.</h2>
       <p>Both venues are inside the hotel — no driving required.</p>
     </header>
@@ -384,6 +480,10 @@ HOTEL_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
+  <div class="section-meta">
+    <span class="section-meta__num">04.</span>
+    <span class="section-meta__label">Contact</span>
+  </div>
   {contacts_block}
 
   <footer class="guide-foot">

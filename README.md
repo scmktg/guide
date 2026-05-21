@@ -80,9 +80,14 @@ every page footer links back to the home cover.
    python3 _generator/build.py
    ```
 3. Drop real photography into `assets/img/{slug}/` once commissioned,
-   then swap the `picsum.photos` placeholder URLs in
-   `{slug}/index.html` for the local paths. Placeholders are seeded
-   by slug so each page is consistent between runs.
+   then swap the `images.unsplash.com` placeholder URLs in
+   `{slug}/index.html` for the local paths.
+
+   Placeholders are sourced from the Unsplash CDN
+   (`images.unsplash.com/photo-{ID}`) using a per-category mapping in
+   `_generator/build.py` (`UNSPLASH_IDS` + `HERO_CATEGORY`). Gallery
+   tiles share six Central Coast shots rotated per slug so visuals
+   stay coherent across the site. Edit those constants to retheme.
 
 The generator is idempotent — re-running it regenerates the per-business
 HTML, the per-business CSS, the four category pages, the map, and the

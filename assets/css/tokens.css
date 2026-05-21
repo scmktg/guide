@@ -9,35 +9,41 @@
 :root {
   /* Neutrals */
   --paper:        #FFFFFF;
-  --paper-soft:   #F7F7F7;
-  --ink:          #111113;
+  --paper-soft:   #F6F4F0;
+  --ink:          #131316;
   --ink-soft:     #4A4A4F;
   --ink-muted:    #8A8A8F;
-  --rule:         #EAEAEC;
+  --rule:         #E6E3DC;
+  --rule-soft:    #EFECE5;
 
   /* Per-advertiser overrides (set in page CSS) */
   --accent:       #0E3147;
   --accent-ink:   #FFFFFF;
 
-  /* Type */
+  /* Type — sans + one serif for editorial accents (eyebrows, captions, indices) */
   --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  --font-serif:   "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
 
-  /* Scale */
-  --step--1: clamp(0.81rem, 0.76rem + 0.2vw, 0.88rem);
+  /* Scale — slightly tightened, with explicit mobile defaults */
+  --step--2: clamp(0.72rem, 0.68rem + 0.18vw, 0.78rem);
+  --step--1: clamp(0.80rem, 0.76rem + 0.20vw, 0.88rem);
   --step-0:  clamp(1.00rem, 0.96rem + 0.20vw, 1.08rem);
-  --step-1:  clamp(1.18rem, 1.08rem + 0.45vw, 1.36rem);
-  --step-2:  clamp(1.45rem, 1.25rem + 0.9vw, 1.80rem);
-  --step-3:  clamp(1.90rem, 1.50rem + 2vw, 2.70rem);
-  --step-4:  clamp(2.60rem, 1.90rem + 3.4vw, 4.20rem);
-  --step-5:  clamp(3.20rem, 2.20rem + 5.2vw, 6.20rem);
+  --step-1:  clamp(1.16rem, 1.06rem + 0.45vw, 1.34rem);
+  --step-2:  clamp(1.42rem, 1.22rem + 0.9vw, 1.78rem);
+  --step-3:  clamp(1.80rem, 1.40rem + 2.0vw, 2.60rem);
+  --step-4:  clamp(2.30rem, 1.70rem + 3.0vw, 3.80rem);
+  --step-5:  clamp(2.70rem, 1.95rem + 4.5vw, 5.60rem);
 
-  /* Layout */
+  /* Layout — gutters tighter on mobile (1rem at the smallest viewports) */
   --measure:     38rem;
-  --gutter:      clamp(1.25rem, 4vw, 2.5rem);
-  --section-y:   clamp(3rem, 7vw, 5.5rem);
+  --gutter:      clamp(1rem, 4vw, 2.5rem);
+  --section-y:   clamp(2.5rem, 7vw, 5.5rem);
   --radius:      14px;
   --radius-lg:   22px;
   --max:         70rem;
+
+  /* Touch — generous tap targets on mobile */
+  --tap:         44px;
 
   /* Motion */
   --ease:        cubic-bezier(0.2, 0.7, 0.2, 1);

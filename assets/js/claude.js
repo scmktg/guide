@@ -375,7 +375,36 @@
     }, 520 + Math.random() * 380);
   }
 
+  /* ── Topbar: transparent over hero, solid once scrolled past it ──── */
+
+  function initTopbar() {
+    const topbar = document.querySelector(".topbar");
+    if (!topbar) return;
+    /* Pages without a hero are emitted with topbar--solid already; nothing
+       to do for them. */
+    if (topbar.classList.contains("topbar--solid")) return;
+
+    const hero = document.querySelector(".hero");
+    if (!hero) {
+      topbar.classList.add("is-solid");
+      return;
+    }
+    /* Watch the hero crossing the top of the viewport. When the hero no
+       longer touches the top, we've scrolled past it → topbar goes solid. */
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          topbar.classList.toggle("is-solid", !e.isIntersecting);
+        });
+      },
+      { rootMargin: "-50px 0px 0px 0px" }
+    );
+    obs.observe(hero);
+  }
+
   function init() {
+    initTopbar();
+
     const promptEl = document.querySelector("[data-bar-prompt]");
     const trigger = document.querySelector("[data-claude-open]");
     const sheet = buildSheet();

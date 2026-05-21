@@ -162,6 +162,35 @@ ICON_FORK = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 ICON_COMPASS = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" stroke="none"/></svg>"""
 ICON_MAP = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v16M15 6v16"/></svg>"""
 
+# ── Topbar (back chevron + centered title; transparent over hero) ──────
+
+TOPBAR_CHEVRON_SVG = (
+    '<svg viewBox="0 0 24 24" aria-hidden="true">'
+    '<path d="M15 6l-6 6 6 6"/></svg>'
+)
+
+def topbar(title: str, back_href: str | None = None, over_hero: bool = False) -> str:
+    """Render the sticky/fixed topbar. Caller decides:
+    - `title`: the centered page title (visible only when solid)
+    - `back_href`: optional URL for the back chevron on the left
+    - `over_hero`: True for pages with a hero photo (topbar floats over it,
+      starts transparent and turns solid as the user scrolls past the hero)
+    """
+    cls = "topbar topbar--fixed" if over_hero else "topbar topbar--sticky topbar--solid"
+    if back_href:
+        left = (
+            f'<a class="topbar__back" href="{back_href}" aria-label="Back">'
+            f'{TOPBAR_CHEVRON_SVG}</a>'
+        )
+    else:
+        left = '<span aria-hidden="true"></span>'
+    return f"""<!-- ─── Topbar ──────────────────────────────────────────────────── -->
+  <header class="{cls}">
+    {left}
+    <h1 class="topbar__title">{html.escape(title)}</h1>
+    <span aria-hidden="true"></span>
+  </header>"""
+
 # ── The dock (unified Claude prompt + nav) ─────────────────────────────
 
 DOCK_MARK_SVG = (
@@ -275,17 +304,14 @@ PAGE_TEMPLATE = """<!doctype html>
 </head>
 <body>
 
+  {topbar}
+
   <!-- ─── Hero ───────────────────────────────────────────────────── -->
   <section class="hero"
            data-claude-section
            data-claude-topic="place"
            data-claude-name="{name}"
            data-claude-prompt="Ask Claude about {name}">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">Beachcomber Guide</a>
-      <a href="/{group_slug}/" class="guide-bar__back">‹ {group_label}</a>
-    </header>
-
     <picture class="hero__art" aria-hidden="true">
       <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
     </picture>
@@ -382,16 +408,11 @@ ROOT_TEMPLATE = """<!doctype html>
 </head>
 <body>
 
-  <!-- ─── Hotel hero ─────────────────────────────────────────────── -->
+  <!-- ─── Hotel hero (no topbar on home) ──────────────────────────── -->
   <section class="hero"
            data-claude-section
            data-claude-topic="hotel"
            data-claude-prompt="Ask Claude about the hotel">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">The Beachcomber Guide</a>
-      <span>Central Coast</span>
-    </header>
-
     <picture class="hero__art" aria-hidden="true">
       <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
     </picture>
@@ -472,15 +493,12 @@ HOTEL_TEMPLATE = """<!doctype html>
 </head>
 <body>
 
+  {topbar}
+
   <section class="hero"
            data-claude-section
            data-claude-topic="hotel"
            data-claude-prompt="Ask Claude about the hotel">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">Beachcomber Guide</a>
-      <a href="/" class="guide-bar__back">‹ Home</a>
-    </header>
-
     <picture class="hero__art" aria-hidden="true">
       <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
     </picture>
@@ -562,9 +580,7 @@ CATEGORY_TEMPLATE = """<!doctype html>
 </head>
 <body>
 
-  <header class="app-bar">
-    <a class="app-bar__mark" href="/">The Beachcomber Guide</a>
-  </header>
+  {topbar}
 
   <header class="page-head"
           data-claude-section
@@ -613,9 +629,7 @@ MAP_TEMPLATE = """<!doctype html>
 </head>
 <body>
 
-  <header class="app-bar">
-    <a class="app-bar__mark" href="/">The Beachcomber Guide</a>
-  </header>
+  {topbar}
 
   <header class="page-head"
           data-claude-section
@@ -766,6 +780,7 @@ def render_business_page(a: dict, hotel: dict) -> str:
         g4=gallery_img(a["slug"], 4),
         g5=gallery_img(a["slug"], 5),
         g6=gallery_img(a["slug"], 6),
+        topbar=topbar(name, back_href=f"/{group}/", over_hero=True),
         dock=dock(active),
     )
 
@@ -787,6 +802,7 @@ def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
         check_block=render_check_block(hotel),
         dining_cards="\n      ".join(render_dining_card(v) for v in on_site),
         visit_row=render_visit_row(hotel),
+        topbar=topbar("Hotel", over_hero=True),
         dock=dock("hotel"),
     )
 
@@ -820,6 +836,7 @@ def render_category(group_slug: str, label: str, intro: str, advertisers: list[d
         topic=html.escape(topic),
         bar_prompt=html.escape(bar_prompt),
         list_prompt=html.escape(list_prompt),
+        topbar=topbar(label),
         dock=dock("eat" if group_slug == "eat-and-drink" else "do"),
     )
 
@@ -843,6 +860,7 @@ def render_map(hotel: dict, advertisers: list[dict]) -> str:
         intro="Tap any pin for the listing, distance and a link to the page.",
         hotel_js=hotel_js,
         spots_js=spots_js,
+        topbar=topbar("Map"),
         dock=dock("map"),
     )
 

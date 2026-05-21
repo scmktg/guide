@@ -162,6 +162,24 @@ ICON_FORK = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 ICON_COMPASS = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" stroke="none"/></svg>"""
 ICON_MAP = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v16M15 6v16"/></svg>"""
 
+# ── Persistent bottom nav ──────────────────────────────────────────────
+
+def nav(active: str = "") -> str:
+    """Text-only bottom nav. `active` is one of: 'hotel', 'eat', 'do', 'map'.
+    Empty string = no current item (eg. the root / home page)."""
+    def item(href: str, key: str, label: str) -> str:
+        ac = ' aria-current="page"' if active == key else ""
+        return f'<a class="nav__item" href="{href}"{ac}>{label}</a>'
+    return f"""<!-- ─── Bottom nav ─────────────────────────────────────────────── -->
+  <nav class="nav" aria-label="Guide sections">
+    <div class="nav__row">
+      {item('/hotel/', 'hotel', 'Hotel')}
+      {item('/eat-and-drink/', 'eat', 'Eat')}
+      {item('/things-to-do/', 'do', 'Do')}
+      {item('/map/', 'map', 'Map')}
+    </div>
+  </nav>"""
+
 # ── Visit row (text-only contact line) + CTA helpers ───────────────────
 
 def render_visit_row(adv: dict) -> str:
@@ -301,6 +319,8 @@ PAGE_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
+  {nav}
+
   <script src="/assets/js/claude.js" defer></script>
 
 </body>
@@ -403,6 +423,8 @@ ROOT_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
+  {nav}
+
   <script src="/assets/js/claude.js" defer></script>
 
 </body>
@@ -491,6 +513,8 @@ HOTEL_TEMPLATE = """<!doctype html>
 
   {visit_row}
 
+  {nav}
+
   <script src="/assets/js/claude.js" defer></script>
 
 </body>
@@ -521,7 +545,6 @@ CATEGORY_TEMPLATE = """<!doctype html>
 
   <header class="app-bar">
     <a class="app-bar__mark" href="/">The Beachcomber Guide</a>
-    <a href="/" class="app-bar__back">Home</a>
   </header>
 
   <header class="page-head"
@@ -540,6 +563,8 @@ CATEGORY_TEMPLATE = """<!doctype html>
       {cards}
     </div>
   </section>
+
+  {nav}
 
   <script src="/assets/js/claude.js" defer></script>
 
@@ -571,7 +596,6 @@ MAP_TEMPLATE = """<!doctype html>
 
   <header class="app-bar">
     <a class="app-bar__mark" href="/">The Beachcomber Guide</a>
-    <a href="/" class="app-bar__back">Home</a>
   </header>
 
   <header class="page-head"
@@ -594,6 +618,8 @@ MAP_TEMPLATE = """<!doctype html>
     <span class="legend-pip legend-pip--eat"></span> Eat &amp; drink
     <span class="legend-pip legend-pip--do"></span> Things to do
   </section>
+
+  {nav}
 
   <script src="/assets/js/claude.js" defer></script>
 
@@ -696,6 +722,7 @@ def render_business_page(a: dict, hotel: dict) -> str:
     name = a["name"]
     group = a["category_group"]
     suburb_line = f"{a['suburb']} · {distance_label(a)}" if a.get("suburb") else distance_label(a)
+    active = "eat" if group == "eat-and-drink" else ("do" if group == "things-to-do" else "")
     return PAGE_TEMPLATE.format(
         name=html.escape(name),
         meta_description=html.escape(a["hero_subtitle"]),
@@ -720,6 +747,7 @@ def render_business_page(a: dict, hotel: dict) -> str:
         g4=gallery_img(a["slug"], 4),
         g5=gallery_img(a["slug"], 5),
         g6=gallery_img(a["slug"], 6),
+        nav=nav(active),
     )
 
 def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
@@ -740,6 +768,7 @@ def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
         check_block=render_check_block(hotel),
         dining_cards="\n      ".join(render_dining_card(v) for v in on_site),
         visit_row=render_visit_row(hotel),
+        nav=nav("hotel"),
     )
 
 def render_root(hotel: dict) -> str:
@@ -751,6 +780,7 @@ def render_root(hotel: dict) -> str:
         cat_img_eat=_unsplash("beach-restaurant", 900, 1100),
         cat_img_do=_unsplash("boat-hire", 900, 1100),
         cat_img_map=_unsplash("coast-1", 900, 1100),
+        nav=nav(""),
     )
 
 def render_category(group_slug: str, label: str, intro: str, advertisers: list[dict]) -> str:
@@ -771,6 +801,7 @@ def render_category(group_slug: str, label: str, intro: str, advertisers: list[d
         topic=html.escape(topic),
         bar_prompt=html.escape(bar_prompt),
         list_prompt=html.escape(list_prompt),
+        nav=nav("eat" if group_slug == "eat-and-drink" else "do"),
     )
 
 def render_map(hotel: dict, advertisers: list[dict]) -> str:
@@ -793,6 +824,7 @@ def render_map(hotel: dict, advertisers: list[dict]) -> str:
         intro="Tap any pin for the listing, distance and a link to the page.",
         hotel_js=hotel_js,
         spots_js=spots_js,
+        nav=nav("map"),
     )
 
 # ── Main ────────────────────────────────────────────────────────────────

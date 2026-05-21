@@ -19,7 +19,8 @@
 .claude-bar {
   position: fixed;
   left: 50%;
-  bottom: max(1rem, env(safe-area-inset-bottom));
+  /* Floats just above the bottom nav. */
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 4.1rem);
   transform: translate(-50%, 12px);
   z-index: 60;
 

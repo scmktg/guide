@@ -24,6 +24,11 @@
   --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   --font-serif:   "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
 
+  /* Glass surfaces (used by overlays) */
+  --glass-tint:   rgba(255, 255, 255, 0.78);
+  --glass-strong: rgba(255, 255, 255, 0.92);
+  --glass-scrim:  rgba(14, 18, 28, 0.32);
+
   /* Scale — slightly tightened, with explicit mobile defaults */
   --step--2: clamp(0.72rem, 0.68rem + 0.18vw, 0.78rem);
   --step--1: clamp(0.80rem, 0.76rem + 0.20vw, 0.88rem);

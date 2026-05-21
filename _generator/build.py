@@ -305,8 +305,9 @@ PAGE_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
@@ -325,7 +326,7 @@ PAGE_TEMPLATE = """<!doctype html>
            data-claude-prompt="Ask Claude about {name}"
            {hours_attr}>
     <picture class="hero__art" aria-hidden="true">
-      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
+      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
     <span class="status" data-status-pill></span>
@@ -371,13 +372,17 @@ PAGE_TEMPLATE = """<!doctype html>
            data-claude-topic="gallery"
            data-claude-name="{name}"
            data-claude-prompt="Ask Claude about visiting {name}">
+    <header class="gallery-section__head">
+      <h2>A look around.</h2>
+      <span class="gallery-section__head__hint">{name}</span>
+    </header>
     <div class="gallery">
-      <figure class="gallery__tile"><img src="{g1}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g2}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g3}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g4}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g5}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g6}" alt="" loading="lazy" /></figure>
+      <figure class="gallery__tile"><img src="{g1}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g2}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g3}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g4}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g5}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g6}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
     </div>
   </section>
 
@@ -416,8 +421,9 @@ ROOT_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
@@ -431,7 +437,7 @@ ROOT_TEMPLATE = """<!doctype html>
            data-claude-topic="hotel"
            data-claude-prompt="Ask Claude about the hotel">
     <picture class="hero__art" aria-hidden="true">
-      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
+      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
     <div class="hero__inner">
@@ -450,28 +456,28 @@ ROOT_TEMPLATE = """<!doctype html>
     </header>
     <div class="cats__grid">
       <a class="cat-card" href="/hotel/">
-        <img class="cat-card__img" src="{cat_img_hotel}" alt="" loading="lazy" />
+        <img class="cat-card__img" src="{cat_img_hotel}" alt="" loading="eager" fetchpriority="high" decoding="async" width="900" height="1100" />
         <div class="cat-card__body">
           <span class="cat-card__title">Hotel info</span>
           <span class="cat-card__desc">Check-in, dining, facilities and everything Beachcomber.</span>
         </div>
       </a>
       <a class="cat-card" href="/eat-and-drink/">
-        <img class="cat-card__img" src="{cat_img_eat}" alt="" loading="lazy" />
+        <img class="cat-card__img" src="{cat_img_eat}" alt="" loading="lazy" decoding="async" width="900" height="1100" />
         <div class="cat-card__body">
           <span class="cat-card__title">Eat &amp; drink</span>
           <span class="cat-card__desc">Restaurants, bars and food makers within easy reach.</span>
         </div>
       </a>
       <a class="cat-card" href="/things-to-do/">
-        <img class="cat-card__img" src="{cat_img_do}" alt="" loading="lazy" />
+        <img class="cat-card__img" src="{cat_img_do}" alt="" loading="lazy" decoding="async" width="900" height="1100" />
         <div class="cat-card__body">
           <span class="cat-card__title">Things to do</span>
           <span class="cat-card__desc">Experiences, tours and standout local stops.</span>
         </div>
       </a>
       <a class="cat-card" href="/map/">
-        <img class="cat-card__img" src="{cat_img_map}" alt="" loading="lazy" />
+        <img class="cat-card__img" src="{cat_img_map}" alt="" loading="lazy" decoding="async" width="900" height="1100" />
         <div class="cat-card__body">
           <span class="cat-card__title">Local map</span>
           <span class="cat-card__desc">See every recommendation on one interactive map.</span>
@@ -501,8 +507,9 @@ HOTEL_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
@@ -517,7 +524,7 @@ HOTEL_TEMPLATE = """<!doctype html>
            data-claude-topic="hotel"
            data-claude-prompt="Ask Claude about the hotel">
     <picture class="hero__art" aria-hidden="true">
-      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
+      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
     <div class="hero__inner">
@@ -588,8 +595,9 @@ CATEGORY_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
@@ -641,7 +649,9 @@ MAP_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="/assets/css/tokens.css" />
@@ -805,7 +815,7 @@ def render_check_block(hotel: dict) -> str:
 def render_dining_card(venue: dict) -> str:
     return f"""<a class="dining-card" href="/{venue['slug']}/">
         <figure class="dining-card__media">
-          <img src="{hero_img(venue['slug'])}" alt="" loading="lazy" />
+          <img src="{hero_img(venue['slug'])}" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
         <div class="dining-card__body">
           <span class="dining-card__cat">{html.escape(venue.get('category', 'On-site dining'))}</span>
@@ -857,7 +867,7 @@ def render_list_card(adv: dict) -> str:
        data-filterable
        data-distance="{adv['distance_minutes']}"{hours_attr(adv)}>
         <figure class="list-card__media">
-          <img src="{hero_img(adv['slug'])}" alt="" loading="lazy" />
+          <img src="{hero_img(adv['slug'])}" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
         <span class="status" data-status-pill></span>
         <div class="list-card__body">

@@ -210,6 +210,56 @@ def render_contacts_block(adv: dict) -> str:
   </section>
 """
 
+# ── Claude ask button + bottom tab bar ──────────────────────────────────
+
+CLAUDE_MARK = """<span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span>"""
+
+def claude_ask(topic: str, label: str = "Ask Claude", name: str | None = None,
+               variant: str = "") -> str:
+    """Render an 'Ask Claude' pill button.
+    `variant` is one of "" (default), "on-dark", "quiet"."""
+    cls = "claude-ask"
+    if variant == "on-dark":
+        cls += " claude-ask--on-dark"
+    elif variant == "quiet":
+        cls += " claude-ask--quiet"
+    name_attr = f' data-claude-name="{html.escape(name)}"' if name else ""
+    # If the label contains "Claude", split out the brand span; otherwise use plain text.
+    if "Claude" in label:
+        before, _, after = label.partition("Claude")
+        label_html = (
+            f'<span class="claude-ask__label">'
+            f'{html.escape(before)}<span class="claude-ask__brand">Claude</span>{html.escape(after)}'
+            f'</span>'
+        )
+    else:
+        label_html = f'<span class="claude-ask__label">{html.escape(label)}</span>'
+    return (
+        f'<button class="{cls}" type="button" '
+        f'data-claude-topic="{html.escape(topic)}"{name_attr}>'
+        f'{CLAUDE_MARK}{label_html}</button>'
+    )
+
+TAB_HOTEL = """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v5"/><path d="M3 17v-3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3"/><path d="M3 17v3M21 17v3"/></svg>"""
+TAB_EAT = """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a3 3 0 0 0 3 3v7"/><path d="M7 3v5M11 3v5"/><path d="M17 3v18M14 3h6v5a3 3 0 0 1-3 3"/></svg>"""
+TAB_DO = """<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" stroke="none"/></svg>"""
+TAB_MAP = """<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v16M15 6v16"/></svg>"""
+
+def tabbar(active: str = "") -> str:
+    """Bottom tab bar. `active` is one of: 'hotel', 'eat', 'do', 'map', or ''."""
+    def tab(href: str, key: str, icon: str, label: str) -> str:
+        ac = ' aria-current="page"' if active == key else ""
+        return f'<a class="tab" href="{href}"{ac}>{icon}<span>{label}</span></a>'
+    return f"""<!-- ─── Bottom tab bar ─────────────────────────────────────────── -->
+  <nav class="tabbar" aria-label="Guide sections">
+    <div class="tabbar__row">
+      {tab('/hotel/', 'hotel', TAB_HOTEL, 'Hotel')}
+      {tab('/eat-and-drink/', 'eat', TAB_EAT, 'Eat')}
+      {tab('/things-to-do/', 'do', TAB_DO, 'Do')}
+      {tab('/map/', 'map', TAB_MAP, 'Map')}
+    </div>
+  </nav>"""
+
 # ── Business page template ──────────────────────────────────────────────
 
 PAGE_TEMPLATE = """<!doctype html>
@@ -232,6 +282,7 @@ PAGE_TEMPLATE = """<!doctype html>
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/{slug}.css" />
 </head>
 <body>
@@ -254,6 +305,7 @@ PAGE_TEMPLATE = """<!doctype html>
       </div>
       <h1 class="rise rise--2">{hero_name_html}</h1>
       <p class="hero__sub rise rise--3">{hero_subtitle}</p>
+      <div class="hero__ask rise rise--3">{ask_hero}</div>
     </div>
   </section>
 
@@ -266,6 +318,7 @@ PAGE_TEMPLATE = """<!doctype html>
     <h2>{description_headline}</h2>
     <p>{description_p1}</p>
     <p>{description_p2}</p>
+    {ask_about}
   </section>
 
   <div class="section-meta">
@@ -277,6 +330,7 @@ PAGE_TEMPLATE = """<!doctype html>
     <h3>{offer_headline}</h3>
     <p>{offer_body}</p>
     <span class="offer__code">{offer_code}</span>
+    {ask_perk}
   </aside>
 
   <div class="section-meta">
@@ -284,6 +338,7 @@ PAGE_TEMPLATE = """<!doctype html>
     <span class="section-meta__label">Visit &amp; connect</span>
   </div>
   {contacts_block}
+  <div class="section-trailing">{ask_visit}</div>
   <div class="section-meta">
     <span class="section-meta__num">04.</span>
     <span class="section-meta__label">{gallery_headline}</span>
@@ -300,11 +355,9 @@ PAGE_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  <!-- ─── Guide foot ─────────────────────────────────────────────── -->
-  <footer class="guide-foot">
-    <strong>You found us through The Beachcomber Guide.</strong>
-    A curated companion to the Central Coast, placed in every room. <a href="/">See the full guide</a>.
-  </footer>
+  {tabbar}
+
+  <script src="/assets/js/claude.js" defer></script>
 
 </body>
 </html>
@@ -341,6 +394,7 @@ ROOT_TEMPLATE = """<!doctype html>
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
@@ -359,6 +413,7 @@ ROOT_TEMPLATE = """<!doctype html>
       <p class="hero__eyebrow rise rise--1">Welcome to the Coast</p>
       <h1 class="rise rise--2">{hotel_name_html}</h1>
       <p class="hero__sub rise rise--3">{hotel_hero_subtitle}</p>
+      <div class="hero__ask rise rise--3">{ask_hero}</div>
     </div>
   </section>
 
@@ -368,6 +423,7 @@ ROOT_TEMPLATE = """<!doctype html>
       <p class="eyebrow">The Guide</p>
       <h2>Your companion to the stay.</h2>
       <p>Hotel essentials, the best places to eat and drink, things to do beyond the gates, and the map to tie it all together.</p>
+      {ask_guide}
     </header>
     <div class="cats__grid">
       <a class="cat-card" href="/hotel/">
@@ -393,10 +449,9 @@ ROOT_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  <footer class="guide-foot">
-    <strong>The Beachcomber Guide.</strong>
-    A curated companion to the hotel and the Central Coast around it.
-  </footer>
+  {tabbar}
+
+  <script src="/assets/js/claude.js" defer></script>
 
 </body>
 </html>
@@ -420,6 +475,7 @@ HOTEL_TEMPLATE = """<!doctype html>
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
@@ -437,6 +493,7 @@ HOTEL_TEMPLATE = """<!doctype html>
       <p class="hero__eyebrow rise rise--1">{suburb}, Central Coast</p>
       <h1 class="rise rise--2">{hero_name_html}</h1>
       <p class="hero__sub rise rise--3">{hero_subtitle}</p>
+      <div class="hero__ask rise rise--3">{ask_hero}</div>
     </div>
   </section>
 
@@ -450,6 +507,7 @@ HOTEL_TEMPLATE = """<!doctype html>
     <p>{description_p1}</p>
     <p>{description_p2}</p>
     <p>{description_p3}</p>
+    {ask_hotel}
   </section>
 
   <div class="section-meta">
@@ -459,6 +517,7 @@ HOTEL_TEMPLATE = """<!doctype html>
   <section class="amenities">
     <header class="amenities__head">
       <h2>What's on site.</h2>
+      {ask_facilities}
     </header>
     <ul class="amenities__list">
       {amenities_list}
@@ -474,6 +533,7 @@ HOTEL_TEMPLATE = """<!doctype html>
     <header class="dining__head">
       <h2>Two ways to settle in.</h2>
       <p>Both venues are inside the hotel — no driving required.</p>
+      {ask_dining}
     </header>
     <div class="dining__grid">
       {dining_cards}
@@ -486,10 +546,9 @@ HOTEL_TEMPLATE = """<!doctype html>
   </div>
   {contacts_block}
 
-  <footer class="guide-foot">
-    <strong>You're already here.</strong>
-    The Beachcomber Guide also covers the wider Central Coast — <a href="/">return to the guide</a>.
-  </footer>
+  {tabbar}
+
+  <script src="/assets/js/claude.js" defer></script>
 
 </body>
 </html>
@@ -513,14 +572,20 @@ CATEGORY_TEMPLATE = """<!doctype html>
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
+  <header class="app-bar">
+    <a class="app-bar__mark" href="/">The Beachcomber Guide</a>
+    <span class="app-bar__meta">{label}</span>
+  </header>
+
   <header class="page-head">
-    <a class="page-head__mark" href="/">‹ The Beachcomber Guide</a>
     <p class="eyebrow">The Guide</p>
     <h1>{headline}</h1>
     <p class="page-head__sub">{intro}</p>
+    <div class="page-head__ask">{ask_block}</div>
   </header>
 
   <section class="list">
@@ -529,10 +594,9 @@ CATEGORY_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  <footer class="guide-foot">
-    <strong>The Beachcomber Guide.</strong>
-    A curated companion to the hotel and the Central Coast around it. <a href="/map/">See the map</a>.
-  </footer>
+  {tabbar}
+
+  <script src="/assets/js/claude.js" defer></script>
 
 </body>
 </html>
@@ -556,14 +620,20 @@ MAP_TEMPLATE = """<!doctype html>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
+  <header class="app-bar">
+    <a class="app-bar__mark" href="/">The Beachcomber Guide</a>
+    <span class="app-bar__meta">Local map</span>
+  </header>
+
   <header class="page-head">
-    <a class="page-head__mark" href="/">‹ The Beachcomber Guide</a>
     <p class="eyebrow">Local Map</p>
     <h1>Every recommendation, in one place.</h1>
     <p class="page-head__sub">{intro}</p>
+    <div class="page-head__ask">{ask_block}</div>
   </header>
 
   <div id="map" class="map" role="application" aria-label="Interactive map of guide recommendations"></div>
@@ -574,10 +644,9 @@ MAP_TEMPLATE = """<!doctype html>
     <span class="legend-pip legend-pip--do"></span> Things to do
   </section>
 
-  <footer class="guide-foot">
-    <strong>The Beachcomber Guide.</strong>
-    Tap any pin for details and a link to that listing.
-  </footer>
+  {tabbar}
+
+  <script src="/assets/js/claude.js" defer></script>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
@@ -675,18 +744,20 @@ def render_list_card(adv: dict) -> str:
       </a>"""
 
 def render_business_page(a: dict, hotel: dict) -> str:
+    name = a["name"]
+    group = a["category_group"]
     return PAGE_TEMPLATE.format(
-        name=html.escape(a["name"]),
+        name=html.escape(name),
         meta_description=html.escape(a["hero_subtitle"]),
         slug=a["slug"],
         hero_image=hero_img(a["slug"]),
-        group_slug=a["category_group"],
-        group_label=GROUP_LABELS.get(a["category_group"], a["category_group"]),
+        group_slug=group,
+        group_label=GROUP_LABELS.get(group, group),
         icon_category=ICON_CATEGORY,
         icon_pin=ICON_PIN,
         category=html.escape(a["category"]),
         distance_label=distance_label(a),
-        hero_name_html=hero_name_html(a["name"]),
+        hero_name_html=hero_name_html(name),
         hero_subtitle=html.escape(a["hero_subtitle"]),
         cta_block=render_cta_block(a),
         description_headline=html.escape(a["description_headline"]),
@@ -703,15 +774,21 @@ def render_business_page(a: dict, hotel: dict) -> str:
         g4=gallery_img(a["slug"], 4),
         g5=gallery_img(a["slug"], 5),
         g6=gallery_img(a["slug"], 6),
+        ask_hero=claude_ask("place", label="Ask Claude about this place", name=name, variant="on-dark"),
+        ask_about=claude_ask("place", label="Ask Claude for the inside word", name=name),
+        ask_perk=claude_ask("perk", label="Ask Claude how to redeem this", name=name, variant="quiet"),
+        ask_visit=claude_ask("visit", label="Ask Claude about getting there", name=name),
+        tabbar=tabbar("eat" if group == "eat-and-drink" else ("do" if group == "things-to-do" else "")),
     )
 
 def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
+    name = hotel["name"]
     return HOTEL_TEMPLATE.format(
-        name=html.escape(hotel["name"]),
+        name=html.escape(name),
         meta_description=html.escape(hotel["hero_subtitle"]),
         hero_image=hero_img("beachcomber-hotel"),
         suburb=html.escape(hotel["suburb"]),
-        hero_name_html=hero_name_html(hotel["name"]),
+        hero_name_html=hero_name_html(name),
         hero_subtitle=html.escape(hotel["hero_subtitle"]),
         cta_block=render_cta_block(hotel),
         description_headline=html.escape(hotel["description_headline"]),
@@ -722,27 +799,40 @@ def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
         check_block=render_check_block(hotel),
         dining_cards="\n      ".join(render_dining_card(v) for v in on_site),
         contacts_block=render_contacts_block(hotel),
+        ask_hero=claude_ask("hotel", label="Ask Claude about the hotel", name=name, variant="on-dark"),
+        ask_hotel=claude_ask("hotel", label="Ask Claude about your stay", name=name),
+        ask_facilities=claude_ask("facilities", label="Ask Claude", name=name, variant="quiet"),
+        ask_dining=claude_ask("dining", label="Ask Claude what's open tonight", name=name, variant="quiet"),
+        tabbar=tabbar("hotel"),
     )
 
 def render_root(hotel: dict) -> str:
+    name = hotel["name"]
     return ROOT_TEMPLATE.format(
         hero_image=hero_img("beachcomber-hotel"),
-        hotel_name_html=hero_name_html(hotel["name"]),
+        hotel_name_html=hero_name_html(name),
         hotel_hero_subtitle=html.escape(hotel["hero_subtitle"]),
         icon_bed=ICON_BED,
         icon_fork=ICON_FORK,
         icon_compass=ICON_COMPASS,
         icon_map=ICON_MAP,
+        ask_hero=claude_ask("hotel", label="Ask Claude about the hotel", name=name, variant="on-dark"),
+        ask_guide=claude_ask("guide", label="Ask Claude what to do today"),
+        tabbar=tabbar(""),
     )
 
 def render_category(group_slug: str, label: str, intro: str, advertisers: list[dict]) -> str:
     cards = [render_list_card(a) for a in sorted(advertisers, key=lambda x: x["distance_minutes"])]
+    topic = "eat-listings" if group_slug == "eat-and-drink" else "do-listings"
+    ask_label = "Ask Claude where to eat" if group_slug == "eat-and-drink" else "Ask Claude what to do"
     return CATEGORY_TEMPLATE.format(
         label=html.escape(label),
         meta_description=html.escape(intro),
         headline=html.escape(label + " — within easy reach."),
         intro=html.escape(intro),
         cards="\n      ".join(cards),
+        ask_block=claude_ask(topic, label=ask_label),
+        tabbar=tabbar("eat" if group_slug == "eat-and-drink" else "do"),
     )
 
 def render_map(hotel: dict, advertisers: list[dict]) -> str:
@@ -765,6 +855,8 @@ def render_map(hotel: dict, advertisers: list[dict]) -> str:
         intro="Tap any pin for the listing, distance and a link to the page.",
         hotel_js=hotel_js,
         spots_js=spots_js,
+        ask_block=claude_ask("map", label="Ask Claude to plan a route"),
+        tabbar=tabbar("map"),
     )
 
 # ── Main ────────────────────────────────────────────────────────────────

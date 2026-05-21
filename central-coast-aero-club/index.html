@@ -18,6 +18,7 @@
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/central-coast-aero-club.css" />
 </head>
 <body>
@@ -40,6 +41,7 @@
       </div>
       <h1 class="rise rise--2">Central<br/>Coast Aero Club</h1>
       <p class="hero__sub rise rise--3">Scenic joy flights and pilot training from Warnervale Airport, with low-wing trips over the lakes, Sydney Harbour and the Hunter Valley vineyards.</p>
+      <div class="hero__ask rise rise--3"><button class="claude-ask claude-ask--on-dark" type="button" data-claude-topic="place" data-claude-name="Central Coast Aero Club"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> about this place</span></button></div>
     </div>
   </section>
 
@@ -57,6 +59,7 @@
     <h2>See the Coast from the air.</h2>
     <p>Operating out of Warnervale Airport since the early 1970s, the Central Coast Aero Club is the Coast&#x27;s home of light aviation. Scenic joy flights take in the Tuggerah Lakes, Sydney Harbour and the Hunter Valley, while the school trains everyone from first-timers up to commercial pilots.</p>
     <p>Trial Instructional Flights put you at the controls within minutes of arrival, and the uncontrolled airfield means very little time spent waiting. It is the holiday memory that puts the rest of the trip into perspective.</p>
+    <button class="claude-ask" type="button" data-claude-topic="place" data-claude-name="Central Coast Aero Club"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> for the inside word</span></button>
   </section>
 
   <div class="section-meta">
@@ -68,6 +71,7 @@
     <h3>Ten percent off any scenic flight for guide-card holders.</h3>
     <p>Mention the hotel guide when booking and present this page on arrival. Subject to weather and availability.</p>
     <span class="offer__code">GUIDE / WINGS</span>
+    <button class="claude-ask claude-ask--quiet" type="button" data-claude-topic="perk" data-claude-name="Central Coast Aero Club"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> how to redeem this</span></button>
   </aside>
 
   <div class="section-meta">
@@ -85,6 +89,7 @@
     </div>
   </section>
 
+  <div class="section-trailing"><button class="claude-ask" type="button" data-claude-topic="visit" data-claude-name="Central Coast Aero Club"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> about getting there</span></button></div>
   <div class="section-meta">
     <span class="section-meta__num">04.</span>
     <span class="section-meta__label">From Warnervale.</span>
@@ -101,11 +106,17 @@
     </div>
   </section>
 
-  <!-- ─── Guide foot ─────────────────────────────────────────────── -->
-  <footer class="guide-foot">
-    <strong>You found us through The Beachcomber Guide.</strong>
-    A curated companion to the Central Coast, placed in every room. <a href="/">See the full guide</a>.
-  </footer>
+  <!-- ─── Bottom tab bar ─────────────────────────────────────────── -->
+  <nav class="tabbar" aria-label="Guide sections">
+    <div class="tabbar__row">
+      <a class="tab" href="/hotel/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v5"/><path d="M3 17v-3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3"/><path d="M3 17v3M21 17v3"/></svg><span>Hotel</span></a>
+      <a class="tab" href="/eat-and-drink/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a3 3 0 0 0 3 3v7"/><path d="M7 3v5M11 3v5"/><path d="M17 3v18M14 3h6v5a3 3 0 0 1-3 3"/></svg><span>Eat</span></a>
+      <a class="tab" href="/things-to-do/" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" stroke="none"/></svg><span>Do</span></a>
+      <a class="tab" href="/map/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v16M15 6v16"/></svg><span>Map</span></a>
+    </div>
+  </nav>
+
+  <script src="/assets/js/claude.js" defer></script>
 
 </body>
 </html>

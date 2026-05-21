@@ -24,6 +24,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* App shell: reserve room for the fixed bottom tab bar */
+  padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -58,7 +60,7 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
 .rise--2 { animation-delay: 0.15s; }
 .rise--3 { animation-delay: 0.25s; }
 
-/* ── Guide bar ────────────────────────────────────────────────────────── */
+/* ── Guide bar (in-hero, glass chip) ──────────────────────────────────── */
 .guide-bar {
   position: absolute;
   inset: 0 0 auto 0;
@@ -66,15 +68,22 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.2rem var(--gutter);
+  margin: 0.7rem var(--gutter) 0;
+  padding: 0.6rem 0.9rem;
+  padding-top: calc(0.6rem + env(safe-area-inset-top, 0px));
   font-family: var(--font-sans);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #FFFFFF;
+  background: rgba(15,17,21,0.32);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: var(--radius-pill);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
 }
-.guide-bar a { color: inherit; opacity: 0.9; transition: opacity 0.2s var(--ease); }
+.guide-bar a { color: inherit; opacity: 0.95; transition: opacity 0.2s var(--ease); }
 .guide-bar a:hover { opacity: 1; }
 .guide-bar__mark {
   display: inline-flex;
@@ -91,13 +100,16 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
 /* ── Hero ─────────────────────────────────────────────────────────────── */
 .hero {
   position: relative;
-  min-height: clamp(560px, 88vh, 820px);
+  margin: 0.6rem var(--gutter) 0;
+  min-height: clamp(520px, 82vh, 780px);
   display: grid;
   grid-template-rows: 1fr;
   color: #FFFFFF;
   background: #000;
   overflow: hidden;
   isolation: isolate;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
 }
 
 .hero__art {
@@ -464,29 +476,6 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
 .gallery__tile:hover img { transform: scale(1.04); }
 .gallery__tile:hover::after { opacity: 1; }
 
-/* ── Footer ─────────────────────────────────────────────────────────── */
-.guide-foot {
-  padding: 3rem var(--gutter);
-  border-top: 1px solid var(--rule);
-  font-size: 0.85rem;
-  color: var(--ink-muted);
-  text-align: center;
-  line-height: 1.6;
-}
-.guide-foot strong {
-  display: block;
-  font-weight: 600;
-  color: var(--ink);
-  font-size: 1.05rem;
-  letter-spacing: -0.005em;
-  margin-bottom: 0.4rem;
-}
-.guide-foot a {
-  color: var(--accent);
-  font-weight: 500;
-}
-.guide-foot a:hover { opacity: 0.7; }
-
 /* ── Guide bar — back link variant ─────────────────────────────────── */
 .guide-bar__back {
   display: inline-flex;
@@ -495,6 +484,144 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
   font-weight: 500;
   letter-spacing: 0.12em;
 }
+
+/* ── App top bar (non-hero pages — category, map) ─────────────────── */
+.app-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem var(--gutter);
+  padding-top: calc(0.6rem + env(safe-area-inset-top, 0px));
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: color-mix(in oklab, var(--paper) 86%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid var(--rule-soft);
+}
+.app-bar__mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--ink);
+}
+.app-bar__mark::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent, var(--ink));
+}
+.app-bar__meta {
+  color: var(--ink-muted);
+  letter-spacing: 0.18em;
+}
+
+/* ── Fixed bottom tab bar ────────────────────────────────────────── */
+.tabbar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 50;
+  padding: 0.45rem clamp(0.6rem, 3vw, 1.25rem);
+  padding-bottom: calc(0.45rem + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in oklab, var(--surface) 92%, transparent);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border-top: 1px solid var(--rule-soft);
+}
+.tabbar__row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.25rem;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18rem;
+  padding: 0.4rem 0.3rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink-muted);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: 12px;
+  min-height: var(--tap);
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.tab svg {
+  width: 1.35rem; height: 1.35rem;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+}
+.tab:hover { color: var(--ink); }
+.tab[aria-current="page"] {
+  color: var(--accent, var(--ink));
+  background: color-mix(in oklab, var(--accent, var(--ink)) 10%, transparent);
+}
+.tab[aria-current="page"] svg { stroke-width: 2; }
+
+/* ── Hide the old guide-foot if it sneaks back in ─────────────────── */
+.guide-foot { display: none; }
+
+/* ── Ask-Claude slot styling within page sections ────────────────── */
+.hero__ask {
+  margin-top: 1.35rem;
+}
+.description .claude-ask,
+.amenities__head .claude-ask,
+.dining__head .claude-ask {
+  margin-top: 1rem;
+}
+.offer .claude-ask {
+  margin-top: 1.1rem;
+}
+.page-head__ask {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+.cats__head .claude-ask {
+  margin-top: 1.25rem;
+}
+.section-trailing {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(0.5rem, 2vw, 1.25rem);
+}
+
+/* ── Soften list cards into app-style tiles ──────────────────────── */
+.list-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--rule-soft);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.list-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+
+/* ── Card category cards on the home page — softer shadows ──────── */
+.cat-card {
+  box-shadow: var(--shadow-1);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.cat-card:hover {
+  box-shadow: var(--shadow-2);
+}
+
 
 /* ── Root index: 4 category cards ──────────────────────────────────── */
 .cats {

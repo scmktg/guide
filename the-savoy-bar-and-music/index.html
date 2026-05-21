@@ -35,10 +35,13 @@
            data-claude-section
            data-claude-topic="place"
            data-claude-name="The Savoy Bar &amp; Music"
-           data-claude-prompt="Ask Claude about The Savoy Bar &amp; Music">
+           data-claude-prompt="Ask Claude about The Savoy Bar &amp; Music"
+            data-hours="{&quot;mon&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;tue&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;wed&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;thu&quot;:[[&quot;15:00&quot;,&quot;24:00&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sun&quot;:[[&quot;12:00&quot;,&quot;22:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">Long Jetty · 15 min from the hotel</p>
@@ -74,6 +77,20 @@
     <p>Show this page at the bar when ordering. One per guest, dine-in only.</p>
     <span class="offer__code">GUIDE / SAVOY</span>
   </aside>
+
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="The Savoy Bar &amp; Music"
+           data-claude-prompt="Ask Claude about hours at The Savoy Bar &amp; Music"
+            data-hours="{&quot;mon&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;tue&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;wed&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;thu&quot;:[[&quot;15:00&quot;,&quot;24:00&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sun&quot;:[[&quot;12:00&quot;,&quot;22:00&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">&#x27;Midday to late&#x27; — live music Thu-Sun, bottomless lunch Fri-Sun 12-3pm.</p>
+  </section>
 
   <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="The Savoy Bar &amp; Music" data-claude-prompt="Ask Claude about getting to The Savoy Bar &amp; Music">
     <span class="visit-row__label">Visit</span>
@@ -115,6 +132,7 @@
   </aside>
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

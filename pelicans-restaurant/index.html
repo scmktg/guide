@@ -35,10 +35,13 @@
            data-claude-section
            data-claude-topic="place"
            data-claude-name="Pelicans Restaurant"
-           data-claude-prompt="Ask Claude about Pelicans Restaurant">
+           data-claude-prompt="Ask Claude about Pelicans Restaurant"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;thu&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;fri&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sat&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sun&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">Toukley · At the hotel</p>
@@ -74,6 +77,20 @@
     <p>Mention the Beachcomber Guide when you book and enjoy a complimentary glass of house red, white or sparkling with any main. One drink per diner, dine-in only.</p>
     <span class="offer__code">GUIDE / PELICAN</span>
   </aside>
+
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="Pelicans Restaurant"
+           data-claude-prompt="Ask Claude about hours at Pelicans Restaurant"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;thu&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;fri&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sat&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sun&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Dinner service Wed-Sun. Bookings via Quandoo.</p>
+  </section>
 
   <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Pelicans Restaurant" data-claude-prompt="Ask Claude about getting to Pelicans Restaurant">
     <span class="visit-row__label">Visit</span>
@@ -115,6 +132,7 @@
   </aside>
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

@@ -169,12 +169,22 @@ TOPBAR_CHEVRON_SVG = (
     '<path d="M15 6l-6 6 6 6"/></svg>'
 )
 
-def topbar(title: str, back_href: str | None = None, over_hero: bool = False) -> str:
-    """Render the sticky/fixed topbar. Caller decides:
-    - `title`: the centered page title (visible only when solid)
+TOPBAR_FILTER_BUTTON = (
+    '<button type="button" class="topbar__action" data-filter-open aria-label="Filter">'
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    '<path d="M3 5h18l-7 9v6l-4 2v-8L3 5z"/>'
+    '</svg></button>'
+)
+
+def topbar(title: str, back_href: str | None = None, over_hero: bool = False,
+           right: str | None = None) -> str:
+    """Render the sticky/fixed topbar.
+    - `title`: centered page title (visible only when solid)
     - `back_href`: optional URL for the back chevron on the left
     - `over_hero`: True for pages with a hero photo (topbar floats over it,
       starts transparent and turns solid as the user scrolls past the hero)
+    - `right`: optional HTML for the right slot (eg. a filter button).
     """
     cls = "topbar topbar--fixed" if over_hero else "topbar topbar--sticky topbar--solid"
     if back_href:
@@ -184,11 +194,12 @@ def topbar(title: str, back_href: str | None = None, over_hero: bool = False) ->
         )
     else:
         left = '<span aria-hidden="true"></span>'
+    rt = right if right else '<span aria-hidden="true"></span>'
     return f"""<!-- ─── Topbar ──────────────────────────────────────────────────── -->
   <header class="{cls}">
     {left}
     <h1 class="topbar__title">{html.escape(title)}</h1>
-    <span aria-hidden="true"></span>
+    {rt}
   </header>"""
 
 # ── The dock (unified Claude prompt + nav) ─────────────────────────────
@@ -311,10 +322,13 @@ PAGE_TEMPLATE = """<!doctype html>
            data-claude-section
            data-claude-topic="place"
            data-claude-name="{name}"
-           data-claude-prompt="Ask Claude about {name}">
+           data-claude-prompt="Ask Claude about {name}"
+           {hours_attr}>
     <picture class="hero__art" aria-hidden="true">
       <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">{suburb_line}</p>
@@ -347,6 +361,8 @@ PAGE_TEMPLATE = """<!doctype html>
     <span class="offer__code">{offer_code}</span>
   </aside>
 
+  {hours_block}
+
   {visit_row}
 
   <section class="gallery-section"
@@ -368,6 +384,7 @@ PAGE_TEMPLATE = """<!doctype html>
   {dock}
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>
@@ -597,11 +614,15 @@ CATEGORY_TEMPLATE = """<!doctype html>
     <div class="list__grid">
       {cards}
     </div>
+    <p class="list__empty" data-no-matches hidden>
+      Nothing matches those filters. Try widening the drive time or turn off the open-now filter.
+    </p>
   </section>
 
   {dock}
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>
@@ -794,15 +815,51 @@ def render_dining_card(venue: dict) -> str:
         </div>
       </a>"""
 
+def hours_attr(adv: dict) -> str:
+    """Return a data-hours attribute fragment (with leading space), or
+    empty string if no hours."""
+    h = adv.get("hours")
+    if not h:
+        return ""
+    # JSON inside an HTML attribute: escape quotes/&/<.
+    encoded = html.escape(json.dumps(h, separators=(",", ":")), quote=True)
+    return f' data-hours="{encoded}"'
+
+def render_hours_block(adv: dict) -> str:
+    """Weekly hours section for a business page. The JS expands the
+    <dl data-hours-table> into a per-day list with today highlighted."""
+    if not adv.get("hours"):
+        return ""
+    note = adv.get("hours_note")
+    note_html = (
+        f'<p class="hours__note">{html.escape(note)}</p>' if note else ""
+    )
+    return f"""<section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="{html.escape(adv['name'])}"
+           data-claude-prompt="Ask Claude about hours at {html.escape(adv['name'])}"
+           {hours_attr(adv)}>
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    {note_html}
+  </section>"""
+
 def render_list_card(adv: dict) -> str:
     if adv["distance_minutes"] == 0:
         meta = f"{html.escape(adv['suburb'])} · At the hotel"
     else:
         meta = f"{html.escape(adv['suburb'])} · {adv['distance_minutes']} min from the hotel"
-    return f"""<a class="list-card" href="/{adv['slug']}/">
+    return f"""<a class="list-card" href="/{adv['slug']}/"
+       data-filterable
+       data-distance="{adv['distance_minutes']}"{hours_attr(adv)}>
         <figure class="list-card__media">
           <img src="{hero_img(adv['slug'])}" alt="" loading="lazy" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">{html.escape(adv['category'])}</span>
           <h3>{html.escape(adv['name'])}</h3>
@@ -832,6 +889,8 @@ def render_business_page(a: dict, hotel: dict) -> str:
         offer_headline=html.escape(a["offer_headline"]),
         offer_body=html.escape(a["offer_body"]),
         offer_code=html.escape(a["offer_code"]),
+        hours_attr=hours_attr(a),
+        hours_block=render_hours_block(a),
         visit_row=render_visit_row(a),
         g1=gallery_img(a["slug"], 1),
         g2=gallery_img(a["slug"], 2),
@@ -895,7 +954,7 @@ def render_category(group_slug: str, label: str, intro: str, advertisers: list[d
         topic=html.escape(topic),
         bar_prompt=html.escape(bar_prompt),
         list_prompt=html.escape(list_prompt),
-        topbar=topbar(label),
+        topbar=topbar(label, right=TOPBAR_FILTER_BUTTON),
         dock=dock("eat" if group_slug == "eat-and-drink" else "do"),
     )
 

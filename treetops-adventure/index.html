@@ -35,10 +35,13 @@
            data-claude-section
            data-claude-topic="place"
            data-claude-name="Treetops Adventure"
-           data-claude-prompt="Ask Claude about Treetops Adventure">
+           data-claude-prompt="Ask Claude about Treetops Adventure"
+            data-hours="{&quot;mon&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;tue&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;wed&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;thu&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;fri&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;sat&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;sun&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">Wyong Creek · 30 min from the hotel</p>
@@ -74,6 +77,20 @@
     <p>Show this page at the welcome hut when you sign in for your session.</p>
     <span class="offer__code">GUIDE / CANOPY</span>
   </aside>
+
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="Treetops Adventure"
+           data-claude-prompt="Ask Claude about hours at Treetops Adventure"
+            data-hours="{&quot;mon&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;tue&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;wed&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;thu&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;fri&quot;:[[&quot;10:00&quot;,&quot;17:00&quot;]],&quot;sat&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;sun&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">9am-5pm 7 days during NSW school and public holidays. Closed Christmas Day and New Year&#x27;s Day.</p>
+  </section>
 
   <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Treetops Adventure" data-claude-prompt="Ask Claude about getting to Treetops Adventure">
     <span class="visit-row__label">Visit</span>
@@ -115,6 +132,7 @@
   </aside>
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

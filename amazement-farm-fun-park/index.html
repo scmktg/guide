@@ -35,10 +35,13 @@
            data-claude-section
            data-claude-topic="place"
            data-claude-name="Amazement Farm &amp; Fun Park"
-           data-claude-prompt="Ask Claude about Amazement Farm &amp; Fun Park">
+           data-claude-prompt="Ask Claude about Amazement Farm &amp; Fun Park"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]],&quot;thu&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]],&quot;fri&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]],&quot;sat&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]],&quot;sun&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">Wyong Creek · 25 min from the hotel</p>
@@ -74,6 +77,20 @@
     <p>Show this page at the front gate when you arrive to redeem.</p>
     <span class="offer__code">GUIDE / AMAZE</span>
   </aside>
+
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="Amazement Farm &amp; Fun Park"
+           data-claude-prompt="Ask Claude about hours at Amazement Farm &amp; Fun Park"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]],&quot;thu&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]],&quot;fri&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]],&quot;sat&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]],&quot;sun&quot;:[[&quot;09:30&quot;,&quot;16:00&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Open every day during NSW school holidays. Last entry 3pm.</p>
+  </section>
 
   <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Amazement Farm &amp; Fun Park" data-claude-prompt="Ask Claude about getting to Amazement Farm &amp; Fun Park">
     <span class="visit-row__label">Visit</span>
@@ -115,6 +132,7 @@
   </aside>
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

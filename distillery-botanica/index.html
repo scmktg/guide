@@ -35,10 +35,13 @@
            data-claude-section
            data-claude-topic="place"
            data-claude-name="Distillery Botanica"
-           data-claude-prompt="Ask Claude about Distillery Botanica">
+           data-claude-prompt="Ask Claude about Distillery Botanica"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;thu&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;fri&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;sat&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;sun&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">Erina · 30 min from the hotel</p>
@@ -74,6 +77,20 @@
     <p>Show this page to your host when seated at the tasting bar.</p>
     <span class="offer__code">GUIDE / BOTANICA</span>
   </aside>
+
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="Distillery Botanica"
+           data-claude-prompt="Ask Claude about hours at Distillery Botanica"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;thu&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;fri&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;sat&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;sun&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Cellar door / Bar Botanica. Cocktail classes Fri-Sat; distilling Sat-Sun.</p>
+  </section>
 
   <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Distillery Botanica" data-claude-prompt="Ask Claude about getting to Distillery Botanica">
     <span class="visit-row__label">Visit</span>
@@ -115,6 +132,7 @@
   </aside>
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

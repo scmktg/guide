@@ -35,10 +35,13 @@
            data-claude-section
            data-claude-topic="place"
            data-claude-name="MexiCoast Cantina"
-           data-claude-prompt="Ask Claude about MexiCoast Cantina">
+           data-claude-prompt="Ask Claude about MexiCoast Cantina"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;wed&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;thu&quot;:[[&quot;17:00&quot;,&quot;20:30&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sun&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">Toukley · 5 min from the hotel</p>
@@ -74,6 +77,20 @@
     <p>Show this page when ordering. Valid for guide-card holders, dine-in only, one per guest.</p>
     <span class="offer__code">GUIDE / TACO</span>
   </aside>
+
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="MexiCoast Cantina"
+           data-claude-prompt="Ask Claude about hours at MexiCoast Cantina"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;wed&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;thu&quot;:[[&quot;17:00&quot;,&quot;20:30&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sun&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Hours may vary; closed Mondays.</p>
+  </section>
 
   <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="MexiCoast Cantina" data-claude-prompt="Ask Claude about getting to MexiCoast Cantina">
     <span class="visit-row__label">Visit</span>
@@ -115,6 +132,7 @@
   </aside>
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

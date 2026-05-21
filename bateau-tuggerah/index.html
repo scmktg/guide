@@ -35,10 +35,13 @@
            data-claude-section
            data-claude-topic="place"
            data-claude-name="Bateau Tuggerah"
-           data-claude-prompt="Ask Claude about Bateau Tuggerah">
+           data-claude-prompt="Ask Claude about Bateau Tuggerah"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[],&quot;thu&quot;:[],&quot;fri&quot;:[],&quot;sat&quot;:[],&quot;sun&quot;:[]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1502209524164-acea936639a2?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">Tuggerah Lake · 15 min from the hotel</p>
@@ -70,6 +73,20 @@
     <p>Show this page when collecting your boat. Bookings recommended, subject to availability.</p>
     <span class="offer__code">GUIDE / TILLER</span>
   </aside>
+
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="Bateau Tuggerah"
+           data-claude-prompt="Ask Claude about hours at Bateau Tuggerah"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[],&quot;thu&quot;:[],&quot;fri&quot;:[],&quot;sat&quot;:[],&quot;sun&quot;:[]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Booking-only boat hire; contact operator to arrange a time.</p>
+  </section>
 
   
 
@@ -108,6 +125,7 @@
   </aside>
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

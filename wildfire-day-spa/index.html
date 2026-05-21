@@ -35,10 +35,13 @@
            data-claude-section
            data-claude-topic="place"
            data-claude-name="Wildfire Day Spa"
-           data-claude-prompt="Ask Claude about Wildfire Day Spa">
+           data-claude-prompt="Ask Claude about Wildfire Day Spa"
+            data-hours="{&quot;mon&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;tue&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;wed&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;thu&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;fri&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;sat&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;sun&quot;:[]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
     </picture>
+
+    <span class="status" data-status-pill></span>
 
     <div class="hero__inner">
       <p class="hero__eyebrow rise rise--1">Wyong · 10 min from the hotel</p>
@@ -74,6 +77,20 @@
     <p>Mention the hotel guide when booking and show this page on arrival. Subject to availability, bookings essential.</p>
     <span class="offer__code">GUIDE / EMBER</span>
   </aside>
+
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="Wildfire Day Spa"
+           data-claude-prompt="Ask Claude about hours at Wildfire Day Spa"
+            data-hours="{&quot;mon&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;tue&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;wed&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;thu&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;fri&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;sat&quot;:[[&quot;09:00&quot;,&quot;17:00&quot;]],&quot;sun&quot;:[]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Closed Sundays and public holidays.</p>
+  </section>
 
   <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Wildfire Day Spa" data-claude-prompt="Ask Claude about getting to Wildfire Day Spa">
     <span class="visit-row__label">Visit</span>
@@ -115,6 +132,7 @@
   </aside>
 
   <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

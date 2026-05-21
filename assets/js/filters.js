@@ -162,7 +162,6 @@
     sheet.innerHTML =
       '<div class="filter-sheet__scrim" data-close></div>' +
       '<div class="filter-sheet__panel">' +
-        '<div class="filter-sheet__grabber" aria-hidden="true"></div>' +
         '<header class="filter-sheet__head">' +
           '<h2 id="filter-sheet-title">Filter</h2>' +
           '<button class="filter-sheet__close" data-close aria-label="Close">' +
@@ -171,32 +170,36 @@
           '</button>' +
         '</header>' +
 
-        '<section class="filter-row">' +
-          '<div class="filter-row__copy">' +
-            '<h3 class="filter-row__title">Open now</h3>' +
-            '<p class="filter-row__sub">Only show places open right now.</p>' +
-          '</div>' +
-          '<label class="switch">' +
-            '<input type="checkbox" data-filter-open />' +
-            '<span class="switch__track"><span class="switch__thumb"></span></span>' +
-          '</label>' +
-        '</section>' +
+        '<div class="filter-sheet__body">' +
+          '<section class="filter-row">' +
+            '<div class="filter-row__copy">' +
+              '<h3 class="filter-row__title">Open now</h3>' +
+              '<p class="filter-row__sub">Only show places open right now.</p>' +
+            '</div>' +
+            '<label class="switch">' +
+              '<input type="checkbox" data-filter-open />' +
+              '<span class="switch__track"><span class="switch__thumb"></span></span>' +
+            '</label>' +
+          '</section>' +
 
-        '<section class="filter-row filter-row--column">' +
-          '<div class="filter-row__copy">' +
-            '<h3 class="filter-row__title">Drive time from the hotel</h3>' +
-          '</div>' +
-          '<div class="filter-row__chips" role="tablist">' +
-            '<button class="chip is-active" data-distance="any" aria-pressed="true">Any</button>' +
-            '<button class="chip" data-distance="15" aria-pressed="false">≤ 15 min</button>' +
-            '<button class="chip" data-distance="30" aria-pressed="false">≤ 30 min</button>' +
-            '<button class="chip" data-distance="60" aria-pressed="false">≤ 60 min</button>' +
-          '</div>' +
-        '</section>' +
+          '<section class="filter-row filter-row--column">' +
+            '<div class="filter-row__copy">' +
+              '<h3 class="filter-row__title">Drive time from the hotel</h3>' +
+              '<p class="filter-row__sub">Filter by how far places are.</p>' +
+            '</div>' +
+            '<div class="filter-row__chips" role="tablist">' +
+              '<button class="chip is-active" data-distance="any" aria-pressed="true">Any</button>' +
+              '<button class="chip" data-distance="15" aria-pressed="false">≤ 15 min</button>' +
+              '<button class="chip" data-distance="30" aria-pressed="false">≤ 30 min</button>' +
+              '<button class="chip" data-distance="60" aria-pressed="false">≤ 60 min</button>' +
+            '</div>' +
+          '</section>' +
+        '</div>' +
 
         '<footer class="filter-sheet__foot">' +
           '<button class="filter-sheet__reset" type="button" data-filter-reset>Reset</button>' +
           '<span class="filter-sheet__count" data-filter-count></span>' +
+          '<button class="filter-sheet__apply" type="button" data-close>Show results</button>' +
         '</footer>' +
       '</div>';
     document.body.appendChild(sheet);

@@ -13,8 +13,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
@@ -38,7 +39,7 @@
            data-claude-prompt="Ask Claude about Ken Duncan Gallery"
             data-hours="{&quot;mon&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;tue&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;wed&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;thu&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;fri&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;sat&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;sun&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
-      <img src="https://images.unsplash.com/photo-1577720580479-7d839d829c73?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
+      <img src="https://images.unsplash.com/photo-1577720580479-7d839d829c73?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
     <span class="status" data-status-pill></span>
@@ -103,13 +104,17 @@
            data-claude-topic="gallery"
            data-claude-name="Ken Duncan Gallery"
            data-claude-prompt="Ask Claude about visiting Ken Duncan Gallery">
+    <header class="gallery-section__head">
+      <h2>A look around.</h2>
+      <span class="gallery-section__head__hint">Ken Duncan Gallery</span>
+    </header>
     <div class="gallery">
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
     </div>
   </section>
 

@@ -1,49 +1,43 @@
 /* ──────────────────────────────────────────────────────────────────────────
    Design tokens — shared across every advertiser landing page.
 
-   The system leans Apple-product-page: sleek, sans-serif first, generous
-   whitespace, restrained colour. A single serif italic family is reserved
-   for editorial accents (pull quotes, plate captions, page index).
-
-   Each advertiser overrides --accent in its own page stylesheet so the
-   family of pages feels coherent without being identical.
+   Clean, white-page system. Pure white background, black ink, single
+   sans-serif. Photographs and a single per-advertiser accent colour
+   carry the brand; everything else stays neutral.
    ────────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* Neutral palette — Apple-leaning off-white */
-  --paper:        #FBFBFD;
-  --paper-warm:   #F5F5F7;
-  --ink:          #1D1D1F;
-  --ink-soft:     #424245;
-  --ink-muted:    #86868B;
-  --rule:         #D2D2D7;
-  --rule-soft:    #E8E8ED;
+  /* Neutrals */
+  --paper:        #FFFFFF;
+  --paper-soft:   #F7F7F7;
+  --ink:          #111113;
+  --ink-soft:     #4A4A4F;
+  --ink-muted:    #8A8A8F;
+  --rule:         #EAEAEC;
 
   /* Per-advertiser overrides (set in page CSS) */
   --accent:       #0E3147;
-  --accent-soft:  #2B5972;
-  --accent-tint:  #EEF2F5;
-  --accent-ink:   #FBFBFD;
+  --accent-ink:   #FFFFFF;
 
-  /* Typography — Inter as the system-like sans, Cormorant for editorial accents */
+  /* Type */
   --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-  --font-serif:   "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
 
-  /* Scale — pushed larger at the top for product-page display headlines */
+  /* Scale */
   --step--1: clamp(0.81rem, 0.76rem + 0.2vw, 0.88rem);
   --step-0:  clamp(1.00rem, 0.96rem + 0.20vw, 1.08rem);
-  --step-1:  clamp(1.22rem, 1.10rem + 0.55vw, 1.46rem);
-  --step-2:  clamp(1.55rem, 1.30rem + 1.1vw, 2.00rem);
-  --step-3:  clamp(2.10rem, 1.55rem + 2.5vw, 3.10rem);
-  --step-4:  clamp(2.80rem, 2.00rem + 3.6vw, 4.50rem);
-  --step-5:  clamp(3.40rem, 2.40rem + 5.2vw, 6.50rem);
+  --step-1:  clamp(1.18rem, 1.08rem + 0.45vw, 1.36rem);
+  --step-2:  clamp(1.45rem, 1.25rem + 0.9vw, 1.80rem);
+  --step-3:  clamp(1.90rem, 1.50rem + 2vw, 2.70rem);
+  --step-4:  clamp(2.60rem, 1.90rem + 3.4vw, 4.20rem);
+  --step-5:  clamp(3.20rem, 2.20rem + 5.2vw, 6.20rem);
 
   /* Layout */
   --measure:     38rem;
   --gutter:      clamp(1.25rem, 4vw, 2.5rem);
-  --section-y:   clamp(4rem, 9vw, 7.5rem);
+  --section-y:   clamp(3rem, 7vw, 5.5rem);
   --radius:      14px;
   --radius-lg:   22px;
+  --max:         70rem;
 
   /* Motion */
   --ease:        cubic-bezier(0.2, 0.7, 0.2, 1);

@@ -3,13 +3,5 @@
 
 :root {
   --accent:       #0E3147;   /* Hawkesbury deep */
-  --accent-soft:  #2E6584;   /* river haze */
-  --accent-tint:  #EEF2F5;   /* cool off-white */
-  --accent-ink:   #FBFBFD;
-}
-
-/* Hero photograph gets a very light tonal nudge — kept subtle so the
-   image reads as itself, not a filtered overlay. */
-.hero__art img {
-  filter: saturate(0.96) contrast(1.02);
+  --accent-ink:   #FFFFFF;
 }

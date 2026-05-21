@@ -20,17 +20,21 @@
 
   <header class="app-bar">
     <a class="app-bar__mark" href="/">The Beachcomber Guide</a>
-    <span class="app-bar__meta">Things to do</span>
+    <a href="/" class="app-bar__back">Home</a>
   </header>
 
-  <header class="page-head">
-    <p class="eyebrow">The Guide</p>
+  <header class="page-head"
+          data-claude-section
+          data-claude-topic="do-listings"
+          data-claude-prompt="Ask Claude what to do today">
     <h1>Things to do — within easy reach.</h1>
     <p class="page-head__sub">Walks, wildlife, workshops and the local stops worth the drive — every recommendation, by drive time from the hotel.</p>
-    <div class="page-head__ask"><button class="claude-ask" type="button" data-claude-topic="do-listings"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> what to do</span></button></div>
   </header>
 
-  <section class="list">
+  <section class="list"
+           data-claude-section
+           data-claude-topic="do-listings"
+           data-claude-prompt="Ask Claude to narrow this down">
     <div class="list__grid">
       <a class="list-card" href="/mangkorn-massage/">
         <figure class="list-card__media">
@@ -154,16 +158,6 @@
       </a>
     </div>
   </section>
-
-  <!-- ─── Bottom tab bar ─────────────────────────────────────────── -->
-  <nav class="tabbar" aria-label="Guide sections">
-    <div class="tabbar__row">
-      <a class="tab" href="/hotel/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v5"/><path d="M3 17v-3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3"/><path d="M3 17v3M21 17v3"/></svg><span>Hotel</span></a>
-      <a class="tab" href="/eat-and-drink/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a3 3 0 0 0 3 3v7"/><path d="M7 3v5M11 3v5"/><path d="M17 3v18M14 3h6v5a3 3 0 0 1-3 3"/></svg><span>Eat</span></a>
-      <a class="tab" href="/things-to-do/" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" stroke="none"/></svg><span>Do</span></a>
-      <a class="tab" href="/map/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v16M15 6v16"/></svg><span>Map</span></a>
-    </div>
-  </nav>
 
   <script src="/assets/js/claude.js" defer></script>
 

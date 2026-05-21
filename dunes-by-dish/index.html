@@ -24,7 +24,11 @@
 <body>
 
   <!-- ─── Hero ───────────────────────────────────────────────────── -->
-  <section class="hero">
+  <section class="hero"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="Dunes by Dish"
+           data-claude-prompt="Ask Claude about Dunes by Dish">
     <header class="guide-bar">
       <a class="guide-bar__mark" href="/">Beachcomber Guide</a>
       <a href="/eat-and-drink/" class="guide-bar__back">‹ Eat & Drink</a>
@@ -35,68 +39,51 @@
     </picture>
 
     <div class="hero__inner">
-      <div class="hero__tags rise rise--1">
-        <span class="hero__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M4 12c2-4 5-6 8-6s6 2 8 6c-2 4-5 6-8 6s-6-2-8-6z"/></svg>Beachfront Restaurant</span>
-        <span class="hero__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>10 min from the hotel</span>
-      </div>
+      <p class="hero__eyebrow rise rise--1">Norah Head · 10 min from the hotel</p>
       <h1 class="rise rise--2">Dunes<br/>by Dish</h1>
       <p class="hero__sub rise rise--3">An upstairs surf-club restaurant perched above Soldiers Beach, with sweeping ocean views, share-style seafood and tapas, and a cocktail list with a wink.</p>
-      <div class="hero__ask rise rise--3"><button class="claude-ask claude-ask--on-dark" type="button" data-claude-topic="place" data-claude-name="Dunes by Dish"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> about this place</span></button></div>
     </div>
   </section>
 
-  <!-- ─── Primary CTAs ───────────────────────────────────────────── -->
+  <!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
     <a class="btn" href="https://thedishgroup.com.au/dunes/">Book</a>
-    <a class="btn btn--ghost" href="https://thedishgroup.com.au/dunes/">Visit website</a>
   </div>
 
-  <div class="section-meta">
-    <span class="section-meta__num">01.</span>
-    <span class="section-meta__label">About</span>
-  </div>
-  <section class="description">
+
+  <section class="description"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="Dunes by Dish"
+           data-claude-prompt="Ask Claude about the experience at Dunes by Dish">
     <h2>Above the dunes at Soldiers Beach.</h2>
     <p>Tucked into the top floor of Soldiers Beach Surf Club, Dunes by Dish makes the most of one of the Coast&#x27;s best uninterrupted ocean outlooks. The kitchen leans into local seafood, tapas plates and elevated pub classics, all designed for long lunches that drift into sunset.</p>
     <p>Inside is breezy and casual, with timber, light and that ever-changing blue horizon doing most of the decorating. It suits a slow Sunday with friends as easily as a celebratory dinner with a view.</p>
-    <button class="claude-ask" type="button" data-claude-topic="place" data-claude-name="Dunes by Dish"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> for the inside word</span></button>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">02.</span>
-    <span class="section-meta__label">For Beachcomber guests</span>
-  </div>
-  <aside class="offer" aria-label="Offer for Guide readers">
+  <aside class="offer"
+         aria-label="Offer for Guide readers"
+         data-claude-section
+         data-claude-topic="perk"
+         data-claude-name="Dunes by Dish"
+         data-claude-prompt="Ask Claude how to redeem this perk">
     <span class="offer__label">Guest perk</span>
     <h3>A complimentary glass of house wine with any two mains.</h3>
     <p>Show this page to your server when ordering. Dine-in only, one per guest, not valid with other offers.</p>
     <span class="offer__code">GUIDE / DUNES</span>
-    <button class="claude-ask claude-ask--quiet" type="button" data-claude-topic="perk" data-claude-name="Dunes by Dish"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> how to redeem this</span></button>
   </aside>
 
-  <div class="section-meta">
-    <span class="section-meta__num">03.</span>
-    <span class="section-meta__label">Visit &amp; connect</span>
-  </div>
-  <!-- ─── Contact + social ───────────────────────────────────────── -->
-  <section class="contacts" aria-label="Contact and social">
-    <div class="contacts__grid">
-      <a class="contact-tile" href="tel:+61243967502" aria-label="Call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 4h3l2 5-2.5 1.5a12 12 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span class="contact-tile__label">Call</span></a>
-      <a class="contact-tile" href="mailto:dunes@thedishgroup.com.au" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="contact-tile__label">Email</span></a>
-      <a class="contact-tile" href="https://maps.google.com/?q=Dunes+by+Dish+Level+1%2C+101+Soldiers+Point+Drive%2C+Norah+Head+NSW+2263" aria-label="Directions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span class="contact-tile__label">Directions</span></a>
-      <a class="contact-tile" href="https://instagram.com/dunesbydish" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg><span class="contact-tile__label">Instagram</span></a>
-      <a class="contact-tile" href="https://www.facebook.com/DunesbyDish/" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M15 8h2.5V5H15a3.5 3.5 0 0 0-3.5 3.5V11H9v3h2.5v7h3v-7H17l.5-3h-3V8.5A.5.5 0 0 1 15 8z"/></svg><span class="contact-tile__label">Facebook</span></a>
-      <a class="contact-tile" href="https://thedishgroup.com.au/dunes/" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="contact-tile__label">Website</span></a>
-    </div>
+  <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Dunes by Dish" data-claude-prompt="Ask Claude about getting to Dunes by Dish">
+    <span class="visit-row__label">Visit</span>
+    <a href="tel:+61243967502">Call</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="mailto:dunes@thedishgroup.com.au">Email</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://maps.google.com/?q=Dunes+by+Dish+Level+1%2C+101+Soldiers+Point+Drive%2C+Norah+Head+NSW+2263">Directions</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://thedishgroup.com.au/dunes/">Website</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://instagram.com/dunesbydish">Instagram</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.facebook.com/DunesbyDish/">Facebook</a>
   </section>
 
-  <div class="section-trailing"><button class="claude-ask" type="button" data-claude-topic="visit" data-claude-name="Dunes by Dish"><span class="claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg></span><span class="claude-ask__label">Ask <span class="claude-ask__brand">Claude</span> about getting there</span></button></div>
-  <div class="section-meta">
-    <span class="section-meta__num">04.</span>
-    <span class="section-meta__label">From Norah Head.</span>
-  </div>
-  <!-- ─── Gallery ────────────────────────────────────────────────── -->
-  <section class="gallery-section" aria-label="Gallery">
+  <section class="gallery-section"
+           aria-label="Gallery"
+           data-claude-section
+           data-claude-topic="gallery"
+           data-claude-name="Dunes by Dish"
+           data-claude-prompt="Ask Claude about visiting Dunes by Dish">
     <div class="gallery">
       <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
       <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
@@ -106,16 +93,6 @@
       <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
     </div>
   </section>
-
-  <!-- ─── Bottom tab bar ─────────────────────────────────────────── -->
-  <nav class="tabbar" aria-label="Guide sections">
-    <div class="tabbar__row">
-      <a class="tab" href="/hotel/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v5"/><path d="M3 17v-3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3"/><path d="M3 17v3M21 17v3"/></svg><span>Hotel</span></a>
-      <a class="tab" href="/eat-and-drink/" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8a3 3 0 0 0 3 3v7"/><path d="M7 3v5M11 3v5"/><path d="M17 3v18M14 3h6v5a3 3 0 0 1-3 3"/></svg><span>Eat</span></a>
-      <a class="tab" href="/things-to-do/"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" stroke="none"/></svg><span>Do</span></a>
-      <a class="tab" href="/map/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v16M15 6v16"/></svg><span>Map</span></a>
-    </div>
-  </nav>
 
   <script src="/assets/js/claude.js" defer></script>
 

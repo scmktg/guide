@@ -1,7 +1,6 @@
-/* Broken Bay Pearl Farm — per-advertiser palette.
-   Photography is in the HTML as <img>; this stylesheet is just palette. */
+/* Broken Bay Pearl Farm — per-advertiser palette. Generated from advertisers.json. */
 
 :root {
-  --accent:       #0E3147;   /* Hawkesbury deep */
-  --accent-ink:   #FFFFFF;
+  --accent:     #1F3A4A;
+  --accent-ink: #FFFFFF;
 }

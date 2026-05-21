@@ -1,88 +1,118 @@
-# The Guide
+# The Beachcomber Guide
 
-Digital companion landing pages for businesses featured in our printed
-hotel guides. Each advertiser gets a dedicated page reached via QR code
-from the printed guide, designed for guests who've just landed — fast
-to load, easy to act on, and on-brand with the guide itself.
+A digital guide for guests of The Beachcomber Hotel & Resort in Toukley
+on the NSW Central Coast. The guide is reached via QR code from a
+printed companion placed in every room and covers the hotel itself,
+the two on-site dining venues, and a curated set of nearby Central
+Coast businesses.
 
-## Structure
+## Site structure
 
 ```
-/
-├── index.html                       Guide cover / advertiser index
-├── assets/
-│   ├── css/
-│   │   ├── tokens.css               Shared design tokens (colour, type, spacing)
-│   │   ├── guide.css                Shared component styles for advertiser pages
-│   │   └── pages/
-│   │       └── {slug}.css           Per-advertiser palette (one per business)
-│   └── img/
-│       └── {slug}/                  Per-advertiser imagery (when commissioned)
-├── {slug}/
-│   └── index.html                   Advertiser landing page (one per business)
-├── _generator/
-│   ├── advertisers.json             Source of truth for every advertiser
-│   └── build.py                     Scaffolding script — regenerates pages
+/                                The hotel hero plus the four-category cover.
+├── /hotel/                      Hotel info — about, amenities, on-site dining, contact.
+├── /eat-and-drink/              Listings for restaurants, bars and food makers.
+├── /things-to-do/               Listings for experiences, tours, retail and wellness.
+├── /map/                        Interactive Leaflet map of every listing.
+├── /{business-slug}/            One landing page per business (21 in total).
+├── /assets/css/                 Shared styles + per-business palettes.
+├── /_generator/                 Source of truth + scaffolding script.
 └── README.md
 ```
 
-## Standard page template
+## Four-category cover
 
-Every advertiser page follows the same six-section layout:
+The home page is split into four cards that match the printed guide:
 
-1. **Hero** — full-bleed photograph, white text on a black-only gradient
-   overlay, with the business name plus two pill tags (category and
-   driving time from the partner hotels).
-2. **Primary CTAs** — `Book` (or `Visit website`) plus a ghost
-   `Visit website` button when both a booking link and a site exist.
-3. **Short description** — eyebrow, headline, two short paragraphs.
-4. **Guest offer** — a soft-grey card with the offer headline, redemption
-   instructions and a monospaced code (e.g. `GUIDE / PEARL`).
-5. **Contact &amp; social** — icon tiles for any of: Call, Email,
-   Directions, Instagram, Facebook, Website. Tiles for missing channels
-   are simply omitted.
-6. **Gallery** — uniform 3-up square grid.
+1. **Hotel info** — the hotel's own page (description, facilities,
+   check-in/out, on-site dining, contact).
+2. **Eat & drink** — every restaurant, bar and food maker in the
+   guide, including the two on-site venues. Sorted by drive time
+   from the hotel.
+3. **Things to do** — every experience, tour, retailer or wellness
+   stop. Sorted by drive time from the hotel.
+4. **Local map** — an interactive map showing the hotel plus every
+   listing as a coloured pin. Tap a pin to read the basics and jump
+   to the page.
 
-The structure is identical across every page. The only per-advertiser
-file is `assets/css/pages/{slug}.css`, which just defines an `--accent`
-colour. All copy lives in the page HTML.
+## Standard business page
+
+Every business page follows the same six-section layout:
+
+1. Hero — full-bleed photo, white text on a black gradient, two pill
+   tags (category + drive time from the hotel).
+2. Primary CTAs — `Book` and/or `Visit website`.
+3. Short description — eyebrow + headline + two paragraphs.
+4. Guest offer — a perk for Beachcomber guests, with a redemption code.
+5. Contact & social — icon tiles for any of: Call, Email, Directions,
+   Instagram, Facebook, Website (tiles for missing channels are omitted).
+6. Gallery — uniform 3-up square grid.
+
+Every page links back to its category index via the guide bar, and
+every page footer links back to the home cover.
 
 ## Design principles
 
-1. **Mobile-first.** Pages are scanned from a printed guide at a hotel —
-   most arrivals are on phones with patchy Wi-Fi. No build step at deploy
-   time, no framework, minimal JS.
-2. **Standard layout, distinct identity.** Every page uses the same
-   structure so guests learn it once; per-advertiser photographs and an
-   accent colour carry the personality.
-3. **Bright, image-led, restrained.** White background, single sans-serif
-   (Inter), photographs do the talking. Only black gradient overlays
-   anywhere they appear.
-4. **No tracking, no cookies, no popups.** Guests see the business; they
-   don't see us.
+1. **Mobile-first.** Every page is scanned from a printed guide at the
+   hotel. No build step at deploy time, no framework, minimal JS.
+2. **Standard layout, distinct identity.** Every business page uses
+   the same shape so guests learn it once; per-business photography
+   and an accent colour carry the personality.
+3. **Bright, image-led, restrained.** White background, single
+   sans-serif (Inter), photographs do the talking. Only black gradient
+   overlays where they appear.
+4. **No tracking, no cookies, no popups.**
 
 ## Adding or updating an advertiser
 
-1. Edit `_generator/advertisers.json` — add a new object, or update
-   fields on an existing one. Every field is documented by example in
-   the existing entries.
+1. Edit `_generator/advertisers.json`. Each business object needs:
+   - core fields: `name`, `slug`, `category`, `category_group`
+     (either `eat-and-drink` or `things-to-do`), `suburb`,
+     `distance_minutes` (from the hotel by car), `address`, `lat`,
+     `lng`
+   - contact fields where available: `phone`, `email`, `website`,
+     `booking_url`, `instagram`, `facebook`
+   - copy fields: `hero_subtitle`, `description_p1`, `description_p2`,
+     `description_headline`, `offer_headline`, `offer_body`,
+     `offer_code`, `accent_hex`
 2. Run the generator:
    ```sh
    python3 _generator/build.py
    ```
-3. Drop real photography into `assets/img/{slug}/` when commissioned,
-   then swap the `picsum.photos` placeholder URLs in `{slug}/index.html`
-   for the local paths. (Placeholder URLs are seeded by slug so each
-   page is consistent between runs.)
+3. Drop real photography into `assets/img/{slug}/` once commissioned,
+   then swap the `picsum.photos` placeholder URLs in
+   `{slug}/index.html` for the local paths. Placeholders are seeded
+   by slug so each page is consistent between runs.
 
-The generator is idempotent — re-running it overwrites
-`{slug}/index.html`, `assets/css/pages/{slug}.css` and the root
-`index.html`. It does **not** touch images, shared CSS or any custom
-edits to the generator itself.
+The generator is idempotent — re-running it regenerates the per-business
+HTML, the per-business CSS, the four category pages, the map, and the
+home cover. It does not touch images, shared CSS, or its own source.
+
+## Hotel-specific fields
+
+The `_generator/advertisers.json` file is shaped as
+`{ "hotel": {...}, "advertisers": [...] }`. The `hotel` object carries
+a few extra fields the standard advertiser doesn't need:
+
+- `amenities` — array of short phrases shown on the hotel page
+- `check_in`, `check_out` — displayed in the facilities block
+- `description_p3` — a third paragraph that mentions the on-site
+  dining venues (Pelicans Restaurant and Beachie Bar and Bistro)
+
+## Map
+
+The map page uses [Leaflet](https://leafletjs.com/) (loaded from a
+CDN) with OpenStreetMap tiles. No API key required. Pins are
+colour-coded:
+
+- Black: the hotel
+- Orange: eat & drink
+- Green: things to do
+
+The script reads every advertiser's `lat`/`lng` from the JSON at
+generation time and inlines a small data array into `/map/index.html`.
 
 ## Local preview
-
-Any static server works:
 
 ```sh
 python3 -m http.server 8000
@@ -93,5 +123,4 @@ python3 -m http.server 8000
 
 Push the repo to any static host (Netlify, Vercel, Cloudflare Pages,
 GitHub Pages, S3+CloudFront). **No build step is required at deploy
-time** — the generator is a one-time authoring tool, not part of the
-deploy pipeline.
+time** — the generator is a one-time authoring tool.

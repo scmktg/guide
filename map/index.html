@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Local map — The Beachcomber Guide</title>
+  <meta name="description" content="Every Beachcomber Guide recommendation on one map of the Central Coast." />
+  <meta name="theme-color" content="#FFFFFF" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="/assets/css/tokens.css" />
+  <link rel="stylesheet" href="/assets/css/guide.css" />
+</head>
+<body>
+
+  <header class="page-head">
+    <a class="page-head__mark" href="/">‹ The Beachcomber Guide</a>
+    <p class="eyebrow">Local Map</p>
+    <h1>Every recommendation, in one place.</h1>
+    <p class="page-head__sub">Tap any pin for the listing, distance and a link to the page.</p>
+  </header>
+
+  <div id="map" class="map" role="application" aria-label="Interactive map of guide recommendations"></div>
+
+  <section class="map-legend">
+    <span class="legend-pip legend-pip--hotel"></span> The Beachcomber Hotel
+    <span class="legend-pip legend-pip--eat"></span> Eat &amp; drink
+    <span class="legend-pip legend-pip--do"></span> Things to do
+  </section>
+
+  <footer class="guide-foot">
+    <strong>The Beachcomber Guide.</strong>
+    Tap any pin for details and a link to that listing.
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const HOTEL = {"name": "The Beachcomber Hotel & Resort", "lat": -33.27, "lng": 151.536};
+    const SPOTS = [{"slug": "mexicoast-cantina", "name": "MexiCoast Cantina", "category": "Mexican Restaurant", "suburb": "Toukley", "distance": 5, "lat": -33.2693, "lng": 151.5365, "group": "eat-and-drink"}, {"slug": "mangkorn-massage", "name": "Mangkorn Massage", "category": "Thai Massage", "suburb": "Toukley", "distance": 5, "lat": -33.269, "lng": 151.536, "group": "things-to-do"}, {"slug": "dunes-by-dish", "name": "Dunes by Dish", "category": "Beachfront Restaurant", "suburb": "Norah Head", "distance": 10, "lat": -33.2826, "lng": 151.5751, "group": "eat-and-drink"}, {"slug": "the-savoy-bar-and-music", "name": "The Savoy Bar & Music", "category": "Live Music Bar", "suburb": "Long Jetty", "distance": 15, "lat": -33.3554, "lng": 151.4912, "group": "eat-and-drink"}, {"slug": "plain-janes-store", "name": "Plain Janes Store", "category": "Fashion Boutique", "suburb": "Long Jetty", "distance": 15, "lat": -33.3548, "lng": 151.4925, "group": "things-to-do"}, {"slug": "cue-and-crew", "name": "Cue & Crew", "category": "American BBQ Restaurant", "suburb": "Tuggerah", "distance": 15, "lat": -33.3035, "lng": 151.4361, "group": "eat-and-drink"}, {"slug": "bateau-tuggerah", "name": "Bateau Tuggerah", "category": "Boat Hire", "suburb": "Tuggerah Lake", "distance": 15, "lat": -33.31, "lng": 151.45, "group": "things-to-do"}, {"slug": "wildfire-day-spa", "name": "Wildfire Day Spa", "category": "Day Spa", "suburb": "Wyong", "distance": 10, "lat": -33.2828, "lng": 151.4209, "group": "things-to-do"}, {"slug": "wyong-milk-factory", "name": "Wyong Milk Factory", "category": "Dining & Events Precinct", "suburb": "Wyong", "distance": 10, "lat": -33.282, "lng": 151.4215, "group": "eat-and-drink"}, {"slug": "central-coast-aero-club", "name": "Central Coast Aero Club", "category": "Scenic Flights & Flight School", "suburb": "Warnervale", "distance": 10, "lat": -33.2244, "lng": 151.4364, "group": "things-to-do"}, {"slug": "amazement-farm-fun-park", "name": "Amazement Farm & Fun Park", "category": "Farm & Fun Park", "suburb": "Wyong Creek", "distance": 25, "lat": -33.264, "lng": 151.358, "group": "things-to-do"}, {"slug": "iris-lodge-alpacas", "name": "Iris Lodge Alpacas", "category": "Alpaca Farm Experience", "suburb": "Jilliby", "distance": 25, "lat": -33.216, "lng": 151.3635, "group": "things-to-do"}, {"slug": "treetops-adventure", "name": "Treetops Adventure", "category": "High Ropes Adventure", "suburb": "Wyong Creek", "distance": 30, "lat": -33.355, "lng": 151.358, "group": "things-to-do"}, {"slug": "ken-duncan-gallery", "name": "Ken Duncan Gallery", "category": "Photography Gallery", "suburb": "Erina Heights", "distance": 30, "lat": -33.4347, "lng": 151.4012, "group": "things-to-do"}, {"slug": "distillery-botanica", "name": "Distillery Botanica", "category": "Gin Distillery & Bar", "suburb": "Erina", "distance": 30, "lat": -33.4346, "lng": 151.3895, "group": "eat-and-drink"}, {"slug": "chocolate-factory-gosford", "name": "Chocolate Factory Gosford", "category": "Chocolate & Nougat Factory", "suburb": "West Gosford", "distance": 35, "lat": -33.4274, "lng": 151.3286, "group": "eat-and-drink"}, {"slug": "australian-reptile-park", "name": "Australian Reptile Park", "category": "Wildlife Park", "suburb": "Somersby", "distance": 40, "lat": -33.376, "lng": 151.273, "group": "things-to-do"}, {"slug": "coastal-hatters", "name": "Coastal Hatters", "category": "Specialty Hat Shop", "suburb": "Ettalong Beach", "distance": 45, "lat": -33.5108, "lng": 151.3415, "group": "things-to-do"}, {"slug": "broken-bay-pearl-farm", "name": "Broken Bay Pearl Farm", "category": "Pearl Farm & Tours", "suburb": "Mooney Mooney", "distance": 50, "lat": -33.53, "lng": 151.19, "group": "things-to-do"}, {"slug": "pelicans-restaurant", "name": "Pelicans Restaurant", "category": "Hotel Restaurant", "suburb": "Toukley", "distance": 0, "lat": -33.27, "lng": 151.536, "group": "eat-and-drink"}, {"slug": "beachie-bar-and-bistro", "name": "Beachie Bar and Bistro", "category": "Bistro & Bar", "suburb": "Toukley", "distance": 0, "lat": -33.27, "lng": 151.536, "group": "eat-and-drink"}];
+
+    const map = L.map('map', { scrollWheelZoom: true, zoomControl: true });
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    function pinIcon(kind) {
+      const colour = kind === 'hotel' ? '#111113' : (kind === 'eat' ? '#B0451F' : '#1F4D3F');
+      return L.divIcon({
+        className: 'map-pin map-pin--' + kind,
+        html: '<span class="map-pin__dot" style="background:' + colour + '"></span>',
+        iconSize: [22, 22],
+        iconAnchor: [11, 11],
+        popupAnchor: [0, -10],
+      });
+    }
+
+    const hotelMarker = L.marker([HOTEL.lat, HOTEL.lng], { icon: pinIcon('hotel') }).addTo(map);
+    hotelMarker.bindPopup('<div class="map-pop"><span class="map-pop__cat">The Hotel</span><strong>' + HOTEL.name + '</strong><a href="/hotel/">View hotel info ›</a></div>');
+
+    const bounds = [[HOTEL.lat, HOTEL.lng]];
+
+    SPOTS.forEach(s => {
+      const kind = s.group === 'eat-and-drink' ? 'eat' : 'do';
+      const m = L.marker([s.lat, s.lng], { icon: pinIcon(kind) }).addTo(map);
+      m.bindPopup(
+        '<div class="map-pop">' +
+        '<span class="map-pop__cat">' + s.category + '</span>' +
+        '<strong>' + s.name + '</strong>' +
+        '<span class="map-pop__meta">' + s.suburb + ' · ' + s.distance + ' min</span>' +
+        '<a href="/' + s.slug + '/">Open page ›</a>' +
+        '</div>'
+      );
+      bounds.push([s.lat, s.lng]);
+    });
+
+    map.fitBounds(bounds, { padding: [40, 40] });
+  </script>
+
+</body>
+</html>

@@ -1,16 +1,6 @@
-/* Broken Bay Pearl Farm — per-advertiser palette and accents.
-   Photography lives in the HTML as <img>; this stylesheet only carries
-   palette and small page-specific touches. */
+/* Broken Bay Pearl Farm — per-advertiser palette. Generated from advertisers.json. */
 
 :root {
-  --accent:       #0E3147;   /* Hawkesbury deep */
-  --accent-soft:  #2E6584;   /* river haze */
-  --accent-tint:  #EFE8DC;   /* shucked-shell cream */
-  --accent-ink:   #FAF6F0;
-}
-
-/* Tone the hero photograph toward the page's palette — keeps it feeling
-   maritime even when the source image leans neutral. */
-.hero__art img {
-  filter: saturate(0.9) contrast(1.04) brightness(0.92);
+  --accent:     #1F3A4A;
+  --accent-ink: #FFFFFF;
 }

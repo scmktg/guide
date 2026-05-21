@@ -2,76 +2,97 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Guide — Companion to the Printed Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>The Beachcomber Guide</title>
+  <meta name="description" content="A curated companion to the Beachcomber Hotel and the Central Coast — what to do, where to eat, and the map to get you there." />
+  <meta name="theme-color" content="#FFFFFF" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="/assets/css/tokens.css" />
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: var(--font-sans);
-      background: var(--paper);
-      color: var(--ink);
-      padding: 3rem 1.5rem;
-    }
-    main { max-width: 38rem; text-align: center; }
-    h1 {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-weight: 400;
-      font-size: var(--step-4);
-      margin: 0 0 1rem;
-    }
-    p { color: var(--ink-soft); line-height: 1.55; }
-    .eyebrow {
-      font-size: var(--step--1);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--ink-muted);
-      margin-bottom: 1.5rem;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 2.5rem 0 0;
-      display: grid;
-      gap: 0.75rem;
-    }
-    li a {
-      display: block;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--rule);
-      border-radius: 6px;
-      color: var(--ink);
-      text-decoration: none;
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: var(--step-1);
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    li a:hover {
-      border-color: #0E3147;
-      transform: translateY(-1px);
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
-  <main>
-    <p class="eyebrow">The Guide</p>
-    <h1>The companion to the printed edition.</h1>
-    <p>
-      You've probably arrived here by scanning a QR code from the guide
-      in your room. Each business featured in print has its own page —
-      pick yours below.
-    </p>
-    <ul>
-      <li><a href="/broken-bay-pearl-farm/">Broken Bay Pearl Farm →</a></li>
-    </ul>
-  </main>
+
+  <!-- ─── Hotel hero (no topbar on home) ──────────────────────────── -->
+  <section class="hero"
+           data-claude-section
+           data-claude-topic="hotel"
+           data-claude-prompt="Ask Claude about the hotel">
+    <picture class="hero__art" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
+    </picture>
+
+    <div class="hero__inner">
+      <p class="hero__eyebrow rise rise--1">Welcome to the Coast</p>
+      <h1 class="rise rise--2">The Beachcomber<br/>Hotel &amp; Resort</h1>
+      <p class="hero__sub rise rise--3">An iconic Hamptons-inspired waterfront retreat on the shores of Tuggerah Lake, anchoring the laid-back coastal heart of Toukley on the NSW Central Coast.</p>
+    </div>
+  </section>
+
+  <section class="cats"
+           data-claude-section
+           data-claude-topic="guide"
+           data-claude-prompt="Ask Claude what to do today">
+    <header class="cats__head">
+      <h2>Your companion to the stay.</h2>
+    </header>
+    <div class="cats__grid">
+      <a class="cat-card" href="/hotel/">
+        <img class="cat-card__img" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="900" height="1100" />
+        <div class="cat-card__body">
+          <span class="cat-card__title">Hotel info</span>
+          <span class="cat-card__desc">Check-in, dining, facilities and everything Beachcomber.</span>
+        </div>
+      </a>
+      <a class="cat-card" href="/eat-and-drink/">
+        <img class="cat-card__img" src="https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=900&q=80" alt="" loading="lazy" decoding="async" width="900" height="1100" />
+        <div class="cat-card__body">
+          <span class="cat-card__title">Eat &amp; drink</span>
+          <span class="cat-card__desc">Restaurants, bars and food makers within easy reach.</span>
+        </div>
+      </a>
+      <a class="cat-card" href="/things-to-do/">
+        <img class="cat-card__img" src="https://images.unsplash.com/photo-1502209524164-acea936639a2?auto=format&fit=crop&w=900&q=80" alt="" loading="lazy" decoding="async" width="900" height="1100" />
+        <div class="cat-card__body">
+          <span class="cat-card__title">Things to do</span>
+          <span class="cat-card__desc">Experiences, tours and standout local stops.</span>
+        </div>
+      </a>
+      <a class="cat-card" href="/map/">
+        <img class="cat-card__img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80" alt="" loading="lazy" decoding="async" width="900" height="1100" />
+        <div class="cat-card__body">
+          <span class="cat-card__title">Local map</span>
+          <span class="cat-card__desc">See every recommendation on one interactive map.</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
+        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
+        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        <a href="/hotel/">Hotel</a>
+        <a href="/eat-and-drink/">Eat</a>
+        <a href="/things-to-do/">Do</a>
+        <a href="/map/">Map</a>
+      </nav>
+    </div>
+  </aside>
+
+  <script src="/assets/js/claude.js" defer></script>
+
 </body>
 </html>

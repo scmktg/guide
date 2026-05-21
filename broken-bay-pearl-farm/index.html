@@ -13,6 +13,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
@@ -29,7 +30,14 @@
 
   <!-- ─── Hero ───────────────────────────────────────────────────── -->
   <section class="hero">
-    <div class="hero__art" aria-hidden="true"></div>
+    <picture class="hero__art" aria-hidden="true">
+      <img
+        src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=2400&q=80"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+      />
+    </picture>
     <div class="hero__inner">
       <p class="hero__eyebrow">Mooney Mooney · Hawkesbury River</p>
       <h1>Broken Bay<br/>Pearl Farm</h1>
@@ -74,116 +82,171 @@
     </div>
   </nav>
 
-  <!-- ─── Story ──────────────────────────────────────────────────── -->
-  <section class="section" id="story">
-    <p class="eyebrow">The Farm</p>
-    <p class="lede">
-      Twenty thousand oysters drift below the surface of Broken Bay, each
-      one quietly growing a single Akoya pearl. We've been farming these
-      waters since the 1990s — a family operation, half a day's tide
-      from the city.
-    </p>
-
-    <div class="section__split" style="margin-top: 2.5rem;">
-      <div>
-        <p>
-          The Hawkesbury is one of the few estuaries in the world clean
-          enough and cold enough for Akoya. It's why the pearls grown
-          here glow with a particular silvery lustre — softer than
-          South Sea, more luminous than freshwater.
-        </p>
-        <p>
-          Every tour ends with a live harvest. You'll see a pearl lifted
-          from its shell for the first time, still wet, exactly as our
-          farmers do it every morning.
-        </p>
-      </div>
-      <div>
-        <p>
-          Tours leave from our shoreside cellar door at Mooney Mooney, a
-          fifty-five minute drive north of the Sydney Harbour Bridge.
-          The boat is small, the groups are smaller, and the river does
-          most of the talking.
-        </p>
-        <p>
-          Bring a hat. The light off the water is unreasonable.
-        </p>
-      </div>
+  <!-- ─── Story (editorial spread) ───────────────────────────────── -->
+  <section class="spread spread--lede" id="story">
+    <figure class="spread__figure">
+      <img
+        src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1600&q=80"
+        alt="Akoya pearls in an open oyster shell, freshly harvested"
+        loading="lazy"
+      />
+      <figcaption>Akoya, lifted from the line — a working morning on Broken Bay.</figcaption>
+    </figure>
+    <div class="spread__copy">
+      <p class="eyebrow">The Farm</p>
+      <p class="lede">
+        Twenty thousand oysters drift below the surface of Broken Bay,
+        each one quietly growing a single Akoya pearl.
+      </p>
+      <p>
+        The Hawkesbury is one of the few estuaries in the world clean
+        enough and cold enough for Akoya. It's why the pearls grown
+        here glow with a particular silvery lustre — softer than
+        South Sea, more luminous than freshwater.
+      </p>
+      <p>
+        Every tour ends with a live harvest. You'll see a pearl lifted
+        from its shell for the first time, still wet, exactly as our
+        farmers do it every morning. Tours leave from our shoreside
+        cellar door at Mooney Mooney, fifty-five minutes north of the
+        Sydney Harbour Bridge.
+      </p>
+      <p class="spread__note">
+        Bring a hat. The light off the water is unreasonable.
+      </p>
     </div>
   </section>
 
+  <!-- ─── Full-bleed feature plate ───────────────────────────────── -->
+  <figure class="plate">
+    <img
+      src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=2400&q=80"
+      alt="The Hawkesbury at first light, oyster lines drifting just below the surface"
+      loading="lazy"
+    />
+    <figcaption class="plate__caption">
+      <span class="plate__index">i.</span>
+      First light on Broken Bay. The lines lie just below the surface —
+      twenty thousand oysters, a half-day's tide from the city.
+    </figcaption>
+  </figure>
+
   <!-- ─── Experiences ────────────────────────────────────────────── -->
-  <section class="section" id="experiences" style="padding-top: 0;">
-    <div class="pearl-rule"><span class="pearl-rule__dot"></span></div>
-    <p class="eyebrow">Experiences</p>
-    <h2>Four ways to spend a morning</h2>
+  <section class="section">
+    <header class="section__head">
+      <p class="eyebrow">Experiences</p>
+      <h2>Four ways to spend a morning</h2>
+    </header>
 
     <div class="experiences">
 
       <article class="experience">
-        <div class="experience__meta">
-          <span>2 hours · Daily</span>
-          <span class="experience__price">$95</span>
+        <figure class="experience__media">
+          <img
+            src="https://images.unsplash.com/photo-1502088516994-8ee1583eac8f?auto=format&fit=crop&w=1200&q=80"
+            alt="A small wooden tour boat on calm water"
+            loading="lazy"
+          />
+        </figure>
+        <div class="experience__body">
+          <div class="experience__meta">
+            <span>2 hours · Daily</span>
+            <span class="experience__price">$95</span>
+          </div>
+          <h3>The Pearl Farm Tour</h3>
+          <p>
+            Boat out to the working lines, watch a live harvest, hold a
+            freshly-pulled Akoya in your hand. Tea, scones and a glass
+            of something cold on the way back in.
+          </p>
+          <a class="experience__cta" href="#visit">Reserve</a>
         </div>
-        <h3>The Pearl Farm Tour</h3>
-        <p>
-          Boat out to the working lines, watch a live harvest, hold a
-          freshly-pulled Akoya in your hand. Tea, scones and a glass of
-          something cold on the way back in.
-        </p>
-        <a class="experience__cta" href="#visit">Reserve</a>
       </article>
 
       <article class="experience">
-        <div class="experience__meta">
-          <span>3.5 hours · Fri–Sun</span>
-          <span class="experience__price">$185</span>
+        <figure class="experience__media">
+          <img
+            src="https://images.unsplash.com/photo-1535007813616-79dc02ba4021?auto=format&fit=crop&w=1200&q=80"
+            alt="A long lunch on a sunlit deck overlooking the water"
+            loading="lazy"
+          />
+        </figure>
+        <div class="experience__body">
+          <div class="experience__meta">
+            <span>3.5 hours · Fri–Sun</span>
+            <span class="experience__price">$185</span>
+          </div>
+          <h3>Pearl &amp; Provenance Lunch</h3>
+          <p>
+            The full tour followed by a long lunch on the deck — Hawkesbury
+            oysters, cold seafood, local wine. Slow, sunlit, generous.
+          </p>
+          <a class="experience__cta" href="#visit">Reserve</a>
         </div>
-        <h3>Pearl & Provenance Lunch</h3>
-        <p>
-          The full tour followed by a long lunch on the deck — Hawkesbury
-          oysters, cold seafood, local wine. Slow, sunlit, generous.
-        </p>
-        <a class="experience__cta" href="#visit">Reserve</a>
       </article>
 
       <article class="experience">
-        <div class="experience__meta">
-          <span>By appointment</span>
-          <span class="experience__price">From $480</span>
+        <figure class="experience__media">
+          <img
+            src="https://images.unsplash.com/photo-1567361808960-dec9cb578182?auto=format&fit=crop&w=1200&q=80"
+            alt="A strand of Akoya pearls laid against linen"
+            loading="lazy"
+          />
+        </figure>
+        <div class="experience__body">
+          <div class="experience__meta">
+            <span>By appointment</span>
+            <span class="experience__price">From $480</span>
+          </div>
+          <h3>Private Charter</h3>
+          <p>
+            The boat, the farm and a pearl specialist — yours for the
+            morning. Up to eight guests. We'll set a strand together
+            from our private parcels.
+          </p>
+          <a class="experience__cta" href="mailto:bookings@brokenbaypearlfarm.com.au">Enquire</a>
         </div>
-        <h3>Private Charter</h3>
-        <p>
-          The boat, the farm and a pearl specialist — yours for the
-          morning. Up to eight guests. We'll set a strand together from
-          our private parcels.
-        </p>
-        <a class="experience__cta" href="mailto:bookings@brokenbaypearlfarm.com.au">Enquire</a>
       </article>
 
       <article class="experience">
-        <div class="experience__meta">
-          <span>Open Wed–Sun</span>
-          <span class="experience__price">Free entry</span>
+        <figure class="experience__media">
+          <img
+            src="https://images.unsplash.com/photo-1551806235-d0c1a9f5e636?auto=format&fit=crop&w=1200&q=80"
+            alt="Inside the cellar door, loose pearls on a wooden counter"
+            loading="lazy"
+          />
+        </figure>
+        <div class="experience__body">
+          <div class="experience__meta">
+            <span>Open Wed–Sun</span>
+            <span class="experience__price">Free entry</span>
+          </div>
+          <h3>The Cellar Door</h3>
+          <p>
+            Wander in. A small showroom of loose pearls, strands and
+            jewellery designed in-house. No appointment, no pressure —
+            just a glass of riesling and the river out the window.
+          </p>
+          <a class="experience__cta" href="#visit">Visiting hours</a>
         </div>
-        <h3>The Cellar Door</h3>
-        <p>
-          Wander in. A small showroom of loose pearls, strands and
-          jewellery designed in-house. No appointment, no pressure —
-          just a glass of riesling and the river out the window.
-        </p>
-        <a class="experience__cta" href="#visit">Visiting hours</a>
       </article>
 
     </div>
   </section>
 
-  <!-- ─── Pull quote ─────────────────────────────────────────────── -->
-  <section class="pullquote">
+  <!-- ─── Pull quote (image-backed) ──────────────────────────────── -->
+  <section class="pullquote" aria-label="Press quote">
+    <img
+      class="pullquote__bg"
+      src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=2400&q=80"
+      alt=""
+      loading="lazy"
+      aria-hidden="true"
+    />
     <div class="pullquote__inner">
       <p>
-        “The closest thing to a small miracle that you can do in two hours
-        and still be back in Sydney for dinner.”
+        "The closest thing to a small miracle that you can do in two
+        hours and still be back in Sydney for dinner."
       </p>
       <cite>Gourmet Traveller</cite>
     </div>
@@ -191,34 +254,53 @@
 
   <!-- ─── Gallery ────────────────────────────────────────────────── -->
   <section class="section">
-    <p class="eyebrow">On the Water</p>
-    <h2 style="font-style: italic;">A glimpse</h2>
+    <header class="section__head">
+      <p class="eyebrow">On the Water</p>
+      <h2>A glimpse</h2>
+    </header>
     <div class="gallery" aria-label="Photographs from the farm">
-      <div class="gallery__tile gallery__tile--1" role="img" aria-label="Oyster lines on the river"></div>
-      <div class="gallery__tile gallery__tile--2" role="img" aria-label="Akoya pearls in a shell"></div>
-      <div class="gallery__tile gallery__tile--3" role="img" aria-label="Hawkesbury at dawn"></div>
-      <div class="gallery__tile gallery__tile--4" role="img" aria-label="Cellar door interior"></div>
-      <div class="gallery__tile gallery__tile--5" role="img" aria-label="The farm boat at the jetty"></div>
-      <div class="gallery__tile gallery__tile--6" role="img" aria-label="Pearl harvest in hand"></div>
-      <div class="gallery__tile gallery__tile--7" role="img" aria-label="Broken Bay at dusk"></div>
-      <div class="gallery__tile gallery__tile--8" role="img" aria-label="A finished strand of Akoya pearls"></div>
+      <figure class="gallery__tile gallery__tile--tall">
+        <img src="https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1200&q=80" alt="Loose Akoya pearls scattered on linen" loading="lazy" />
+      </figure>
+      <figure class="gallery__tile">
+        <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=900&q=80" alt="A finished strand of pearls" loading="lazy" />
+      </figure>
+      <figure class="gallery__tile">
+        <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?auto=format&fit=crop&w=900&q=80" alt="The Hawkesbury River at dawn" loading="lazy" />
+      </figure>
+      <figure class="gallery__tile gallery__tile--wide">
+        <img src="https://images.unsplash.com/photo-1473093226795-af9932fe5856?auto=format&fit=crop&w=1600&q=80" alt="A small farm boat tied at the wharf" loading="lazy" />
+      </figure>
+      <figure class="gallery__tile">
+        <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=900&q=80" alt="An oyster being opened to reveal a pearl" loading="lazy" />
+      </figure>
+      <figure class="gallery__tile">
+        <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=900&q=80" alt="The cellar door interior" loading="lazy" />
+      </figure>
     </div>
   </section>
 
-  <!-- ─── Visit panel (booking, hours, directions) ───────────────── -->
+  <!-- ─── Visit panel ────────────────────────────────────────────── -->
   <section class="visit" id="visit">
+    <img
+      class="visit__bg"
+      src="https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=2400&q=80"
+      alt=""
+      loading="lazy"
+      aria-hidden="true"
+    />
     <div class="visit__inner">
-      <div>
-        <p class="hero__eyebrow" style="opacity: 0.85;">Plan your visit</p>
+      <div class="visit__lede">
+        <p class="hero__eyebrow">Plan your visit</p>
         <h2>Come for the morning,<br/>stay for the long lunch.</h2>
-        <p style="opacity: 0.85; max-width: 28rem;">
+        <p class="visit__copy">
           Tours run daily, weather permitting. We recommend booking at
           least 48 hours ahead — boats are small and weekends fill fast.
         </p>
         <a class="visit__cta" href="https://brokenbaypearlfarm.com.au/book">Book a tour</a>
       </div>
 
-      <div>
+      <div class="visit__details">
         <dl>
           <dt>Address</dt>
           <dd>The Boat Shed<br/>Mooney Mooney Wharf<br/>NSW 2083</dd>

@@ -9,40 +9,107 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
-  <header class="page-head">
-    <a class="page-head__mark" href="/">‹ The Beachcomber Guide</a>
-    <p class="eyebrow">Local Map</p>
-    <h1>Every recommendation, in one place.</h1>
-    <p class="page-head__sub">Tap any pin for the listing, distance and a link to the page.</p>
+  <!-- ─── Topbar ──────────────────────────────────────────────────── -->
+  <header class="topbar topbar--sticky topbar--solid">
+    <span aria-hidden="true"></span>
+    <h1 class="topbar__title">Map</h1>
+    <span aria-hidden="true"></span>
   </header>
 
-  <div id="map" class="map" role="application" aria-label="Interactive map of guide recommendations"></div>
+  <main class="map-page">
+    <section class="map-wrap"
+             data-claude-section
+             data-claude-topic="map"
+             data-claude-prompt="Ask Claude what's closest">
+      <div id="map" class="map"
+           role="application"
+           aria-label="Interactive map of guide recommendations"></div>
+    </section>
 
-  <section class="map-legend">
-    <span class="legend-pip legend-pip--hotel"></span> The Beachcomber Hotel
-    <span class="legend-pip legend-pip--eat"></span> Eat &amp; drink
-    <span class="legend-pip legend-pip--do"></span> Things to do
-  </section>
+    <section class="map-key"
+             data-claude-section
+             data-claude-topic="map"
+             data-claude-prompt="Ask Claude to plan a route">
+      <header class="map-key__head">
+        <h2 class="map-key__title">22 stops on the map</h2>
+        <p class="map-key__sub">Tap a name to centre the map and open it.</p>
+        <div class="map-key__filter" role="tablist" aria-label="Filter by type">
+          <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">
+            <span class="chip__pip chip__pip--all" aria-hidden="true"></span>All
+          </button>
+          <button type="button" class="chip" data-filter="eat" aria-pressed="false">
+            <span class="chip__pip chip__pip--eat" aria-hidden="true"></span>Eat &amp; Drink
+          </button>
+          <button type="button" class="chip" data-filter="do" aria-pressed="false">
+            <span class="chip__pip chip__pip--do" aria-hidden="true"></span>Things to do
+          </button>
+        </div>
+      </header>
 
-  <footer class="guide-foot">
-    <strong>The Beachcomber Guide.</strong>
-    Tap any pin for details and a link to that listing.
-  </footer>
+      <ul class="map-key__list" id="map-stops">
+        <li class="map-stop" data-slug="hotel" data-group="hotel" data-lat="-33.27" data-lng="151.536"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--hotel" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">The Beachcomber Hotel &amp; Resort</span><span class="map-stop__meta">Toukley · At the hotel</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="beachie-bar-and-bistro" data-group="eat" data-lat="-33.27" data-lng="151.536"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Beachie Bar and Bistro</span><span class="map-stop__meta">Toukley · At the hotel</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="pelicans-restaurant" data-group="eat" data-lat="-33.27" data-lng="151.536"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Pelicans Restaurant</span><span class="map-stop__meta">Toukley · At the hotel</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="mangkorn-massage" data-group="do" data-lat="-33.269" data-lng="151.536"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Mangkorn Massage</span><span class="map-stop__meta">Toukley · 5 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="mexicoast-cantina" data-group="eat" data-lat="-33.2693" data-lng="151.5365"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">MexiCoast Cantina</span><span class="map-stop__meta">Toukley · 5 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="central-coast-aero-club" data-group="do" data-lat="-33.2244" data-lng="151.4364"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Central Coast Aero Club</span><span class="map-stop__meta">Warnervale · 10 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="dunes-by-dish" data-group="eat" data-lat="-33.2826" data-lng="151.5751"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Dunes by Dish</span><span class="map-stop__meta">Norah Head · 10 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="wildfire-day-spa" data-group="do" data-lat="-33.2828" data-lng="151.4209"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Wildfire Day Spa</span><span class="map-stop__meta">Wyong · 10 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="wyong-milk-factory" data-group="eat" data-lat="-33.282" data-lng="151.4215"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Wyong Milk Factory</span><span class="map-stop__meta">Wyong · 10 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="bateau-tuggerah" data-group="do" data-lat="-33.31" data-lng="151.45"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Bateau Tuggerah</span><span class="map-stop__meta">Tuggerah Lake · 15 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="cue-and-crew" data-group="eat" data-lat="-33.3035" data-lng="151.4361"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Cue &amp; Crew</span><span class="map-stop__meta">Tuggerah · 15 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="plain-janes-store" data-group="do" data-lat="-33.3548" data-lng="151.4925"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Plain Janes Store</span><span class="map-stop__meta">Long Jetty · 15 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="the-savoy-bar-and-music" data-group="eat" data-lat="-33.3554" data-lng="151.4912"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">The Savoy Bar &amp; Music</span><span class="map-stop__meta">Long Jetty · 15 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="amazement-farm-fun-park" data-group="do" data-lat="-33.264" data-lng="151.358"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Amazement Farm &amp; Fun Park</span><span class="map-stop__meta">Wyong Creek · 25 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="iris-lodge-alpacas" data-group="do" data-lat="-33.216" data-lng="151.3635"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Iris Lodge Alpacas</span><span class="map-stop__meta">Jilliby · 25 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="distillery-botanica" data-group="eat" data-lat="-33.4346" data-lng="151.3895"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Distillery Botanica</span><span class="map-stop__meta">Erina · 30 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="ken-duncan-gallery" data-group="do" data-lat="-33.4347" data-lng="151.4012"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Ken Duncan Gallery</span><span class="map-stop__meta">Erina Heights · 30 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="treetops-adventure" data-group="do" data-lat="-33.355" data-lng="151.358"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Treetops Adventure</span><span class="map-stop__meta">Wyong Creek · 30 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="chocolate-factory-gosford" data-group="eat" data-lat="-33.4274" data-lng="151.3286"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--eat" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Chocolate Factory Gosford</span><span class="map-stop__meta">West Gosford · 35 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="australian-reptile-park" data-group="do" data-lat="-33.376" data-lng="151.273"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Australian Reptile Park</span><span class="map-stop__meta">Somersby · 40 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="coastal-hatters" data-group="do" data-lat="-33.5108" data-lng="151.3415"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Coastal Hatters</span><span class="map-stop__meta">Ettalong Beach · 45 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+        <li class="map-stop" data-slug="broken-bay-pearl-farm" data-group="do" data-lat="-33.53" data-lng="151.19"><button type="button" class="map-stop__btn"><span class="map-stop__pip map-stop__pip--do" aria-hidden="true"></span><span class="map-stop__body"><span class="map-stop__name">Broken Bay Pearl Farm</span><span class="map-stop__meta">Mooney Mooney · 50 min away</span></span><span class="map-stop__arrow" aria-hidden="true">›</span></button></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
+        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
+        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        <a href="/hotel/">Hotel</a>
+        <a href="/eat-and-drink/">Eat</a>
+        <a href="/things-to-do/">Do</a>
+        <a href="/map/" aria-current="page">Map</a>
+      </nav>
+    </div>
+  </aside>
+
+  <script src="/assets/js/claude.js" defer></script>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
     const HOTEL = {"name": "The Beachcomber Hotel & Resort", "lat": -33.27, "lng": 151.536};
     const SPOTS = [{"slug": "mexicoast-cantina", "name": "MexiCoast Cantina", "category": "Mexican Restaurant", "suburb": "Toukley", "distance": 5, "lat": -33.2693, "lng": 151.5365, "group": "eat-and-drink"}, {"slug": "mangkorn-massage", "name": "Mangkorn Massage", "category": "Thai Massage", "suburb": "Toukley", "distance": 5, "lat": -33.269, "lng": 151.536, "group": "things-to-do"}, {"slug": "dunes-by-dish", "name": "Dunes by Dish", "category": "Beachfront Restaurant", "suburb": "Norah Head", "distance": 10, "lat": -33.2826, "lng": 151.5751, "group": "eat-and-drink"}, {"slug": "the-savoy-bar-and-music", "name": "The Savoy Bar & Music", "category": "Live Music Bar", "suburb": "Long Jetty", "distance": 15, "lat": -33.3554, "lng": 151.4912, "group": "eat-and-drink"}, {"slug": "plain-janes-store", "name": "Plain Janes Store", "category": "Fashion Boutique", "suburb": "Long Jetty", "distance": 15, "lat": -33.3548, "lng": 151.4925, "group": "things-to-do"}, {"slug": "cue-and-crew", "name": "Cue & Crew", "category": "American BBQ Restaurant", "suburb": "Tuggerah", "distance": 15, "lat": -33.3035, "lng": 151.4361, "group": "eat-and-drink"}, {"slug": "bateau-tuggerah", "name": "Bateau Tuggerah", "category": "Boat Hire", "suburb": "Tuggerah Lake", "distance": 15, "lat": -33.31, "lng": 151.45, "group": "things-to-do"}, {"slug": "wildfire-day-spa", "name": "Wildfire Day Spa", "category": "Day Spa", "suburb": "Wyong", "distance": 10, "lat": -33.2828, "lng": 151.4209, "group": "things-to-do"}, {"slug": "wyong-milk-factory", "name": "Wyong Milk Factory", "category": "Dining & Events Precinct", "suburb": "Wyong", "distance": 10, "lat": -33.282, "lng": 151.4215, "group": "eat-and-drink"}, {"slug": "central-coast-aero-club", "name": "Central Coast Aero Club", "category": "Scenic Flights & Flight School", "suburb": "Warnervale", "distance": 10, "lat": -33.2244, "lng": 151.4364, "group": "things-to-do"}, {"slug": "amazement-farm-fun-park", "name": "Amazement Farm & Fun Park", "category": "Farm & Fun Park", "suburb": "Wyong Creek", "distance": 25, "lat": -33.264, "lng": 151.358, "group": "things-to-do"}, {"slug": "iris-lodge-alpacas", "name": "Iris Lodge Alpacas", "category": "Alpaca Farm Experience", "suburb": "Jilliby", "distance": 25, "lat": -33.216, "lng": 151.3635, "group": "things-to-do"}, {"slug": "treetops-adventure", "name": "Treetops Adventure", "category": "High Ropes Adventure", "suburb": "Wyong Creek", "distance": 30, "lat": -33.355, "lng": 151.358, "group": "things-to-do"}, {"slug": "ken-duncan-gallery", "name": "Ken Duncan Gallery", "category": "Photography Gallery", "suburb": "Erina Heights", "distance": 30, "lat": -33.4347, "lng": 151.4012, "group": "things-to-do"}, {"slug": "distillery-botanica", "name": "Distillery Botanica", "category": "Gin Distillery & Bar", "suburb": "Erina", "distance": 30, "lat": -33.4346, "lng": 151.3895, "group": "eat-and-drink"}, {"slug": "chocolate-factory-gosford", "name": "Chocolate Factory Gosford", "category": "Chocolate & Nougat Factory", "suburb": "West Gosford", "distance": 35, "lat": -33.4274, "lng": 151.3286, "group": "eat-and-drink"}, {"slug": "australian-reptile-park", "name": "Australian Reptile Park", "category": "Wildlife Park", "suburb": "Somersby", "distance": 40, "lat": -33.376, "lng": 151.273, "group": "things-to-do"}, {"slug": "coastal-hatters", "name": "Coastal Hatters", "category": "Specialty Hat Shop", "suburb": "Ettalong Beach", "distance": 45, "lat": -33.5108, "lng": 151.3415, "group": "things-to-do"}, {"slug": "broken-bay-pearl-farm", "name": "Broken Bay Pearl Farm", "category": "Pearl Farm & Tours", "suburb": "Mooney Mooney", "distance": 50, "lat": -33.53, "lng": 151.19, "group": "things-to-do"}, {"slug": "pelicans-restaurant", "name": "Pelicans Restaurant", "category": "Hotel Restaurant", "suburb": "Toukley", "distance": 0, "lat": -33.27, "lng": 151.536, "group": "eat-and-drink"}, {"slug": "beachie-bar-and-bistro", "name": "Beachie Bar and Bistro", "category": "Bistro & Bar", "suburb": "Toukley", "distance": 0, "lat": -33.27, "lng": 151.536, "group": "eat-and-drink"}];
 
-    const map = L.map('map', { scrollWheelZoom: true, zoomControl: true });
+    const map = L.map('map', { scrollWheelZoom: false, zoomControl: true });
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -50,36 +117,80 @@
     }).addTo(map);
 
     function pinIcon(kind) {
-      const colour = kind === 'hotel' ? '#111113' : (kind === 'eat' ? '#B0451F' : '#1F4D3F');
+      const size = kind === 'hotel' ? 30 : 24;
+      const half = size / 2;
       return L.divIcon({
         className: 'map-pin map-pin--' + kind,
-        html: '<span class="map-pin__dot" style="background:' + colour + '"></span>',
-        iconSize: [22, 22],
-        iconAnchor: [11, 11],
-        popupAnchor: [0, -10],
+        html: '<span class="map-pin__dot"></span>',
+        iconSize: [size, size],
+        iconAnchor: [half, half],
+        popupAnchor: [0, -half + 2]
       });
     }
 
+    function popupHtml(kind, name, meta, href, label) {
+      const m = meta ? '<span class="map-pop__meta">' + meta + '</span>' : '';
+      return (
+        '<div class="map-pop">' +
+        '<span class="map-pop__pip map-pop__pip--' + kind + '" aria-hidden="true"></span>' +
+        '<strong>' + name + '</strong>' +
+        m +
+        '<a href="' + href + '">' + label + '</a>' +
+        '</div>'
+      );
+    }
+
+    const markersBySlug = {};
+
     const hotelMarker = L.marker([HOTEL.lat, HOTEL.lng], { icon: pinIcon('hotel') }).addTo(map);
-    hotelMarker.bindPopup('<div class="map-pop"><span class="map-pop__cat">The Hotel</span><strong>' + HOTEL.name + '</strong><a href="/hotel/">View hotel info ›</a></div>');
+    hotelMarker.bindPopup(popupHtml('hotel', HOTEL.name, 'The hotel · Toukley', '/hotel/', 'Open hotel page ›'));
+    markersBySlug['hotel'] = hotelMarker;
 
     const bounds = [[HOTEL.lat, HOTEL.lng]];
 
     SPOTS.forEach(s => {
       const kind = s.group === 'eat-and-drink' ? 'eat' : 'do';
       const m = L.marker([s.lat, s.lng], { icon: pinIcon(kind) }).addTo(map);
-      m.bindPopup(
-        '<div class="map-pop">' +
-        '<span class="map-pop__cat">' + s.category + '</span>' +
-        '<strong>' + s.name + '</strong>' +
-        '<span class="map-pop__meta">' + s.suburb + ' · ' + s.distance + ' min</span>' +
-        '<a href="/' + s.slug + '/">Open page ›</a>' +
-        '</div>'
-      );
+      const distLabel = s.distance === 0 ? 'At the hotel' : (s.distance + ' min from the hotel');
+      m.bindPopup(popupHtml(kind, s.name, s.suburb + ' · ' + distLabel, '/' + s.slug + '/', 'Open page ›'));
+      markersBySlug[s.slug] = m;
       bounds.push([s.lat, s.lng]);
     });
 
-    map.fitBounds(bounds, { padding: [40, 40] });
+    map.fitBounds(bounds, { padding: [40, 30] });
+
+    /* List item taps: pan map, open popup, smooth-scroll the map into view. */
+    document.querySelectorAll('.map-stop__btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const li = btn.closest('.map-stop');
+        const lat = parseFloat(li.dataset.lat);
+        const lng = parseFloat(li.dataset.lng);
+        const slug = li.dataset.slug;
+        const marker = markersBySlug[slug];
+        document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const targetZoom = Math.max(map.getZoom(), 14);
+        map.flyTo([lat, lng], targetZoom, { duration: 0.55 });
+        if (marker) setTimeout(() => marker.openPopup(), 580);
+      });
+    });
+
+    /* Filter chips: hide list items by group. Pins on the map stay so the
+       spatial layout stays consistent. */
+    const chips = document.querySelectorAll('[data-filter]');
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const f = chip.dataset.filter;
+        chips.forEach(c => {
+          const on = c === chip;
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+          c.classList.toggle('is-active', on);
+        });
+        document.querySelectorAll('.map-stop').forEach(li => {
+          const matches = f === 'all' || li.dataset.group === f;
+          li.hidden = !matches;
+        });
+      });
+    });
   </script>
 
 </body>

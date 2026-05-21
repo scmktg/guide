@@ -13,100 +13,131 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/pelicans-restaurant.css" />
 </head>
 <body>
 
-  <!-- ─── Hero ───────────────────────────────────────────────────── -->
-  <section class="hero">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">Beachcomber Guide</a>
-      <a href="/eat-and-drink/" class="guide-bar__back">‹ Eat & Drink</a>
-    </header>
+  <!-- ─── Topbar ──────────────────────────────────────────────────── -->
+  <header class="topbar topbar--fixed">
+    <a class="topbar__back" href="/eat-and-drink/" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></a>
+    <h1 class="topbar__title">Pelicans Restaurant</h1>
+    <span aria-hidden="true"></span>
+  </header>
 
+  <!-- ─── Hero ───────────────────────────────────────────────────── -->
+  <section class="hero"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="Pelicans Restaurant"
+           data-claude-prompt="Ask Claude about Pelicans Restaurant"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;thu&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;fri&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sat&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sun&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
-      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
+    <span class="status" data-status-pill></span>
+
     <div class="hero__inner">
-      <div class="hero__tags rise rise--1">
-        <span class="hero__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M4 12c2-4 5-6 8-6s6 2 8 6c-2 4-5 6-8 6s-6-2-8-6z"/></svg>Hotel Restaurant</span>
-        <span class="hero__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>At the hotel</span>
-      </div>
+      <p class="hero__eyebrow rise rise--1">Toukley · At the hotel</p>
       <h1 class="rise rise--2">Pelicans<br/>Restaurant</h1>
       <p class="hero__sub rise rise--3">A breezy, seafood-led dining room at The Beachcomber where coastal flavours meet a relaxed, light-filled Hamptons setting beside Tuggerah Lake.</p>
     </div>
   </section>
 
-  <!-- ─── Primary CTAs ───────────────────────────────────────────── -->
+  <!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
     <a class="btn" href="https://www.quandoo.com.au/place/pelicans-at-the-beachcomber-hotel-92128">Book</a>
-    <a class="btn btn--ghost" href="https://beachcomberhotelandresort.com.au/eat-drink/">Visit website</a>
   </div>
 
-  <div class="section-meta">
-    <span class="section-meta__num">01.</span>
-    <span class="section-meta__label">About</span>
-  </div>
-  <section class="description">
+
+  <section class="description"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="Pelicans Restaurant"
+           data-claude-prompt="Ask Claude about the experience at Pelicans Restaurant">
     <h2>Coastal-modern dining at The Beachie.</h2>
     <p>Pelicans Restaurant is the signature dining room at The Beachcomber Hotel &amp; Resort, set in an airy, light-filled space with timber floors, cane pendants and soft mint-green banquettes. The menu leans into the lake and ocean on its doorstep, with a seafood-inspired offering balanced by modern Australian favourites built around quality local produce.</p>
     <p>Open for daily buffet breakfast and an elegant evening service, Pelicans is equally at home for a long, leisurely meal with a glass of crisp white or a quiet dinner before retiring upstairs. Service is warm and unhurried, the wine list is thoughtfully chosen, and the atmosphere walks the line beautifully between special-occasion and easy-going coastal dining.</p>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">02.</span>
-    <span class="section-meta__label">For Beachcomber guests</span>
-  </div>
-  <aside class="offer" aria-label="Offer for Guide readers">
+  <aside class="offer"
+         aria-label="Offer for Guide readers"
+         data-claude-section
+         data-claude-topic="perk"
+         data-claude-name="Pelicans Restaurant"
+         data-claude-prompt="Ask Claude how to redeem this perk">
     <span class="offer__label">Guest perk</span>
     <h3>A complimentary glass of house wine with any main.</h3>
     <p>Mention the Beachcomber Guide when you book and enjoy a complimentary glass of house red, white or sparkling with any main. One drink per diner, dine-in only.</p>
     <span class="offer__code">GUIDE / PELICAN</span>
   </aside>
 
-  <div class="section-meta">
-    <span class="section-meta__num">03.</span>
-    <span class="section-meta__label">Visit &amp; connect</span>
-  </div>
-  <!-- ─── Contact + social ───────────────────────────────────────── -->
-  <section class="contacts" aria-label="Contact and social">
-    <div class="contacts__grid">
-      <a class="contact-tile" href="tel:+61243172845" aria-label="Call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 4h3l2 5-2.5 1.5a12 12 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span class="contact-tile__label">Call</span></a>
-      <a class="contact-tile" href="mailto:hello@beachcomberhotelandresort.com.au" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="contact-tile__label">Email</span></a>
-      <a class="contact-tile" href="https://maps.google.com/?q=Pelicans+Restaurant+200+Main+Road%2C+Toukley+NSW+2263" aria-label="Directions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span class="contact-tile__label">Directions</span></a>
-      <a class="contact-tile" href="https://www.instagram.com/thebeachie/" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg><span class="contact-tile__label">Instagram</span></a>
-      <a class="contact-tile" href="https://www.facebook.com/TheBeachie/" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M15 8h2.5V5H15a3.5 3.5 0 0 0-3.5 3.5V11H9v3h2.5v7h3v-7H17l.5-3h-3V8.5A.5.5 0 0 1 15 8z"/></svg><span class="contact-tile__label">Facebook</span></a>
-      <a class="contact-tile" href="https://beachcomberhotelandresort.com.au/eat-drink/" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="contact-tile__label">Website</span></a>
-    </div>
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="Pelicans Restaurant"
+           data-claude-prompt="Ask Claude about hours at Pelicans Restaurant"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;thu&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;fri&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sat&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sun&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Dinner service Wed-Sun. Bookings via Quandoo.</p>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">04.</span>
-    <span class="section-meta__label">From Toukley.</span>
-  </div>
-  <!-- ─── Gallery ────────────────────────────────────────────────── -->
-  <section class="gallery-section" aria-label="Gallery">
+  <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Pelicans Restaurant" data-claude-prompt="Ask Claude about getting to Pelicans Restaurant">
+    <span class="visit-row__label">Visit</span>
+    <a href="tel:+61243172845">Call</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="mailto:hello@beachcomberhotelandresort.com.au">Email</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://maps.google.com/?q=Pelicans+Restaurant+200+Main+Road%2C+Toukley+NSW+2263">Directions</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://beachcomberhotelandresort.com.au/eat-drink/">Website</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.instagram.com/thebeachie/">Instagram</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.facebook.com/TheBeachie/">Facebook</a>
+  </section>
+
+  <section class="gallery-section"
+           aria-label="Gallery"
+           data-claude-section
+           data-claude-topic="gallery"
+           data-claude-name="Pelicans Restaurant"
+           data-claude-prompt="Ask Claude about visiting Pelicans Restaurant">
+    <header class="gallery-section__head">
+      <h2>A look around.</h2>
+      <span class="gallery-section__head__hint">Pelicans Restaurant</span>
+    </header>
     <div class="gallery">
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
     </div>
   </section>
 
-  <!-- ─── Guide foot ─────────────────────────────────────────────── -->
-  <footer class="guide-foot">
-    <strong>You found us through The Beachcomber Guide.</strong>
-    A curated companion to the Central Coast, placed in every room. <a href="/">See the full guide</a>.
-  </footer>
+  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
+        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
+        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        <a href="/hotel/">Hotel</a>
+        <a href="/eat-and-drink/" aria-current="page">Eat</a>
+        <a href="/things-to-do/">Do</a>
+        <a href="/map/">Map</a>
+      </nav>
+    </div>
+  </aside>
+
+  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

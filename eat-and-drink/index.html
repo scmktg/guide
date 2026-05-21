@@ -9,107 +9,147 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
-  <header class="page-head">
-    <a class="page-head__mark" href="/">‹ The Beachcomber Guide</a>
-    <p class="eyebrow">The Guide</p>
+  <!-- ─── Topbar ──────────────────────────────────────────────────── -->
+  <header class="topbar topbar--sticky topbar--solid">
+    <span aria-hidden="true"></span>
+    <h1 class="topbar__title">Eat &amp; Drink</h1>
+    <button type="button" class="topbar__action" data-filter-open aria-label="Filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18l-7 9v6l-4 2v-8L3 5z"/></svg></button>
+  </header>
+
+  <header class="page-head"
+          data-claude-section
+          data-claude-topic="eat-listings"
+          data-claude-prompt="Ask Claude where to eat tonight">
     <h1>Eat &amp; Drink — within easy reach.</h1>
     <p class="page-head__sub">From the on-site bar and bistro to long lunches by the water — every place we&#x27;d send a guest, by drive time from the hotel.</p>
   </header>
 
-  <section class="list">
+  <section class="list"
+           data-claude-section
+           data-claude-topic="eat-listings"
+           data-claude-prompt="Ask Claude to pick one for you">
     <div class="list__grid">
-      <a class="list-card" href="/pelicans-restaurant/">
+      <a class="list-card" href="/pelicans-restaurant/"
+       data-filterable
+       data-distance="0" data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;thu&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;fri&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sat&quot;:[[&quot;18:00&quot;,&quot;21:30&quot;]],&quot;sun&quot;:[[&quot;18:00&quot;,&quot;21:00&quot;]]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">Hotel Restaurant</span>
           <h3>Pelicans Restaurant</h3>
           <p class="list-card__meta">Toukley · At the hotel</p>
         </div>
       </a>
-      <a class="list-card" href="/beachie-bar-and-bistro/">
+      <a class="list-card" href="/beachie-bar-and-bistro/"
+       data-filterable
+       data-distance="0" data-hours="{&quot;mon&quot;:[[&quot;08:00&quot;,&quot;21:00&quot;]],&quot;tue&quot;:[[&quot;08:00&quot;,&quot;21:00&quot;]],&quot;wed&quot;:[[&quot;08:00&quot;,&quot;21:00&quot;]],&quot;thu&quot;:[[&quot;08:00&quot;,&quot;21:00&quot;]],&quot;fri&quot;:[[&quot;08:00&quot;,&quot;22:00&quot;]],&quot;sat&quot;:[[&quot;08:00&quot;,&quot;22:00&quot;]],&quot;sun&quot;:[[&quot;08:00&quot;,&quot;21:00&quot;]]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">Bistro &amp; Bar</span>
           <h3>Beachie Bar and Bistro</h3>
           <p class="list-card__meta">Toukley · At the hotel</p>
         </div>
       </a>
-      <a class="list-card" href="/mexicoast-cantina/">
+      <a class="list-card" href="/mexicoast-cantina/"
+       data-filterable
+       data-distance="5" data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;wed&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;thu&quot;:[[&quot;17:00&quot;,&quot;20:30&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sun&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">Mexican Restaurant</span>
           <h3>MexiCoast Cantina</h3>
           <p class="list-card__meta">Toukley · 5 min from the hotel</p>
         </div>
       </a>
-      <a class="list-card" href="/dunes-by-dish/">
+      <a class="list-card" href="/dunes-by-dish/"
+       data-filterable
+       data-distance="10" data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;16:00&quot;,&quot;20:00&quot;]],&quot;thu&quot;:[[&quot;16:00&quot;,&quot;20:00&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;20:30&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;20:30&quot;]],&quot;sun&quot;:[[&quot;12:00&quot;,&quot;20:00&quot;]]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">Beachfront Restaurant</span>
           <h3>Dunes by Dish</h3>
           <p class="list-card__meta">Norah Head · 10 min from the hotel</p>
         </div>
       </a>
-      <a class="list-card" href="/wyong-milk-factory/">
+      <a class="list-card" href="/wyong-milk-factory/"
+       data-filterable
+       data-distance="10" data-hours="{&quot;mon&quot;:[[&quot;07:00&quot;,&quot;16:00&quot;]],&quot;tue&quot;:[[&quot;07:00&quot;,&quot;16:00&quot;]],&quot;wed&quot;:[[&quot;07:00&quot;,&quot;16:00&quot;]],&quot;thu&quot;:[[&quot;07:00&quot;,&quot;16:00&quot;]],&quot;fri&quot;:[[&quot;07:00&quot;,&quot;16:00&quot;]],&quot;sat&quot;:[[&quot;08:00&quot;,&quot;16:00&quot;]],&quot;sun&quot;:[[&quot;08:00&quot;,&quot;16:00&quot;]]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">Dining &amp; Events Precinct</span>
           <h3>Wyong Milk Factory</h3>
           <p class="list-card__meta">Wyong · 10 min from the hotel</p>
         </div>
       </a>
-      <a class="list-card" href="/the-savoy-bar-and-music/">
+      <a class="list-card" href="/the-savoy-bar-and-music/"
+       data-filterable
+       data-distance="15" data-hours="{&quot;mon&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;tue&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;wed&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;thu&quot;:[[&quot;15:00&quot;,&quot;24:00&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sun&quot;:[[&quot;12:00&quot;,&quot;22:00&quot;]]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">Live Music Bar</span>
           <h3>The Savoy Bar &amp; Music</h3>
           <p class="list-card__meta">Long Jetty · 15 min from the hotel</p>
         </div>
       </a>
-      <a class="list-card" href="/cue-and-crew/">
+      <a class="list-card" href="/cue-and-crew/"
+       data-filterable
+       data-distance="15" data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[[&quot;10:00&quot;,&quot;14:00&quot;]],&quot;wed&quot;:[[&quot;10:00&quot;,&quot;14:00&quot;],[&quot;18:00&quot;,&quot;20:00&quot;]],&quot;thu&quot;:[[&quot;10:00&quot;,&quot;14:00&quot;]],&quot;fri&quot;:[[&quot;10:00&quot;,&quot;14:00&quot;],[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;sat&quot;:[[&quot;10:00&quot;,&quot;14:00&quot;],[&quot;18:00&quot;,&quot;21:00&quot;]],&quot;sun&quot;:[]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">American BBQ Restaurant</span>
           <h3>Cue &amp; Crew</h3>
           <p class="list-card__meta">Tuggerah · 15 min from the hotel</p>
         </div>
       </a>
-      <a class="list-card" href="/distillery-botanica/">
+      <a class="list-card" href="/distillery-botanica/"
+       data-filterable
+       data-distance="30" data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;thu&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;fri&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;sat&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]],&quot;sun&quot;:[[&quot;11:00&quot;,&quot;16:00&quot;]]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">Gin Distillery &amp; Bar</span>
           <h3>Distillery Botanica</h3>
           <p class="list-card__meta">Erina · 30 min from the hotel</p>
         </div>
       </a>
-      <a class="list-card" href="/chocolate-factory-gosford/">
+      <a class="list-card" href="/chocolate-factory-gosford/"
+       data-filterable
+       data-distance="35" data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[],&quot;wed&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;thu&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;fri&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;sat&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]],&quot;sun&quot;:[[&quot;09:00&quot;,&quot;16:00&quot;]]}">
         <figure class="list-card__media">
-          <img src="https://images.unsplash.com/photo-1481391319762-47dff72954d9?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1481391319762-47dff72954d9?auto=format&fit=crop&w=2400&q=80" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">Chocolate &amp; Nougat Factory</span>
           <h3>Chocolate Factory Gosford</h3>
@@ -117,12 +157,31 @@
         </div>
       </a>
     </div>
+    <p class="list__empty" data-no-matches hidden>
+      Nothing matches those filters. Try widening the drive time or turn off the open-now filter.
+    </p>
   </section>
 
-  <footer class="guide-foot">
-    <strong>The Beachcomber Guide.</strong>
-    A curated companion to the hotel and the Central Coast around it. <a href="/map/">See the map</a>.
-  </footer>
+  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
+        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
+        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        <a href="/hotel/">Hotel</a>
+        <a href="/eat-and-drink/" aria-current="page">Eat</a>
+        <a href="/things-to-do/">Do</a>
+        <a href="/map/">Map</a>
+      </nav>
+    </div>
+  </aside>
+
+  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

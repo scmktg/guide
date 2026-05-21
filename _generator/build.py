@@ -162,52 +162,130 @@ ICON_FORK = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 ICON_COMPASS = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" stroke="none"/></svg>"""
 ICON_MAP = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v16M15 6v16"/></svg>"""
 
-# ── Contact tiles + CTA helpers ─────────────────────────────────────────
+# ── Topbar (back chevron + centered title; transparent over hero) ──────
 
-def render_contact_tiles(adv: dict) -> str:
-    tiles: list[str] = []
+TOPBAR_CHEVRON_SVG = (
+    '<svg viewBox="0 0 24 24" aria-hidden="true">'
+    '<path d="M15 6l-6 6 6 6"/></svg>'
+)
+
+TOPBAR_FILTER_BUTTON = (
+    '<button type="button" class="topbar__action" data-filter-open aria-label="Filter">'
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    '<path d="M3 5h18l-7 9v6l-4 2v-8L3 5z"/>'
+    '</svg></button>'
+)
+
+def topbar(title: str, back_href: str | None = None, over_hero: bool = False,
+           right: str | None = None) -> str:
+    """Render the sticky/fixed topbar.
+    - `title`: centered page title (visible only when solid)
+    - `back_href`: optional URL for the back chevron on the left
+    - `over_hero`: True for pages with a hero photo (topbar floats over it,
+      starts transparent and turns solid as the user scrolls past the hero)
+    - `right`: optional HTML for the right slot (eg. a filter button).
+    """
+    cls = "topbar topbar--fixed" if over_hero else "topbar topbar--sticky topbar--solid"
+    if back_href:
+        left = (
+            f'<a class="topbar__back" href="{back_href}" aria-label="Back">'
+            f'{TOPBAR_CHEVRON_SVG}</a>'
+        )
+    else:
+        left = '<span aria-hidden="true"></span>'
+    rt = right if right else '<span aria-hidden="true"></span>'
+    return f"""<!-- ─── Topbar ──────────────────────────────────────────────────── -->
+  <header class="{cls}">
+    {left}
+    <h1 class="topbar__title">{html.escape(title)}</h1>
+    {rt}
+  </header>"""
+
+# ── The dock (unified Claude prompt + nav) ─────────────────────────────
+
+DOCK_MARK_SVG = (
+    '<svg viewBox="0 0 24 24" aria-hidden="true">'
+    '<path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" '
+    'stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/>'
+    '</svg>'
+)
+DOCK_ARROW_SVG = (
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+    'stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">'
+    '<path d="M9 6l6 6-6 6"/></svg>'
+)
+
+def dock(active: str = "", initial_prompt: str = "Ask Claude about the guide") -> str:
+    """Unified bottom dock — Claude prompt row on top, nav row beneath.
+    `active` is one of: 'hotel', 'eat', 'do', 'map' (or '' for home)."""
+    def item(href: str, key: str, label: str) -> str:
+        ac = ' aria-current="page"' if active == key else ""
+        return f'<a href="{href}"{ac}>{label}</a>'
+    return f"""<!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true">{DOCK_MARK_SVG}</span>
+        <span class="dock__claude-prompt" data-bar-prompt>{html.escape(initial_prompt)}</span>
+        <span class="dock__claude-arrow" aria-hidden="true">{DOCK_ARROW_SVG}</span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        {item('/hotel/', 'hotel', 'Hotel')}
+        {item('/eat-and-drink/', 'eat', 'Eat')}
+        {item('/things-to-do/', 'do', 'Do')}
+        {item('/map/', 'map', 'Map')}
+      </nav>
+    </div>
+  </aside>"""
+
+# ── Visit row (text-only contact line) + CTA helpers ───────────────────
+
+def render_visit_row(adv: dict) -> str:
+    """Text-only row of contact + social links, separated by middle dots."""
+    items: list[str] = []
     if adv.get("phone"):
-        tiles.append(f"""<a class="contact-tile" href="{tel_href(adv['phone'])}" aria-label="Call">{ICON_PHONE}<span class="contact-tile__label">Call</span></a>""")
+        items.append(f'<a href="{tel_href(adv["phone"])}">Call</a>')
     if adv.get("email"):
-        tiles.append(f"""<a class="contact-tile" href="mailto:{adv['email']}" aria-label="Email">{ICON_EMAIL}<span class="contact-tile__label">Email</span></a>""")
+        items.append(f'<a href="mailto:{adv["email"]}">Email</a>')
     if adv.get("address"):
-        tiles.append(f"""<a class="contact-tile" href="{directions_url(adv['name'], adv['address'])}" aria-label="Directions">{ICON_PIN_SMALL}<span class="contact-tile__label">Directions</span></a>""")
-    if adv.get("instagram"):
-        tiles.append(f"""<a class="contact-tile" href="{adv['instagram']}" aria-label="Instagram">{ICON_INSTAGRAM}<span class="contact-tile__label">Instagram</span></a>""")
-    if adv.get("facebook"):
-        tiles.append(f"""<a class="contact-tile" href="{adv['facebook']}" aria-label="Facebook">{ICON_FACEBOOK}<span class="contact-tile__label">Facebook</span></a>""")
+        items.append(f'<a href="{directions_url(adv["name"], adv["address"])}">Directions</a>')
     if adv.get("website"):
-        tiles.append(f"""<a class="contact-tile" href="{adv['website']}" aria-label="Website">{ICON_WEBSITE}<span class="contact-tile__label">Website</span></a>""")
-    return "\n      ".join(tiles)
+        items.append(f'<a href="{adv["website"]}">Website</a>')
+    if adv.get("instagram"):
+        items.append(f'<a href="{adv["instagram"]}">Instagram</a>')
+    if adv.get("facebook"):
+        items.append(f'<a href="{adv["facebook"]}">Facebook</a>')
+    if not items:
+        return ""
+    sep = '<span class="visit-row__sep" aria-hidden="true">·</span>'
+    inner = sep.join(items)
+    return (
+        '<section class="visit-row" aria-label="Visit and contact" '
+        'data-claude-section data-claude-topic="visit" '
+        f'data-claude-name="{html.escape(adv["name"])}" '
+        f'data-claude-prompt="Ask Claude about getting to {html.escape(adv["name"])}">'
+        '\n    <span class="visit-row__label">Visit</span>\n    '
+        + inner +
+        "\n  </section>"
+    )
 
 def render_cta_block(adv: dict) -> str:
+    """Single primary CTA where possible; ghost fallback for website."""
     buttons = []
     if adv.get("booking_url"):
         buttons.append(f'<a class="btn" href="{adv["booking_url"]}">Book</a>')
-        if adv.get("website"):
-            buttons.append(f'<a class="btn btn--ghost" href="{adv["website"]}">Visit website</a>')
     elif adv.get("website"):
         buttons.append(f'<a class="btn" href="{adv["website"]}">Visit website</a>')
     elif adv.get("address"):
         buttons.append(f'<a class="btn" href="{directions_url(adv["name"], adv["address"])}">Get directions</a>')
     if not buttons:
         return ""
-    return f"""<!-- ─── Primary CTAs ───────────────────────────────────────────── -->
+    return f"""<!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
-    {chr(10).join('    ' + b for b in buttons).strip()}
+    {buttons[0]}
   </div>
-"""
-
-def render_contacts_block(adv: dict) -> str:
-    tiles = render_contact_tiles(adv)
-    if not tiles.strip():
-        return ""
-    return f"""<!-- ─── Contact + social ───────────────────────────────────────── -->
-  <section class="contacts" aria-label="Contact and social">
-    <div class="contacts__grid">
-      {tiles}
-    </div>
-  </section>
 """
 
 # ── Business page template ──────────────────────────────────────────────
@@ -227,84 +305,91 @@ PAGE_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/{slug}.css" />
 </head>
 <body>
 
-  <!-- ─── Hero ───────────────────────────────────────────────────── -->
-  <section class="hero">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">Beachcomber Guide</a>
-      <a href="/{group_slug}/" class="guide-bar__back">‹ {group_label}</a>
-    </header>
+  {topbar}
 
+  <!-- ─── Hero ───────────────────────────────────────────────────── -->
+  <section class="hero"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="{name}"
+           data-claude-prompt="Ask Claude about {name}"
+           {hours_attr}>
     <picture class="hero__art" aria-hidden="true">
-      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
+      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
+    <span class="status" data-status-pill></span>
+
     <div class="hero__inner">
-      <div class="hero__tags rise rise--1">
-        <span class="hero__tag">{icon_category}{category}</span>
-        <span class="hero__tag">{icon_pin}{distance_label}</span>
-      </div>
+      <p class="hero__eyebrow rise rise--1">{suburb_line}</p>
       <h1 class="rise rise--2">{hero_name_html}</h1>
       <p class="hero__sub rise rise--3">{hero_subtitle}</p>
     </div>
   </section>
 
   {cta_block}
-  <div class="section-meta">
-    <span class="section-meta__num">01.</span>
-    <span class="section-meta__label">About</span>
-  </div>
-  <section class="description">
+
+  <section class="description"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="{name}"
+           data-claude-prompt="Ask Claude about the experience at {name}">
     <h2>{description_headline}</h2>
     <p>{description_p1}</p>
     <p>{description_p2}</p>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">02.</span>
-    <span class="section-meta__label">For Beachcomber guests</span>
-  </div>
-  <aside class="offer" aria-label="Offer for Guide readers">
+  <aside class="offer"
+         aria-label="Offer for Guide readers"
+         data-claude-section
+         data-claude-topic="perk"
+         data-claude-name="{name}"
+         data-claude-prompt="Ask Claude how to redeem this perk">
     <span class="offer__label">Guest perk</span>
     <h3>{offer_headline}</h3>
     <p>{offer_body}</p>
     <span class="offer__code">{offer_code}</span>
   </aside>
 
-  <div class="section-meta">
-    <span class="section-meta__num">03.</span>
-    <span class="section-meta__label">Visit &amp; connect</span>
-  </div>
-  {contacts_block}
-  <div class="section-meta">
-    <span class="section-meta__num">04.</span>
-    <span class="section-meta__label">{gallery_headline}</span>
-  </div>
-  <!-- ─── Gallery ────────────────────────────────────────────────── -->
-  <section class="gallery-section" aria-label="Gallery">
+  {hours_block}
+
+  {visit_row}
+
+  <section class="gallery-section"
+           aria-label="Gallery"
+           data-claude-section
+           data-claude-topic="gallery"
+           data-claude-name="{name}"
+           data-claude-prompt="Ask Claude about visiting {name}">
+    <header class="gallery-section__head">
+      <h2>A look around.</h2>
+      <span class="gallery-section__head__hint">{name}</span>
+    </header>
     <div class="gallery">
-      <figure class="gallery__tile"><img src="{g1}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g2}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g3}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g4}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g5}" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="{g6}" alt="" loading="lazy" /></figure>
+      <figure class="gallery__tile"><img src="{g1}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g2}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g3}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g4}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g5}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="{g6}" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
     </div>
   </section>
 
-  <!-- ─── Guide foot ─────────────────────────────────────────────── -->
-  <footer class="guide-foot">
-    <strong>You found us through The Beachcomber Guide.</strong>
-    A curated companion to the Central Coast, placed in every room. <a href="/">See the full guide</a>.
-  </footer>
+  {dock}
+
+  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>
@@ -336,23 +421,23 @@ ROOT_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
-  <!-- ─── Hotel hero ─────────────────────────────────────────────── -->
-  <section class="hero">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">The Beachcomber Guide</a>
-      <span>Central Coast</span>
-    </header>
-
+  <!-- ─── Hotel hero (no topbar on home) ──────────────────────────── -->
+  <section class="hero"
+           data-claude-section
+           data-claude-topic="hotel"
+           data-claude-prompt="Ask Claude about the hotel">
     <picture class="hero__art" aria-hidden="true">
-      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
+      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
     <div class="hero__inner">
@@ -362,41 +447,48 @@ ROOT_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  <!-- ─── Four category cards ───────────────────────────────────── -->
-  <section class="cats">
+  <section class="cats"
+           data-claude-section
+           data-claude-topic="guide"
+           data-claude-prompt="Ask Claude what to do today">
     <header class="cats__head">
-      <p class="eyebrow">The Guide</p>
       <h2>Your companion to the stay.</h2>
-      <p>Hotel essentials, the best places to eat and drink, things to do beyond the gates, and the map to tie it all together.</p>
     </header>
     <div class="cats__grid">
       <a class="cat-card" href="/hotel/">
-        <span class="cat-card__icon">{icon_bed}</span>
-        <span class="cat-card__title">Hotel info</span>
-        <span class="cat-card__desc">Check-in, dining, facilities and everything Beachcomber.</span>
+        <img class="cat-card__img" src="{cat_img_hotel}" alt="" loading="eager" fetchpriority="high" decoding="async" width="900" height="1100" />
+        <div class="cat-card__body">
+          <span class="cat-card__title">Hotel info</span>
+          <span class="cat-card__desc">Check-in, dining, facilities and everything Beachcomber.</span>
+        </div>
       </a>
       <a class="cat-card" href="/eat-and-drink/">
-        <span class="cat-card__icon">{icon_fork}</span>
-        <span class="cat-card__title">Eat &amp; drink</span>
-        <span class="cat-card__desc">Restaurants, bars and food makers within easy reach.</span>
+        <img class="cat-card__img" src="{cat_img_eat}" alt="" loading="lazy" decoding="async" width="900" height="1100" />
+        <div class="cat-card__body">
+          <span class="cat-card__title">Eat &amp; drink</span>
+          <span class="cat-card__desc">Restaurants, bars and food makers within easy reach.</span>
+        </div>
       </a>
       <a class="cat-card" href="/things-to-do/">
-        <span class="cat-card__icon">{icon_compass}</span>
-        <span class="cat-card__title">Things to do</span>
-        <span class="cat-card__desc">Experiences, tours and standout local stops.</span>
+        <img class="cat-card__img" src="{cat_img_do}" alt="" loading="lazy" decoding="async" width="900" height="1100" />
+        <div class="cat-card__body">
+          <span class="cat-card__title">Things to do</span>
+          <span class="cat-card__desc">Experiences, tours and standout local stops.</span>
+        </div>
       </a>
       <a class="cat-card" href="/map/">
-        <span class="cat-card__icon">{icon_map}</span>
-        <span class="cat-card__title">Local map</span>
-        <span class="cat-card__desc">See every recommendation on one interactive map.</span>
+        <img class="cat-card__img" src="{cat_img_map}" alt="" loading="lazy" decoding="async" width="900" height="1100" />
+        <div class="cat-card__body">
+          <span class="cat-card__title">Local map</span>
+          <span class="cat-card__desc">See every recommendation on one interactive map.</span>
+        </div>
       </a>
     </div>
   </section>
 
-  <footer class="guide-foot">
-    <strong>The Beachcomber Guide.</strong>
-    A curated companion to the hotel and the Central Coast around it.
-  </footer>
+  {dock}
+
+  <script src="/assets/js/claude.js" defer></script>
 
 </body>
 </html>
@@ -415,22 +507,24 @@ HOTEL_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
-  <section class="hero">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">Beachcomber Guide</a>
-      <a href="/" class="guide-bar__back">‹ Home</a>
-    </header>
+  {topbar}
 
+  <section class="hero"
+           data-claude-section
+           data-claude-topic="hotel"
+           data-claude-prompt="Ask Claude about the hotel">
     <picture class="hero__art" aria-hidden="true">
-      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" />
+      <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
     <div class="hero__inner">
@@ -441,22 +535,21 @@ HOTEL_TEMPLATE = """<!doctype html>
   </section>
 
   {cta_block}
-  <div class="section-meta">
-    <span class="section-meta__num">01.</span>
-    <span class="section-meta__label">About the hotel</span>
-  </div>
-  <section class="description">
+
+  <section class="description"
+           data-claude-section
+           data-claude-topic="hotel"
+           data-claude-prompt="Ask Claude about your stay">
     <h2>{description_headline}</h2>
     <p>{description_p1}</p>
     <p>{description_p2}</p>
     <p>{description_p3}</p>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">02.</span>
-    <span class="section-meta__label">Facilities</span>
-  </div>
-  <section class="amenities">
+  <section class="amenities"
+           data-claude-section
+           data-claude-topic="facilities"
+           data-claude-prompt="Ask Claude about hotel facilities">
     <header class="amenities__head">
       <h2>What's on site.</h2>
     </header>
@@ -466,11 +559,10 @@ HOTEL_TEMPLATE = """<!doctype html>
     {check_block}
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">03.</span>
-    <span class="section-meta__label">Eat at the hotel</span>
-  </div>
-  <section class="dining">
+  <section class="dining"
+           data-claude-section
+           data-claude-topic="dining"
+           data-claude-prompt="Ask Claude what's open tonight">
     <header class="dining__head">
       <h2>Two ways to settle in.</h2>
       <p>Both venues are inside the hotel — no driving required.</p>
@@ -480,16 +572,11 @@ HOTEL_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">04.</span>
-    <span class="section-meta__label">Contact</span>
-  </div>
-  {contacts_block}
+  {visit_row}
 
-  <footer class="guide-foot">
-    <strong>You're already here.</strong>
-    The Beachcomber Guide also covers the wider Central Coast — <a href="/">return to the guide</a>.
-  </footer>
+  {dock}
+
+  <script src="/assets/js/claude.js" defer></script>
 
 </body>
 </html>
@@ -508,31 +595,42 @@ CATEGORY_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
-  <header class="page-head">
-    <a class="page-head__mark" href="/">‹ The Beachcomber Guide</a>
-    <p class="eyebrow">The Guide</p>
+  {topbar}
+
+  <header class="page-head"
+          data-claude-section
+          data-claude-topic="{topic}"
+          data-claude-prompt="{bar_prompt}">
     <h1>{headline}</h1>
     <p class="page-head__sub">{intro}</p>
   </header>
 
-  <section class="list">
+  <section class="list"
+           data-claude-section
+           data-claude-topic="{topic}"
+           data-claude-prompt="{list_prompt}">
     <div class="list__grid">
       {cards}
     </div>
+    <p class="list__empty" data-no-matches hidden>
+      Nothing matches those filters. Try widening the drive time or turn off the open-now filter.
+    </p>
   </section>
 
-  <footer class="guide-foot">
-    <strong>The Beachcomber Guide.</strong>
-    A curated companion to the hotel and the Central Coast around it. <a href="/map/">See the map</a>.
-  </footer>
+  {dock}
+
+  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>
@@ -551,40 +649,65 @@ MAP_TEMPLATE = """<!doctype html>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
-  <header class="page-head">
-    <a class="page-head__mark" href="/">‹ The Beachcomber Guide</a>
-    <p class="eyebrow">Local Map</p>
-    <h1>Every recommendation, in one place.</h1>
-    <p class="page-head__sub">{intro}</p>
-  </header>
+  {topbar}
 
-  <div id="map" class="map" role="application" aria-label="Interactive map of guide recommendations"></div>
+  <main class="map-page">
+    <section class="map-wrap"
+             data-claude-section
+             data-claude-topic="map"
+             data-claude-prompt="Ask Claude what's closest">
+      <div id="map" class="map"
+           role="application"
+           aria-label="Interactive map of guide recommendations"></div>
+    </section>
 
-  <section class="map-legend">
-    <span class="legend-pip legend-pip--hotel"></span> The Beachcomber Hotel
-    <span class="legend-pip legend-pip--eat"></span> Eat &amp; drink
-    <span class="legend-pip legend-pip--do"></span> Things to do
-  </section>
+    <section class="map-key"
+             data-claude-section
+             data-claude-topic="map"
+             data-claude-prompt="Ask Claude to plan a route">
+      <header class="map-key__head">
+        <h2 class="map-key__title">{stop_count} stops on the map</h2>
+        <p class="map-key__sub">Tap a name to centre the map and open it.</p>
+        <div class="map-key__filter" role="tablist" aria-label="Filter by type">
+          <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">
+            <span class="chip__pip chip__pip--all" aria-hidden="true"></span>All
+          </button>
+          <button type="button" class="chip" data-filter="eat" aria-pressed="false">
+            <span class="chip__pip chip__pip--eat" aria-hidden="true"></span>Eat &amp; Drink
+          </button>
+          <button type="button" class="chip" data-filter="do" aria-pressed="false">
+            <span class="chip__pip chip__pip--do" aria-hidden="true"></span>Things to do
+          </button>
+        </div>
+      </header>
 
-  <footer class="guide-foot">
-    <strong>The Beachcomber Guide.</strong>
-    Tap any pin for details and a link to that listing.
-  </footer>
+      <ul class="map-key__list" id="map-stops">
+        {stops_html}
+      </ul>
+    </section>
+  </main>
+
+  {dock}
+
+  <script src="/assets/js/claude.js" defer></script>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
     const HOTEL = {hotel_js};
     const SPOTS = {spots_js};
 
-    const map = L.map('map', {{ scrollWheelZoom: true, zoomControl: true }});
+    const map = L.map('map', {{ scrollWheelZoom: false, zoomControl: true }});
 
     L.tileLayer('https://tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
       maxZoom: 19,
@@ -592,36 +715,80 @@ MAP_TEMPLATE = """<!doctype html>
     }}).addTo(map);
 
     function pinIcon(kind) {{
-      const colour = kind === 'hotel' ? '#111113' : (kind === 'eat' ? '#B0451F' : '#1F4D3F');
+      const size = kind === 'hotel' ? 30 : 24;
+      const half = size / 2;
       return L.divIcon({{
         className: 'map-pin map-pin--' + kind,
-        html: '<span class="map-pin__dot" style="background:' + colour + '"></span>',
-        iconSize: [22, 22],
-        iconAnchor: [11, 11],
-        popupAnchor: [0, -10],
+        html: '<span class="map-pin__dot"></span>',
+        iconSize: [size, size],
+        iconAnchor: [half, half],
+        popupAnchor: [0, -half + 2]
       }});
     }}
 
+    function popupHtml(kind, name, meta, href, label) {{
+      const m = meta ? '<span class="map-pop__meta">' + meta + '</span>' : '';
+      return (
+        '<div class="map-pop">' +
+        '<span class="map-pop__pip map-pop__pip--' + kind + '" aria-hidden="true"></span>' +
+        '<strong>' + name + '</strong>' +
+        m +
+        '<a href="' + href + '">' + label + '</a>' +
+        '</div>'
+      );
+    }}
+
+    const markersBySlug = {{}};
+
     const hotelMarker = L.marker([HOTEL.lat, HOTEL.lng], {{ icon: pinIcon('hotel') }}).addTo(map);
-    hotelMarker.bindPopup('<div class="map-pop"><span class="map-pop__cat">The Hotel</span><strong>' + HOTEL.name + '</strong><a href="/hotel/">View hotel info ›</a></div>');
+    hotelMarker.bindPopup(popupHtml('hotel', HOTEL.name, 'The hotel · Toukley', '/hotel/', 'Open hotel page ›'));
+    markersBySlug['hotel'] = hotelMarker;
 
     const bounds = [[HOTEL.lat, HOTEL.lng]];
 
     SPOTS.forEach(s => {{
       const kind = s.group === 'eat-and-drink' ? 'eat' : 'do';
       const m = L.marker([s.lat, s.lng], {{ icon: pinIcon(kind) }}).addTo(map);
-      m.bindPopup(
-        '<div class="map-pop">' +
-        '<span class="map-pop__cat">' + s.category + '</span>' +
-        '<strong>' + s.name + '</strong>' +
-        '<span class="map-pop__meta">' + s.suburb + ' · ' + s.distance + ' min</span>' +
-        '<a href="/' + s.slug + '/">Open page ›</a>' +
-        '</div>'
-      );
+      const distLabel = s.distance === 0 ? 'At the hotel' : (s.distance + ' min from the hotel');
+      m.bindPopup(popupHtml(kind, s.name, s.suburb + ' · ' + distLabel, '/' + s.slug + '/', 'Open page ›'));
+      markersBySlug[s.slug] = m;
       bounds.push([s.lat, s.lng]);
     }});
 
-    map.fitBounds(bounds, {{ padding: [40, 40] }});
+    map.fitBounds(bounds, {{ padding: [40, 30] }});
+
+    /* List item taps: pan map, open popup, smooth-scroll the map into view. */
+    document.querySelectorAll('.map-stop__btn').forEach(btn => {{
+      btn.addEventListener('click', () => {{
+        const li = btn.closest('.map-stop');
+        const lat = parseFloat(li.dataset.lat);
+        const lng = parseFloat(li.dataset.lng);
+        const slug = li.dataset.slug;
+        const marker = markersBySlug[slug];
+        document.getElementById('map').scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+        const targetZoom = Math.max(map.getZoom(), 14);
+        map.flyTo([lat, lng], targetZoom, {{ duration: 0.55 }});
+        if (marker) setTimeout(() => marker.openPopup(), 580);
+      }});
+    }});
+
+    /* Filter chips: hide list items by group. Pins on the map stay so the
+       spatial layout stays consistent. */
+    const chips = document.querySelectorAll('[data-filter]');
+    chips.forEach(chip => {{
+      chip.addEventListener('click', () => {{
+        const f = chip.dataset.filter;
+        chips.forEach(c => {{
+          const on = c === chip;
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+          c.classList.toggle('is-active', on);
+        }});
+        document.querySelectorAll('.map-stop').forEach(li => {{
+          const matches = f === 'all' || li.dataset.group === f;
+          li.hidden = !matches;
+        }});
+      }});
+    }});
   </script>
 
 </body>
@@ -648,7 +815,7 @@ def render_check_block(hotel: dict) -> str:
 def render_dining_card(venue: dict) -> str:
     return f"""<a class="dining-card" href="/{venue['slug']}/">
         <figure class="dining-card__media">
-          <img src="{hero_img(venue['slug'])}" alt="" loading="lazy" />
+          <img src="{hero_img(venue['slug'])}" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
         <div class="dining-card__body">
           <span class="dining-card__cat">{html.escape(venue.get('category', 'On-site dining'))}</span>
@@ -658,15 +825,51 @@ def render_dining_card(venue: dict) -> str:
         </div>
       </a>"""
 
+def hours_attr(adv: dict) -> str:
+    """Return a data-hours attribute fragment (with leading space), or
+    empty string if no hours."""
+    h = adv.get("hours")
+    if not h:
+        return ""
+    # JSON inside an HTML attribute: escape quotes/&/<.
+    encoded = html.escape(json.dumps(h, separators=(",", ":")), quote=True)
+    return f' data-hours="{encoded}"'
+
+def render_hours_block(adv: dict) -> str:
+    """Weekly hours section for a business page. The JS expands the
+    <dl data-hours-table> into a per-day list with today highlighted."""
+    if not adv.get("hours"):
+        return ""
+    note = adv.get("hours_note")
+    note_html = (
+        f'<p class="hours__note">{html.escape(note)}</p>' if note else ""
+    )
+    return f"""<section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="{html.escape(adv['name'])}"
+           data-claude-prompt="Ask Claude about hours at {html.escape(adv['name'])}"
+           {hours_attr(adv)}>
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    {note_html}
+  </section>"""
+
 def render_list_card(adv: dict) -> str:
     if adv["distance_minutes"] == 0:
         meta = f"{html.escape(adv['suburb'])} · At the hotel"
     else:
         meta = f"{html.escape(adv['suburb'])} · {adv['distance_minutes']} min from the hotel"
-    return f"""<a class="list-card" href="/{adv['slug']}/">
+    return f"""<a class="list-card" href="/{adv['slug']}/"
+       data-filterable
+       data-distance="{adv['distance_minutes']}"{hours_attr(adv)}>
         <figure class="list-card__media">
-          <img src="{hero_img(adv['slug'])}" alt="" loading="lazy" />
+          <img src="{hero_img(adv['slug'])}" alt="" loading="lazy" decoding="async" width="2400" height="1400" />
         </figure>
+        <span class="status" data-status-pill></span>
         <div class="list-card__body">
           <span class="list-card__cat">{html.escape(adv['category'])}</span>
           <h3>{html.escape(adv['name'])}</h3>
@@ -675,18 +878,19 @@ def render_list_card(adv: dict) -> str:
       </a>"""
 
 def render_business_page(a: dict, hotel: dict) -> str:
+    name = a["name"]
+    group = a["category_group"]
+    suburb_line = f"{a['suburb']} · {distance_label(a)}" if a.get("suburb") else distance_label(a)
+    active = "eat" if group == "eat-and-drink" else ("do" if group == "things-to-do" else "")
     return PAGE_TEMPLATE.format(
-        name=html.escape(a["name"]),
+        name=html.escape(name),
         meta_description=html.escape(a["hero_subtitle"]),
         slug=a["slug"],
         hero_image=hero_img(a["slug"]),
-        group_slug=a["category_group"],
-        group_label=GROUP_LABELS.get(a["category_group"], a["category_group"]),
-        icon_category=ICON_CATEGORY,
-        icon_pin=ICON_PIN,
-        category=html.escape(a["category"]),
-        distance_label=distance_label(a),
-        hero_name_html=hero_name_html(a["name"]),
+        group_slug=group,
+        group_label=GROUP_LABELS.get(group, group),
+        suburb_line=html.escape(suburb_line),
+        hero_name_html=hero_name_html(name),
         hero_subtitle=html.escape(a["hero_subtitle"]),
         cta_block=render_cta_block(a),
         description_headline=html.escape(a["description_headline"]),
@@ -695,23 +899,27 @@ def render_business_page(a: dict, hotel: dict) -> str:
         offer_headline=html.escape(a["offer_headline"]),
         offer_body=html.escape(a["offer_body"]),
         offer_code=html.escape(a["offer_code"]),
-        contacts_block=render_contacts_block(a),
-        gallery_headline=html.escape(f"From {a['suburb']}."),
+        hours_attr=hours_attr(a),
+        hours_block=render_hours_block(a),
+        visit_row=render_visit_row(a),
         g1=gallery_img(a["slug"], 1),
         g2=gallery_img(a["slug"], 2),
         g3=gallery_img(a["slug"], 3),
         g4=gallery_img(a["slug"], 4),
         g5=gallery_img(a["slug"], 5),
         g6=gallery_img(a["slug"], 6),
+        topbar=topbar(name, back_href=f"/{group}/", over_hero=True),
+        dock=dock(active),
     )
 
 def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
+    name = hotel["name"]
     return HOTEL_TEMPLATE.format(
-        name=html.escape(hotel["name"]),
+        name=html.escape(name),
         meta_description=html.escape(hotel["hero_subtitle"]),
         hero_image=hero_img("beachcomber-hotel"),
         suburb=html.escape(hotel["suburb"]),
-        hero_name_html=hero_name_html(hotel["name"]),
+        hero_name_html=hero_name_html(name),
         hero_subtitle=html.escape(hotel["hero_subtitle"]),
         cta_block=render_cta_block(hotel),
         description_headline=html.escape(hotel["description_headline"]),
@@ -721,7 +929,9 @@ def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
         amenities_list=render_amenities(hotel.get("amenities", [])),
         check_block=render_check_block(hotel),
         dining_cards="\n      ".join(render_dining_card(v) for v in on_site),
-        contacts_block=render_contacts_block(hotel),
+        visit_row=render_visit_row(hotel),
+        topbar=topbar("Hotel", over_hero=True),
+        dock=dock("hotel"),
     )
 
 def render_root(hotel: dict) -> str:
@@ -729,20 +939,55 @@ def render_root(hotel: dict) -> str:
         hero_image=hero_img("beachcomber-hotel"),
         hotel_name_html=hero_name_html(hotel["name"]),
         hotel_hero_subtitle=html.escape(hotel["hero_subtitle"]),
-        icon_bed=ICON_BED,
-        icon_fork=ICON_FORK,
-        icon_compass=ICON_COMPASS,
-        icon_map=ICON_MAP,
+        cat_img_hotel=_unsplash("waterfront-hotel", 900, 1100),
+        cat_img_eat=_unsplash("beach-restaurant", 900, 1100),
+        cat_img_do=_unsplash("boat-hire", 900, 1100),
+        cat_img_map=_unsplash("coast-1", 900, 1100),
+        dock=dock(""),
     )
 
 def render_category(group_slug: str, label: str, intro: str, advertisers: list[dict]) -> str:
     cards = [render_list_card(a) for a in sorted(advertisers, key=lambda x: x["distance_minutes"])]
+    topic = "eat-listings" if group_slug == "eat-and-drink" else "do-listings"
+    if group_slug == "eat-and-drink":
+        bar_prompt = "Ask Claude where to eat tonight"
+        list_prompt = "Ask Claude to pick one for you"
+    else:
+        bar_prompt = "Ask Claude what to do today"
+        list_prompt = "Ask Claude to narrow this down"
     return CATEGORY_TEMPLATE.format(
         label=html.escape(label),
         meta_description=html.escape(intro),
         headline=html.escape(label + " — within easy reach."),
         intro=html.escape(intro),
         cards="\n      ".join(cards),
+        topic=html.escape(topic),
+        bar_prompt=html.escape(bar_prompt),
+        list_prompt=html.escape(list_prompt),
+        topbar=topbar(label, right=TOPBAR_FILTER_BUTTON),
+        dock=dock("eat" if group_slug == "eat-and-drink" else "do"),
+    )
+
+def render_map_stop(slug: str, name: str, suburb: str, distance_minutes: int,
+                    lat: float, lng: float, kind: str) -> str:
+    """One row in the map's "key" — a tappable list item that pans the map
+    to the corresponding pin. `kind` is 'hotel' / 'eat' / 'do'."""
+    if distance_minutes == 0:
+        meta = f"{html.escape(suburb)} · At the hotel"
+    else:
+        meta = f"{html.escape(suburb)} · {distance_minutes} min away"
+    return (
+        f'<li class="map-stop" data-slug="{html.escape(slug)}" '
+        f'data-group="{kind}" data-lat="{lat}" data-lng="{lng}">'
+        f'<button type="button" class="map-stop__btn">'
+        f'<span class="map-stop__pip map-stop__pip--{kind}" aria-hidden="true"></span>'
+        f'<span class="map-stop__body">'
+        f'<span class="map-stop__name">{html.escape(name)}</span>'
+        f'<span class="map-stop__meta">{meta}</span>'
+        f'</span>'
+        f'<span class="map-stop__arrow" aria-hidden="true">›</span>'
+        f'</button>'
+        f'</li>'
     )
 
 def render_map(hotel: dict, advertisers: list[dict]) -> str:
@@ -761,10 +1006,35 @@ def render_map(hotel: dict, advertisers: list[dict]) -> str:
         if a.get("lat") is not None and a.get("lng") is not None
     ]
     spots_js = json.dumps(spots)
+
+    # Render the list ("key") server-side. Hotel first, then advertisers
+    # sorted by drive time. Drop any spot that has no lat/lng.
+    stops_rows: list[str] = []
+    stops_rows.append(render_map_stop(
+        slug="hotel",
+        name=hotel["name"],
+        suburb=hotel.get("suburb", "Toukley"),
+        distance_minutes=0,
+        lat=hotel["lat"], lng=hotel["lng"],
+        kind="hotel",
+    ))
+    geo_adv = [a for a in advertisers if a.get("lat") is not None and a.get("lng") is not None]
+    for a in sorted(geo_adv, key=lambda x: (x["distance_minutes"], x["name"])):
+        kind = "eat" if a["category_group"] == "eat-and-drink" else "do"
+        stops_rows.append(render_map_stop(
+            slug=a["slug"], name=a["name"], suburb=a["suburb"],
+            distance_minutes=a["distance_minutes"],
+            lat=a["lat"], lng=a["lng"], kind=kind,
+        ))
+    stops_html = "\n        ".join(stops_rows)
+
     return MAP_TEMPLATE.format(
-        intro="Tap any pin for the listing, distance and a link to the page.",
         hotel_js=hotel_js,
         spots_js=spots_js,
+        stop_count=len(geo_adv) + 1,
+        stops_html=stops_html,
+        topbar=topbar("Map"),
+        dock=dock("map"),
     )
 
 # ── Main ────────────────────────────────────────────────────────────────

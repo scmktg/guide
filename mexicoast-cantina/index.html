@@ -13,97 +13,131 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/mexicoast-cantina.css" />
 </head>
 <body>
 
-  <!-- ─── Hero ───────────────────────────────────────────────────── -->
-  <section class="hero">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">Beachcomber Guide</a>
-      <a href="/eat-and-drink/" class="guide-bar__back">‹ Eat & Drink</a>
-    </header>
+  <!-- ─── Topbar ──────────────────────────────────────────────────── -->
+  <header class="topbar topbar--fixed">
+    <a class="topbar__back" href="/eat-and-drink/" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></a>
+    <h1 class="topbar__title">MexiCoast Cantina</h1>
+    <span aria-hidden="true"></span>
+  </header>
 
+  <!-- ─── Hero ───────────────────────────────────────────────────── -->
+  <section class="hero"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="MexiCoast Cantina"
+           data-claude-prompt="Ask Claude about MexiCoast Cantina"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;wed&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;thu&quot;:[[&quot;17:00&quot;,&quot;20:30&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sun&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
-      <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
+      <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
+    <span class="status" data-status-pill></span>
+
     <div class="hero__inner">
-      <div class="hero__tags rise rise--1">
-        <span class="hero__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M4 12c2-4 5-6 8-6s6 2 8 6c-2 4-5 6-8 6s-6-2-8-6z"/></svg>Mexican Restaurant</span>
-        <span class="hero__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>5 min from the hotel</span>
-      </div>
+      <p class="hero__eyebrow rise rise--1">Toukley · 5 min from the hotel</p>
       <h1 class="rise rise--2">MexiCoast<br/>Cantina</h1>
       <p class="hero__sub rise rise--3">Baja-inspired Mexican cooking, salt-rim margaritas and warm cantina colour on the northern Central Coast, a short coastal drive from Terrigal.</p>
     </div>
   </section>
 
-  <!-- ─── Primary CTAs ───────────────────────────────────────────── -->
+  <!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
     <a class="btn" href="https://www.mexicoastcantina.com.au/">Visit website</a>
   </div>
 
-  <div class="section-meta">
-    <span class="section-meta__num">01.</span>
-    <span class="section-meta__label">About</span>
-  </div>
-  <section class="description">
+
+  <section class="description"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="MexiCoast Cantina"
+           data-claude-prompt="Ask Claude about the experience at MexiCoast Cantina">
     <h2>Baja flavours by the coast.</h2>
     <p>MexiCoast Cantina brings the sun-baked flavours of the Baja Peninsula to the Central Coast, with flame-grilled tacos, slow-cooked fillings and a tequila list that runs deep into mezcal territory. Everything is built around bright, generous plates designed to be shared across the table.</p>
     <p>The room hums with cantina warmth: hand-painted touches, a busy bar shaking salt-rimmed margaritas, and a soundtrack that nudges you into holiday mode. It is the kind of dinner you settle into for a second round.</p>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">02.</span>
-    <span class="section-meta__label">For Beachcomber guests</span>
-  </div>
-  <aside class="offer" aria-label="Offer for Guide readers">
+  <aside class="offer"
+         aria-label="Offer for Guide readers"
+         data-claude-section
+         data-claude-topic="perk"
+         data-claude-name="MexiCoast Cantina"
+         data-claude-prompt="Ask Claude how to redeem this perk">
     <span class="offer__label">Guest perk</span>
     <h3>A complimentary margarita with any main meal.</h3>
     <p>Show this page when ordering. Valid for guide-card holders, dine-in only, one per guest.</p>
     <span class="offer__code">GUIDE / TACO</span>
   </aside>
 
-  <div class="section-meta">
-    <span class="section-meta__num">03.</span>
-    <span class="section-meta__label">Visit &amp; connect</span>
-  </div>
-  <!-- ─── Contact + social ───────────────────────────────────────── -->
-  <section class="contacts" aria-label="Contact and social">
-    <div class="contacts__grid">
-      <a class="contact-tile" href="https://maps.google.com/?q=MexiCoast+Cantina+Toukley+NSW+2263" aria-label="Directions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span class="contact-tile__label">Directions</span></a>
-      <a class="contact-tile" href="https://instagram.com/mexicoastcantina" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg><span class="contact-tile__label">Instagram</span></a>
-      <a class="contact-tile" href="https://www.facebook.com/mexicoast1/" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M15 8h2.5V5H15a3.5 3.5 0 0 0-3.5 3.5V11H9v3h2.5v7h3v-7H17l.5-3h-3V8.5A.5.5 0 0 1 15 8z"/></svg><span class="contact-tile__label">Facebook</span></a>
-      <a class="contact-tile" href="https://www.mexicoastcantina.com.au/" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="contact-tile__label">Website</span></a>
-    </div>
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="MexiCoast Cantina"
+           data-claude-prompt="Ask Claude about hours at MexiCoast Cantina"
+            data-hours="{&quot;mon&quot;:[],&quot;tue&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;wed&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]],&quot;thu&quot;:[[&quot;17:00&quot;,&quot;20:30&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;21:00&quot;]],&quot;sun&quot;:[[&quot;17:00&quot;,&quot;20:00&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Hours may vary; closed Mondays.</p>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">04.</span>
-    <span class="section-meta__label">From Toukley.</span>
-  </div>
-  <!-- ─── Gallery ────────────────────────────────────────────────── -->
-  <section class="gallery-section" aria-label="Gallery">
+  <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="MexiCoast Cantina" data-claude-prompt="Ask Claude about getting to MexiCoast Cantina">
+    <span class="visit-row__label">Visit</span>
+    <a href="https://maps.google.com/?q=MexiCoast+Cantina+Toukley+NSW+2263">Directions</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.mexicoastcantina.com.au/">Website</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://instagram.com/mexicoastcantina">Instagram</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.facebook.com/mexicoast1/">Facebook</a>
+  </section>
+
+  <section class="gallery-section"
+           aria-label="Gallery"
+           data-claude-section
+           data-claude-topic="gallery"
+           data-claude-name="MexiCoast Cantina"
+           data-claude-prompt="Ask Claude about visiting MexiCoast Cantina">
+    <header class="gallery-section__head">
+      <h2>A look around.</h2>
+      <span class="gallery-section__head__hint">MexiCoast Cantina</span>
+    </header>
     <div class="gallery">
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
     </div>
   </section>
 
-  <!-- ─── Guide foot ─────────────────────────────────────────────── -->
-  <footer class="guide-foot">
-    <strong>You found us through The Beachcomber Guide.</strong>
-    A curated companion to the Central Coast, placed in every room. <a href="/">See the full guide</a>.
-  </footer>
+  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
+        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
+        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        <a href="/hotel/">Hotel</a>
+        <a href="/eat-and-drink/" aria-current="page">Eat</a>
+        <a href="/things-to-do/">Do</a>
+        <a href="/map/">Map</a>
+      </nav>
+    </div>
+  </aside>
+
+  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

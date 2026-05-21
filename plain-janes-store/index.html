@@ -13,99 +13,131 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://picsum.photos" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/plain-janes-store.css" />
 </head>
 <body>
 
-  <!-- ─── Hero ───────────────────────────────────────────────────── -->
-  <section class="hero">
-    <header class="guide-bar">
-      <a class="guide-bar__mark" href="/">Beachcomber Guide</a>
-      <a href="/things-to-do/" class="guide-bar__back">‹ Things to do</a>
-    </header>
+  <!-- ─── Topbar ──────────────────────────────────────────────────── -->
+  <header class="topbar topbar--fixed">
+    <a class="topbar__back" href="/things-to-do/" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></a>
+    <h1 class="topbar__title">Plain Janes Store</h1>
+    <span aria-hidden="true"></span>
+  </header>
 
+  <!-- ─── Hero ───────────────────────────────────────────────────── -->
+  <section class="hero"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="Plain Janes Store"
+           data-claude-prompt="Ask Claude about Plain Janes Store"
+            data-hours="{&quot;mon&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;tue&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;wed&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;thu&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;fri&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sat&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sun&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
-      <img src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" />
+      <img src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
 
+    <span class="status" data-status-pill></span>
+
     <div class="hero__inner">
-      <div class="hero__tags rise rise--1">
-        <span class="hero__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M4 12c2-4 5-6 8-6s6 2 8 6c-2 4-5 6-8 6s-6-2-8-6z"/></svg>Fashion Boutique</span>
-        <span class="hero__tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>15 min from the hotel</span>
-      </div>
+      <p class="hero__eyebrow rise rise--1">Long Jetty · 15 min from the hotel</p>
       <h1 class="rise rise--2">Plain<br/>Janes Store</h1>
       <p class="hero__sub rise rise--3">A light-filled Long Jetty boutique stocking effortless women&#x27;s wear, kids&#x27; pieces and homewares from local and Australian-made labels, curated by two sisters.</p>
     </div>
   </section>
 
-  <!-- ─── Primary CTAs ───────────────────────────────────────────── -->
+  <!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
     <a class="btn" href="https://plainjanesstore.com/">Visit website</a>
   </div>
 
-  <div class="section-meta">
-    <span class="section-meta__num">01.</span>
-    <span class="section-meta__label">About</span>
-  </div>
-  <section class="description">
+
+  <section class="description"
+           data-claude-section
+           data-claude-topic="place"
+           data-claude-name="Plain Janes Store"
+           data-claude-prompt="Ask Claude about the experience at Plain Janes Store">
     <h2>Simple, stylish, every day.</h2>
     <p>Plain Janes is the brainchild of fabric-loving sisters and Central Coast locals who have been shaping Long Jetty&#x27;s main street since 2015. The racks are tightly edited: easy, wearable women&#x27;s pieces, plus a thoughtful selection of kids&#x27; clothing, accessories and homewares.</p>
     <p>The store is white-walled and bright, the kind of browse that feels like a treat rather than a chore. Pop in between brunch and the beach for a piece you will actually wear back home.</p>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">02.</span>
-    <span class="section-meta__label">For Beachcomber guests</span>
-  </div>
-  <aside class="offer" aria-label="Offer for Guide readers">
+  <aside class="offer"
+         aria-label="Offer for Guide readers"
+         data-claude-section
+         data-claude-topic="perk"
+         data-claude-name="Plain Janes Store"
+         data-claude-prompt="Ask Claude how to redeem this perk">
     <span class="offer__label">Guest perk</span>
     <h3>Ten percent off any full-priced item in store.</h3>
     <p>Show this page at the counter before payment. One transaction per guest, in store only.</p>
     <span class="offer__code">GUIDE / LINEN</span>
   </aside>
 
-  <div class="section-meta">
-    <span class="section-meta__num">03.</span>
-    <span class="section-meta__label">Visit &amp; connect</span>
-  </div>
-  <!-- ─── Contact + social ───────────────────────────────────────── -->
-  <section class="contacts" aria-label="Contact and social">
-    <div class="contacts__grid">
-      <a class="contact-tile" href="tel:+61243032934" aria-label="Call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 4h3l2 5-2.5 1.5a12 12 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span class="contact-tile__label">Call</span></a>
-      <a class="contact-tile" href="mailto:plainjanesstore@icloud.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="contact-tile__label">Email</span></a>
-      <a class="contact-tile" href="https://maps.google.com/?q=Plain+Janes+Store+346+The+Entrance+Road%2C+Long+Jetty+NSW+2261" aria-label="Directions"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-7.5-7-12a7 7 0 0 1 14 0c0 4.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span class="contact-tile__label">Directions</span></a>
-      <a class="contact-tile" href="https://instagram.com/_plainjanes" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg><span class="contact-tile__label">Instagram</span></a>
-      <a class="contact-tile" href="https://www.facebook.com/plainjaneslongjetty/" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M15 8h2.5V5H15a3.5 3.5 0 0 0-3.5 3.5V11H9v3h2.5v7h3v-7H17l.5-3h-3V8.5A.5.5 0 0 1 15 8z"/></svg><span class="contact-tile__label">Facebook</span></a>
-      <a class="contact-tile" href="https://plainjanesstore.com/" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="contact-tile__label">Website</span></a>
-    </div>
+  <section class="hours"
+           data-claude-section
+           data-claude-topic="visit"
+           data-claude-name="Plain Janes Store"
+           data-claude-prompt="Ask Claude about hours at Plain Janes Store"
+            data-hours="{&quot;mon&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;tue&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;wed&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;thu&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;fri&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sat&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sun&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]]}">
+    <header class="hours__head">
+      <h2>Opening hours</h2>
+      <span class="status" data-status-pill></span>
+    </header>
+    <div data-hours-table></div>
+    <p class="hours__note">Open 7 days.</p>
   </section>
 
-  <div class="section-meta">
-    <span class="section-meta__num">04.</span>
-    <span class="section-meta__label">From Long Jetty.</span>
-  </div>
-  <!-- ─── Gallery ────────────────────────────────────────────────── -->
-  <section class="gallery-section" aria-label="Gallery">
+  <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Plain Janes Store" data-claude-prompt="Ask Claude about getting to Plain Janes Store">
+    <span class="visit-row__label">Visit</span>
+    <a href="tel:+61243032934">Call</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="mailto:plainjanesstore@icloud.com">Email</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://maps.google.com/?q=Plain+Janes+Store+346+The+Entrance+Road%2C+Long+Jetty+NSW+2261">Directions</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://plainjanesstore.com/">Website</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://instagram.com/_plainjanes">Instagram</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.facebook.com/plainjaneslongjetty/">Facebook</a>
+  </section>
+
+  <section class="gallery-section"
+           aria-label="Gallery"
+           data-claude-section
+           data-claude-topic="gallery"
+           data-claude-name="Plain Janes Store"
+           data-claude-prompt="Ask Claude about visiting Plain Janes Store">
+    <header class="gallery-section__head">
+      <h2>A look around.</h2>
+      <span class="gallery-section__head__hint">Plain Janes Store</span>
+    </header>
     <div class="gallery">
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
-      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1591608971362-f08b2a75731a?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
+      <figure class="gallery__tile"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80" alt="" loading="lazy" width="1200" height="1500" decoding="async" /></figure>
     </div>
   </section>
 
-  <!-- ─── Guide foot ─────────────────────────────────────────────── -->
-  <footer class="guide-foot">
-    <strong>You found us through The Beachcomber Guide.</strong>
-    A curated companion to the Central Coast, placed in every room. <a href="/">See the full guide</a>.
-  </footer>
+  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
+        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
+        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        <a href="/hotel/">Hotel</a>
+        <a href="/eat-and-drink/">Eat</a>
+        <a href="/things-to-do/" aria-current="page">Do</a>
+        <a href="/map/">Map</a>
+      </nav>
+    </div>
+  </aside>
+
+  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/filters.js" defer></script>
 
 </body>
 </html>

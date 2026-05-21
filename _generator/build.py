@@ -631,26 +631,41 @@ MAP_TEMPLATE = """<!doctype html>
 
   {topbar}
 
-  <header class="page-head"
-          data-claude-section
-          data-claude-topic="map"
-          data-claude-prompt="Ask Claude to plan a route">
-    <h1>Every recommendation, in one place.</h1>
-    <p class="page-head__sub">{intro}</p>
-  </header>
+  <main class="map-page">
+    <section class="map-wrap"
+             data-claude-section
+             data-claude-topic="map"
+             data-claude-prompt="Ask Claude what's closest">
+      <div id="map" class="map"
+           role="application"
+           aria-label="Interactive map of guide recommendations"></div>
+    </section>
 
-  <div id="map" class="map"
-       role="application"
-       aria-label="Interactive map of guide recommendations"
-       data-claude-section
-       data-claude-topic="map"
-       data-claude-prompt="Ask Claude what's closest"></div>
+    <section class="map-key"
+             data-claude-section
+             data-claude-topic="map"
+             data-claude-prompt="Ask Claude to plan a route">
+      <header class="map-key__head">
+        <h2 class="map-key__title">{stop_count} stops on the map</h2>
+        <p class="map-key__sub">Tap a name to centre the map and open it.</p>
+        <div class="map-key__filter" role="tablist" aria-label="Filter by type">
+          <button type="button" class="chip is-active" data-filter="all" aria-pressed="true">
+            <span class="chip__pip chip__pip--all" aria-hidden="true"></span>All
+          </button>
+          <button type="button" class="chip" data-filter="eat" aria-pressed="false">
+            <span class="chip__pip chip__pip--eat" aria-hidden="true"></span>Eat &amp; Drink
+          </button>
+          <button type="button" class="chip" data-filter="do" aria-pressed="false">
+            <span class="chip__pip chip__pip--do" aria-hidden="true"></span>Things to do
+          </button>
+        </div>
+      </header>
 
-  <section class="map-legend">
-    <span class="legend-pip legend-pip--hotel"></span> The Beachcomber Hotel
-    <span class="legend-pip legend-pip--eat"></span> Eat &amp; drink
-    <span class="legend-pip legend-pip--do"></span> Things to do
-  </section>
+      <ul class="map-key__list" id="map-stops">
+        {stops_html}
+      </ul>
+    </section>
+  </main>
 
   {dock}
 
@@ -661,7 +676,7 @@ MAP_TEMPLATE = """<!doctype html>
     const HOTEL = {hotel_js};
     const SPOTS = {spots_js};
 
-    const map = L.map('map', {{ scrollWheelZoom: true, zoomControl: true }});
+    const map = L.map('map', {{ scrollWheelZoom: false, zoomControl: true }});
 
     L.tileLayer('https://tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
       maxZoom: 19,
@@ -669,36 +684,80 @@ MAP_TEMPLATE = """<!doctype html>
     }}).addTo(map);
 
     function pinIcon(kind) {{
-      const colour = kind === 'hotel' ? '#111113' : (kind === 'eat' ? '#B0451F' : '#1F4D3F');
+      const size = kind === 'hotel' ? 30 : 24;
+      const half = size / 2;
       return L.divIcon({{
         className: 'map-pin map-pin--' + kind,
-        html: '<span class="map-pin__dot" style="background:' + colour + '"></span>',
-        iconSize: [22, 22],
-        iconAnchor: [11, 11],
-        popupAnchor: [0, -10],
+        html: '<span class="map-pin__dot"></span>',
+        iconSize: [size, size],
+        iconAnchor: [half, half],
+        popupAnchor: [0, -half + 2]
       }});
     }}
 
+    function popupHtml(kind, name, meta, href, label) {{
+      const m = meta ? '<span class="map-pop__meta">' + meta + '</span>' : '';
+      return (
+        '<div class="map-pop">' +
+        '<span class="map-pop__pip map-pop__pip--' + kind + '" aria-hidden="true"></span>' +
+        '<strong>' + name + '</strong>' +
+        m +
+        '<a href="' + href + '">' + label + '</a>' +
+        '</div>'
+      );
+    }}
+
+    const markersBySlug = {{}};
+
     const hotelMarker = L.marker([HOTEL.lat, HOTEL.lng], {{ icon: pinIcon('hotel') }}).addTo(map);
-    hotelMarker.bindPopup('<div class="map-pop"><span class="map-pop__cat">The Hotel</span><strong>' + HOTEL.name + '</strong><a href="/hotel/">View hotel info ›</a></div>');
+    hotelMarker.bindPopup(popupHtml('hotel', HOTEL.name, 'The hotel · Toukley', '/hotel/', 'Open hotel page ›'));
+    markersBySlug['hotel'] = hotelMarker;
 
     const bounds = [[HOTEL.lat, HOTEL.lng]];
 
     SPOTS.forEach(s => {{
       const kind = s.group === 'eat-and-drink' ? 'eat' : 'do';
       const m = L.marker([s.lat, s.lng], {{ icon: pinIcon(kind) }}).addTo(map);
-      m.bindPopup(
-        '<div class="map-pop">' +
-        '<span class="map-pop__cat">' + s.category + '</span>' +
-        '<strong>' + s.name + '</strong>' +
-        '<span class="map-pop__meta">' + s.suburb + ' · ' + s.distance + ' min</span>' +
-        '<a href="/' + s.slug + '/">Open page ›</a>' +
-        '</div>'
-      );
+      const distLabel = s.distance === 0 ? 'At the hotel' : (s.distance + ' min from the hotel');
+      m.bindPopup(popupHtml(kind, s.name, s.suburb + ' · ' + distLabel, '/' + s.slug + '/', 'Open page ›'));
+      markersBySlug[s.slug] = m;
       bounds.push([s.lat, s.lng]);
     }});
 
-    map.fitBounds(bounds, {{ padding: [40, 40] }});
+    map.fitBounds(bounds, {{ padding: [40, 30] }});
+
+    /* List item taps: pan map, open popup, smooth-scroll the map into view. */
+    document.querySelectorAll('.map-stop__btn').forEach(btn => {{
+      btn.addEventListener('click', () => {{
+        const li = btn.closest('.map-stop');
+        const lat = parseFloat(li.dataset.lat);
+        const lng = parseFloat(li.dataset.lng);
+        const slug = li.dataset.slug;
+        const marker = markersBySlug[slug];
+        document.getElementById('map').scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+        const targetZoom = Math.max(map.getZoom(), 14);
+        map.flyTo([lat, lng], targetZoom, {{ duration: 0.55 }});
+        if (marker) setTimeout(() => marker.openPopup(), 580);
+      }});
+    }});
+
+    /* Filter chips: hide list items by group. Pins on the map stay so the
+       spatial layout stays consistent. */
+    const chips = document.querySelectorAll('[data-filter]');
+    chips.forEach(chip => {{
+      chip.addEventListener('click', () => {{
+        const f = chip.dataset.filter;
+        chips.forEach(c => {{
+          const on = c === chip;
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+          c.classList.toggle('is-active', on);
+        }});
+        document.querySelectorAll('.map-stop').forEach(li => {{
+          const matches = f === 'all' || li.dataset.group === f;
+          li.hidden = !matches;
+        }});
+      }});
+    }});
   </script>
 
 </body>
@@ -840,6 +899,28 @@ def render_category(group_slug: str, label: str, intro: str, advertisers: list[d
         dock=dock("eat" if group_slug == "eat-and-drink" else "do"),
     )
 
+def render_map_stop(slug: str, name: str, suburb: str, distance_minutes: int,
+                    lat: float, lng: float, kind: str) -> str:
+    """One row in the map's "key" — a tappable list item that pans the map
+    to the corresponding pin. `kind` is 'hotel' / 'eat' / 'do'."""
+    if distance_minutes == 0:
+        meta = f"{html.escape(suburb)} · At the hotel"
+    else:
+        meta = f"{html.escape(suburb)} · {distance_minutes} min away"
+    return (
+        f'<li class="map-stop" data-slug="{html.escape(slug)}" '
+        f'data-group="{kind}" data-lat="{lat}" data-lng="{lng}">'
+        f'<button type="button" class="map-stop__btn">'
+        f'<span class="map-stop__pip map-stop__pip--{kind}" aria-hidden="true"></span>'
+        f'<span class="map-stop__body">'
+        f'<span class="map-stop__name">{html.escape(name)}</span>'
+        f'<span class="map-stop__meta">{meta}</span>'
+        f'</span>'
+        f'<span class="map-stop__arrow" aria-hidden="true">›</span>'
+        f'</button>'
+        f'</li>'
+    )
+
 def render_map(hotel: dict, advertisers: list[dict]) -> str:
     hotel_js = json.dumps({
         "name": hotel["name"],
@@ -856,10 +937,33 @@ def render_map(hotel: dict, advertisers: list[dict]) -> str:
         if a.get("lat") is not None and a.get("lng") is not None
     ]
     spots_js = json.dumps(spots)
+
+    # Render the list ("key") server-side. Hotel first, then advertisers
+    # sorted by drive time. Drop any spot that has no lat/lng.
+    stops_rows: list[str] = []
+    stops_rows.append(render_map_stop(
+        slug="hotel",
+        name=hotel["name"],
+        suburb=hotel.get("suburb", "Toukley"),
+        distance_minutes=0,
+        lat=hotel["lat"], lng=hotel["lng"],
+        kind="hotel",
+    ))
+    geo_adv = [a for a in advertisers if a.get("lat") is not None and a.get("lng") is not None]
+    for a in sorted(geo_adv, key=lambda x: (x["distance_minutes"], x["name"])):
+        kind = "eat" if a["category_group"] == "eat-and-drink" else "do"
+        stops_rows.append(render_map_stop(
+            slug=a["slug"], name=a["name"], suburb=a["suburb"],
+            distance_minutes=a["distance_minutes"],
+            lat=a["lat"], lng=a["lng"], kind=kind,
+        ))
+    stops_html = "\n        ".join(stops_rows)
+
     return MAP_TEMPLATE.format(
-        intro="Tap any pin for the listing, distance and a link to the page.",
         hotel_js=hotel_js,
         spots_js=spots_js,
+        stop_count=len(geo_adv) + 1,
+        stops_html=stops_html,
         topbar=topbar("Map"),
         dock=dock("map"),
     )

@@ -189,35 +189,18 @@
     return span;
   }
 
-  /* ── The bar ─────────────────────────────────────────────────────── */
-
-  function buildBar() {
-    const bar = document.createElement("button");
-    bar.type = "button";
-    bar.className = "claude-bar";
-    bar.setAttribute("aria-label", "Ask Claude");
-    bar.innerHTML =
-      '<span class="claude-bar__mark-slot"></span>' +
-      '<span class="claude-bar__prompt" data-bar-prompt>Ask Claude about the guide</span>' +
-      '<span class="claude-bar__arrow" aria-hidden="true">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>' +
-      '</span>';
-    /* Inject the asterisk mark */
-    const slot = bar.querySelector(".claude-bar__mark-slot");
-    const mark = makeMark();
-    mark.classList.add("claude-bar__mark");
-    slot.replaceWith(mark);
-    document.body.appendChild(bar);
-    return bar;
-  }
+  /* ── The dock's Claude row ───────────────────────────────────────── */
 
   let currentTopic = "guide";
   let currentName = "";
 
-  function setBar(bar, topic, prompt, name) {
-    const promptEl = bar.querySelector("[data-bar-prompt]");
+  function setBar(promptEl, topic, prompt, name) {
     const next = substitute(prompt || "Ask Claude", { name: name });
-    if (promptEl.textContent === next) return;
+    if (promptEl.textContent === next) {
+      currentTopic = topic || currentTopic;
+      currentName = name || currentName;
+      return;
+    }
     currentTopic = topic || "guide";
     currentName = name || "";
     promptEl.classList.add("is-changing");
@@ -227,17 +210,12 @@
     }, 180);
   }
 
-  function observeSections(bar) {
+  function observeSections(promptEl) {
+    if (!promptEl) return;
     const sections = Array.from(document.querySelectorAll("[data-claude-section]"));
-    if (!sections.length) {
-      bar.classList.add("is-ready");
-      return;
-    }
+    if (!sections.length) return;
 
-    /* Map of element → ratio. We pick whichever section has the largest
-       intersection ratio at any given moment. */
     const ratios = new WeakMap();
-
     const update = () => {
       let best = null;
       let bestRatio = 0;
@@ -248,15 +226,13 @@
           best = el;
         }
       });
-      /* Fallback: if nothing is in view yet, use the first section. */
       const target = best || sections[0];
       const topic = target.getAttribute("data-claude-topic") || "guide";
       const prompt = target.getAttribute("data-claude-prompt") || "Ask Claude about this section";
       const name = target.getAttribute("data-claude-name") || "";
-      setBar(bar, topic, prompt, name);
+      setBar(promptEl, topic, prompt, name);
     };
 
-    /* Multiple thresholds give smoother handoff between sections. */
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -266,18 +242,11 @@
       },
       {
         threshold: [0, 0.15, 0.3, 0.45, 0.6, 0.8, 1],
-        /* Bias the viewport upward so the section behind the bottom-anchored
-           bar still counts as "in view" until the next one really takes over. */
         rootMargin: "-10% 0px -25% 0px"
       }
     );
     sections.forEach((el) => observer.observe(el));
-
-    /* Set an initial label, then reveal the bar after a beat. */
     update();
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => bar.classList.add("is-ready"));
-    });
   }
 
   /* ── The sheet ───────────────────────────────────────────────────── */
@@ -357,7 +326,7 @@
     return el;
   }
 
-  function openSheet(sheet, bar) {
+  function openSheet(sheet) {
     const topicKey = currentTopic;
     const ctx = { name: currentName };
     const topic = TOPICS[topicKey] || TOPICS["guide"];
@@ -385,14 +354,12 @@
     sheet.setAttribute("data-open", "true");
     sheet.dataset.currentTopic = topicKey;
     sheet.dataset.currentName = currentName;
-    if (bar) bar.classList.add("is-hidden");
     document.documentElement.style.overflow = "hidden";
     setTimeout(() => input.focus({ preventScroll: true }), 320);
   }
 
-  function closeSheet(sheet, bar) {
+  function closeSheet(sheet) {
     sheet.setAttribute("data-open", "false");
-    if (bar) bar.classList.remove("is-hidden");
     document.documentElement.style.overflow = "";
   }
 
@@ -409,22 +376,25 @@
   }
 
   function init() {
-    const bar = buildBar();
+    const promptEl = document.querySelector("[data-bar-prompt]");
+    const trigger = document.querySelector("[data-claude-open]");
     const sheet = buildSheet();
     const form = sheet.querySelector("[data-form]");
     const input = sheet.querySelector("[data-input]");
 
-    bar.addEventListener("click", () => openSheet(sheet, bar));
+    if (trigger) {
+      trigger.addEventListener("click", () => openSheet(sheet));
+    }
 
     sheet.addEventListener("click", (e) => {
       if (e.target.matches("[data-close]") || e.target.closest("[data-close]")) {
-        closeSheet(sheet, bar);
+        closeSheet(sheet);
       }
     });
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && sheet.getAttribute("data-open") === "true") {
-        closeSheet(sheet, bar);
+        closeSheet(sheet);
       }
     });
 
@@ -436,7 +406,7 @@
       handleSubmit(sheet, v);
     });
 
-    observeSections(bar);
+    observeSections(promptEl);
   }
 
   if (document.readyState === "loading") {

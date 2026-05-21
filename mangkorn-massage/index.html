@@ -94,15 +94,23 @@
     </div>
   </section>
 
-  <!-- ─── Bottom nav ─────────────────────────────────────────────── -->
-  <nav class="nav" aria-label="Guide sections">
-    <div class="nav__row">
-      <a class="nav__item" href="/hotel/">Hotel</a>
-      <a class="nav__item" href="/eat-and-drink/">Eat</a>
-      <a class="nav__item" href="/things-to-do/" aria-current="page">Do</a>
-      <a class="nav__item" href="/map/">Map</a>
+  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
+        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
+        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        <a href="/hotel/">Hotel</a>
+        <a href="/eat-and-drink/">Eat</a>
+        <a href="/things-to-do/" aria-current="page">Do</a>
+        <a href="/map/">Map</a>
+      </nav>
     </div>
-  </nav>
+  </aside>
 
   <script src="/assets/js/claude.js" defer></script>
 

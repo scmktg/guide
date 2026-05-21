@@ -162,23 +162,43 @@ ICON_FORK = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 ICON_COMPASS = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" stroke="none"/></svg>"""
 ICON_MAP = """<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6z"/><path d="M9 4v16M15 6v16"/></svg>"""
 
-# ── Persistent bottom nav ──────────────────────────────────────────────
+# ── The dock (unified Claude prompt + nav) ─────────────────────────────
 
-def nav(active: str = "") -> str:
-    """Text-only bottom nav. `active` is one of: 'hotel', 'eat', 'do', 'map'.
-    Empty string = no current item (eg. the root / home page)."""
+DOCK_MARK_SVG = (
+    '<svg viewBox="0 0 24 24" aria-hidden="true">'
+    '<path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" '
+    'stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/>'
+    '</svg>'
+)
+DOCK_ARROW_SVG = (
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+    'stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">'
+    '<path d="M9 6l6 6-6 6"/></svg>'
+)
+
+def dock(active: str = "", initial_prompt: str = "Ask Claude about the guide") -> str:
+    """Unified bottom dock — Claude prompt row on top, nav row beneath.
+    `active` is one of: 'hotel', 'eat', 'do', 'map' (or '' for home)."""
     def item(href: str, key: str, label: str) -> str:
         ac = ' aria-current="page"' if active == key else ""
-        return f'<a class="nav__item" href="{href}"{ac}>{label}</a>'
-    return f"""<!-- ─── Bottom nav ─────────────────────────────────────────────── -->
-  <nav class="nav" aria-label="Guide sections">
-    <div class="nav__row">
-      {item('/hotel/', 'hotel', 'Hotel')}
-      {item('/eat-and-drink/', 'eat', 'Eat')}
-      {item('/things-to-do/', 'do', 'Do')}
-      {item('/map/', 'map', 'Map')}
+        return f'<a href="{href}"{ac}>{label}</a>'
+    return f"""<!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide controls">
+    <div class="dock__inner">
+      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
+        <span class="dock__claude-mark" aria-hidden="true">{DOCK_MARK_SVG}</span>
+        <span class="dock__claude-prompt" data-bar-prompt>{html.escape(initial_prompt)}</span>
+        <span class="dock__claude-arrow" aria-hidden="true">{DOCK_ARROW_SVG}</span>
+      </button>
+      <div class="dock__divider" aria-hidden="true"></div>
+      <nav class="dock__nav" aria-label="Guide sections">
+        {item('/hotel/', 'hotel', 'Hotel')}
+        {item('/eat-and-drink/', 'eat', 'Eat')}
+        {item('/things-to-do/', 'do', 'Do')}
+        {item('/map/', 'map', 'Map')}
+      </nav>
     </div>
-  </nav>"""
+  </aside>"""
 
 # ── Visit row (text-only contact line) + CTA helpers ───────────────────
 
@@ -319,7 +339,7 @@ PAGE_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  {nav}
+  {dock}
 
   <script src="/assets/js/claude.js" defer></script>
 
@@ -389,7 +409,6 @@ ROOT_TEMPLATE = """<!doctype html>
            data-claude-prompt="Ask Claude what to do today">
     <header class="cats__head">
       <h2>Your companion to the stay.</h2>
-      <p>Hotel essentials, the best places to eat and drink, things to do beyond the gates, and the map to tie it all together.</p>
     </header>
     <div class="cats__grid">
       <a class="cat-card" href="/hotel/">
@@ -423,7 +442,7 @@ ROOT_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  {nav}
+  {dock}
 
   <script src="/assets/js/claude.js" defer></script>
 
@@ -513,7 +532,7 @@ HOTEL_TEMPLATE = """<!doctype html>
 
   {visit_row}
 
-  {nav}
+  {dock}
 
   <script src="/assets/js/claude.js" defer></script>
 
@@ -564,7 +583,7 @@ CATEGORY_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  {nav}
+  {dock}
 
   <script src="/assets/js/claude.js" defer></script>
 
@@ -619,7 +638,7 @@ MAP_TEMPLATE = """<!doctype html>
     <span class="legend-pip legend-pip--do"></span> Things to do
   </section>
 
-  {nav}
+  {dock}
 
   <script src="/assets/js/claude.js" defer></script>
 
@@ -747,7 +766,7 @@ def render_business_page(a: dict, hotel: dict) -> str:
         g4=gallery_img(a["slug"], 4),
         g5=gallery_img(a["slug"], 5),
         g6=gallery_img(a["slug"], 6),
-        nav=nav(active),
+        dock=dock(active),
     )
 
 def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
@@ -768,7 +787,7 @@ def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
         check_block=render_check_block(hotel),
         dining_cards="\n      ".join(render_dining_card(v) for v in on_site),
         visit_row=render_visit_row(hotel),
-        nav=nav("hotel"),
+        dock=dock("hotel"),
     )
 
 def render_root(hotel: dict) -> str:
@@ -780,7 +799,7 @@ def render_root(hotel: dict) -> str:
         cat_img_eat=_unsplash("beach-restaurant", 900, 1100),
         cat_img_do=_unsplash("boat-hire", 900, 1100),
         cat_img_map=_unsplash("coast-1", 900, 1100),
-        nav=nav(""),
+        dock=dock(""),
     )
 
 def render_category(group_slug: str, label: str, intro: str, advertisers: list[dict]) -> str:
@@ -801,7 +820,7 @@ def render_category(group_slug: str, label: str, intro: str, advertisers: list[d
         topic=html.escape(topic),
         bar_prompt=html.escape(bar_prompt),
         list_prompt=html.escape(list_prompt),
-        nav=nav("eat" if group_slug == "eat-and-drink" else "do"),
+        dock=dock("eat" if group_slug == "eat-and-drink" else "do"),
     )
 
 def render_map(hotel: dict, advertisers: list[dict]) -> str:
@@ -824,7 +843,7 @@ def render_map(hotel: dict, advertisers: list[dict]) -> str:
         intro="Tap any pin for the listing, distance and a link to the page.",
         hotel_js=hotel_js,
         spots_js=spots_js,
-        nav=nav("map"),
+        dock=dock("map"),
     )
 
 # ── Main ────────────────────────────────────────────────────────────────

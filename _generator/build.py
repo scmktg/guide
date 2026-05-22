@@ -204,13 +204,14 @@ def topbar(title: str, back_href: str | None = None, over_hero: bool = False,
 
 # ── The dock (bottom nav — five sections, Ask is the concierge tab) ────
 
-# The concierge tab gets a small leading glyph so it reads as an entry
-# point to a conversational surface rather than another reference category.
+# The Ask tab is the entry point to Claude. We lead with the Claude
+# spokes mark — same glyph used in the chat surface itself — so the
+# brand thread is consistent from the nav into the conversation.
 DOCK_ASK_GLYPH_SVG = (
-    '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" '
-    'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
-    'stroke-linejoin="round">'
-    '<path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/>'
+    '<svg viewBox="0 0 24 24" aria-hidden="true">'
+    '<path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66'
+    'M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" '
+    'stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/>'
     '</svg>'
 )
 

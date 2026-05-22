@@ -8,10 +8,13 @@
    ─────────────────────────────────────────────────────────────────── */
 
 :root {
-  --ask-accent:      var(--accent);   /* coastal navy */
+  /* Ask is Claude-branded: same terra palette as the brand mark, so the
+     surface visibly reads as a Claude-powered conversation rather than
+     another category page. */
+  --ask-accent:      var(--claude);
+  --ask-accent-soft: var(--claude-soft);
   --ask-accent-ink:  #FFFFFF;
-  --ask-tint:        #EAF1F5;
-  --ask-soft-rule:   #DCE4EA;
+  --ask-tint:        var(--claude-tint);
   --compose-h:       3.85rem;
 }
 
@@ -159,8 +162,8 @@
 
 .msg--user {
   align-self: flex-end;
-  background: var(--ask-accent);
-  color: var(--ask-accent-ink);
+  background: var(--ink);
+  color: var(--paper);
   padding: 0.7rem 0.95rem;
   border-radius: 18px 18px 4px 18px;
   letter-spacing: -0.003em;
@@ -179,15 +182,15 @@
   width: 1.85rem;
   height: 1.85rem;
   border-radius: 50%;
-  background: var(--ask-tint);
-  color: var(--ask-accent);
+  background: var(--ask-accent);
+  color: #FFFFFF;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
   margin-top: 0.15rem;
 }
-.msg__mark svg { width: 0.95rem; height: 0.95rem; }
+.msg__mark svg { width: 1rem; height: 1rem; }
 
 .msg__body {
   font-family: var(--font-sans);
@@ -411,28 +414,6 @@
 .ask-compose__send:not(:disabled):active { transform: scale(0.95); }
 .ask-compose__send svg { width: 1.05rem; height: 1.05rem; }
 
-/* ── Dock — Ask tab styling ─────────────────────────────────────────── */
-.dock__nav-ask {
-  /* The Ask tab is the entry point to a conversational surface, not a
-     reference category. It carries the same weight as the other tabs
-     but always reads as an action: navy ink, a chat glyph, and a soft
-     ring so it doesn't blend in with the muted category labels. */
-  gap: 0.35rem;
-  background: var(--ask-tint);
-  color: var(--ask-accent);
-  font-weight: 600;
-}
-.dock__nav-ask:hover { color: var(--ask-accent); }
-.dock__nav-ask[aria-current="page"] {
-  background: var(--ask-accent);
-  color: var(--ask-accent-ink);
-}
-.dock__nav-glyph {
-  display: inline-flex;
-  width: 0.95rem;
-  height: 0.95rem;
-  flex: 0 0 auto;
-}
-.dock__nav-glyph svg {
-  width: 100%; height: 100%;
-}
+/* Ask tab styling lives in guide.css so the Claude-branded pill appears
+   on every browsing page, not just /ask/ (which is the only page that
+   loads this stylesheet). */

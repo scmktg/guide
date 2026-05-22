@@ -18,8 +18,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Reserve space at the bottom for the dock (Claude + nav). */
-  padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+  /* Reserve space at the bottom for the dock (five-tab nav). */
+  padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -1076,7 +1076,7 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
 }
 .map-stop__btn:hover .map-stop__arrow { color: var(--ink); transform: translateX(2px); }
 
-/* ── The dock (unified bottom bar: Claude prompt + nav) ─────────────── */
+/* ── The dock (bottom nav — five sections, Ask is the concierge tab) ── */
 .dock {
   position: fixed;
   left: 0; right: 0;
@@ -1090,88 +1090,19 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
   border-top: 1px solid rgba(20, 24, 32, 0.06);
   box-shadow: 0 -8px 32px -16px rgba(20, 24, 32, 0.10);
 }
-.dock__inner {
-  max-width: 32rem;
-  margin: 0 auto;
-}
-
-.dock__claude {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  width: 100%;
-  padding: 0.55rem 0.55rem 0.55rem 0.5rem;
-  border: 0;
-  background: var(--claude-tint);
-  text-align: left;
-  font-family: inherit;
-  font-size: 0.93rem;
-  color: var(--ink);
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.2s var(--ease);
-}
-.dock__claude:hover {
-  background: color-mix(in oklab, var(--claude-tint) 75%, var(--claude) 10%);
-}
-.dock__claude:active {
-  background: color-mix(in oklab, var(--claude-tint) 60%, var(--claude) 18%);
-}
-
-.dock__claude-mark {
-  width: 1rem; height: 1rem;
-  padding: 0.32rem;
-  border-radius: 50%;
-  background: var(--claude);
-  color: #FFFFFF;
-  box-sizing: content-box;
-  flex: 0 0 auto;
-}
-.dock__claude-mark svg { width: 100%; height: 100%; display: block; }
-
-.dock__claude-prompt {
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 400;
-  color: var(--ink);
-  letter-spacing: -0.005em;
-  transition: opacity 0.22s var(--ease);
-}
-.dock__claude-prompt.is-changing { opacity: 0.3; }
-
-.dock__claude-arrow {
-  width: 1.1rem; height: 1.1rem;
-  color: var(--ink-muted);
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-.dock__claude-arrow svg {
-  width: 0.7rem; height: 0.7rem;
-  stroke: currentColor; fill: none; stroke-width: 2;
-}
-
-.dock__divider {
-  height: 1px;
-  background: var(--rule-soft);
-  margin: 0.15rem 0.5rem 0.05rem;
-}
 
 .dock__nav {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.15rem;
-  padding: 0.25rem 0 0;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.2rem;
+  max-width: 36rem;
+  margin: 0 auto;
 }
 .dock__nav a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 2.45rem;
+  min-height: 2.6rem;
   padding: 0.3rem 0.4rem;
   font-size: 0.9rem;
   font-weight: 500;

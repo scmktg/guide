@@ -202,42 +202,40 @@ def topbar(title: str, back_href: str | None = None, over_hero: bool = False,
     {rt}
   </header>"""
 
-# ── The dock (unified Claude prompt + nav) ─────────────────────────────
+# ── The dock (bottom nav — five sections, Ask is the concierge tab) ────
 
-DOCK_MARK_SVG = (
-    '<svg viewBox="0 0 24 24" aria-hidden="true">'
-    '<path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" '
-    'stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/>'
+# The concierge tab gets a small leading glyph so it reads as an entry
+# point to a conversational surface rather than another reference category.
+DOCK_ASK_GLYPH_SVG = (
+    '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" '
+    'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+    'stroke-linejoin="round">'
+    '<path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/>'
     '</svg>'
 )
-DOCK_ARROW_SVG = (
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-    'stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true">'
-    '<path d="M9 6l6 6-6 6"/></svg>'
-)
 
-def dock(active: str = "", initial_prompt: str = "Ask Claude about the guide") -> str:
-    """Unified bottom dock — Claude prompt row on top, nav row beneath.
-    `active` is one of: 'hotel', 'eat', 'do', 'map' (or '' for home)."""
-    def item(href: str, key: str, label: str) -> str:
+def dock(active: str = "") -> str:
+    """Bottom dock — five-tab nav.
+    `active` is one of: 'hotel', 'eat', 'do', 'map', 'ask' (or '' for home)."""
+    def item(href: str, key: str, label: str, extra_cls: str = "", inner: str | None = None) -> str:
         ac = ' aria-current="page"' if active == key else ""
-        return f'<a href="{href}"{ac}>{label}</a>'
-    return f"""<!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+        cls = f' class="{extra_cls}"' if extra_cls else ""
+        body = inner if inner is not None else label
+        return f'<a href="{href}"{cls}{ac}>{body}</a>'
+
+    ask_inner = (
+        f'<span class="dock__nav-glyph" aria-hidden="true">{DOCK_ASK_GLYPH_SVG}</span>'
+        f'<span>Ask</span>'
+    )
+    return f"""<!-- ─── Dock (bottom nav) ──────────────────────────────────────── -->
   <aside class="dock" aria-label="Guide controls">
-    <div class="dock__inner">
-      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
-        <span class="dock__claude-mark" aria-hidden="true">{DOCK_MARK_SVG}</span>
-        <span class="dock__claude-prompt" data-bar-prompt>{html.escape(initial_prompt)}</span>
-        <span class="dock__claude-arrow" aria-hidden="true">{DOCK_ARROW_SVG}</span>
-      </button>
-      <div class="dock__divider" aria-hidden="true"></div>
-      <nav class="dock__nav" aria-label="Guide sections">
-        {item('/hotel/', 'hotel', 'Hotel')}
-        {item('/eat-and-drink/', 'eat', 'Eat')}
-        {item('/things-to-do/', 'do', 'Do')}
-        {item('/map/', 'map', 'Map')}
-      </nav>
-    </div>
+    <nav class="dock__nav" aria-label="Guide sections">
+      {item('/hotel/', 'hotel', 'Hotel')}
+      {item('/eat-and-drink/', 'eat', 'Eat')}
+      {item('/things-to-do/', 'do', 'Do')}
+      {item('/map/', 'map', 'Map')}
+      {item('/ask/', 'ask', 'Ask', extra_cls='dock__nav-ask', inner=ask_inner)}
+    </nav>
   </aside>"""
 
 # ── Visit row (text-only contact line) + CTA helpers ───────────────────
@@ -262,10 +260,7 @@ def render_visit_row(adv: dict) -> str:
     sep = '<span class="visit-row__sep" aria-hidden="true">·</span>'
     inner = sep.join(items)
     return (
-        '<section class="visit-row" aria-label="Visit and contact" '
-        'data-claude-section data-claude-topic="visit" '
-        f'data-claude-name="{html.escape(adv["name"])}" '
-        f'data-claude-prompt="Ask Claude about getting to {html.escape(adv["name"])}">'
+        '<section class="visit-row" aria-label="Visit and contact">'
         '\n    <span class="visit-row__label">Visit</span>\n    '
         + inner +
         "\n  </section>"
@@ -311,7 +306,6 @@ PAGE_TEMPLATE = """<!doctype html>
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/{slug}.css" />
 </head>
 <body>
@@ -319,12 +313,7 @@ PAGE_TEMPLATE = """<!doctype html>
   {topbar}
 
   <!-- ─── Hero ───────────────────────────────────────────────────── -->
-  <section class="hero"
-           data-claude-section
-           data-claude-topic="place"
-           data-claude-name="{name}"
-           data-claude-prompt="Ask Claude about {name}"
-           {hours_attr}>
+  <section class="hero" {hours_attr}>
     <picture class="hero__art" aria-hidden="true">
       <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
@@ -340,22 +329,13 @@ PAGE_TEMPLATE = """<!doctype html>
 
   {cta_block}
 
-  <section class="description"
-           data-claude-section
-           data-claude-topic="place"
-           data-claude-name="{name}"
-           data-claude-prompt="Ask Claude about the experience at {name}">
+  <section class="description">
     <h2>{description_headline}</h2>
     <p>{description_p1}</p>
     <p>{description_p2}</p>
   </section>
 
-  <aside class="offer"
-         aria-label="Offer for Guide readers"
-         data-claude-section
-         data-claude-topic="perk"
-         data-claude-name="{name}"
-         data-claude-prompt="Ask Claude how to redeem this perk">
+  <aside class="offer" aria-label="Offer for Guide readers">
     <span class="offer__label">Guest perk</span>
     <h3>{offer_headline}</h3>
     <p>{offer_body}</p>
@@ -366,12 +346,7 @@ PAGE_TEMPLATE = """<!doctype html>
 
   {visit_row}
 
-  <section class="gallery-section"
-           aria-label="Gallery"
-           data-claude-section
-           data-claude-topic="gallery"
-           data-claude-name="{name}"
-           data-claude-prompt="Ask Claude about visiting {name}">
+  <section class="gallery-section" aria-label="Gallery">
     <header class="gallery-section__head">
       <h2>A look around.</h2>
       <span class="gallery-section__head__hint">{name}</span>
@@ -388,7 +363,6 @@ PAGE_TEMPLATE = """<!doctype html>
 
   {dock}
 
-  <script src="/assets/js/claude.js" defer></script>
   <script src="/assets/js/filters.js" defer></script>
 
 </body>
@@ -427,15 +401,11 @@ ROOT_TEMPLATE = """<!doctype html>
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
   <!-- ─── Hotel hero (no topbar on home) ──────────────────────────── -->
-  <section class="hero"
-           data-claude-section
-           data-claude-topic="hotel"
-           data-claude-prompt="Ask Claude about the hotel">
+  <section class="hero">
     <picture class="hero__art" aria-hidden="true">
       <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
@@ -447,10 +417,7 @@ ROOT_TEMPLATE = """<!doctype html>
     </div>
   </section>
 
-  <section class="cats"
-           data-claude-section
-           data-claude-topic="guide"
-           data-claude-prompt="Ask Claude what to do today">
+  <section class="cats">
     <header class="cats__head">
       <h2>Your companion to the stay.</h2>
     </header>
@@ -488,8 +455,6 @@ ROOT_TEMPLATE = """<!doctype html>
 
   {dock}
 
-  <script src="/assets/js/claude.js" defer></script>
-
 </body>
 </html>
 """
@@ -513,16 +478,12 @@ HOTEL_TEMPLATE = """<!doctype html>
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
   {topbar}
 
-  <section class="hero"
-           data-claude-section
-           data-claude-topic="hotel"
-           data-claude-prompt="Ask Claude about the hotel">
+  <section class="hero">
     <picture class="hero__art" aria-hidden="true">
       <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
@@ -536,20 +497,14 @@ HOTEL_TEMPLATE = """<!doctype html>
 
   {cta_block}
 
-  <section class="description"
-           data-claude-section
-           data-claude-topic="hotel"
-           data-claude-prompt="Ask Claude about your stay">
+  <section class="description">
     <h2>{description_headline}</h2>
     <p>{description_p1}</p>
     <p>{description_p2}</p>
     <p>{description_p3}</p>
   </section>
 
-  <section class="amenities"
-           data-claude-section
-           data-claude-topic="facilities"
-           data-claude-prompt="Ask Claude about hotel facilities">
+  <section class="amenities">
     <header class="amenities__head">
       <h2>What's on site.</h2>
     </header>
@@ -559,10 +514,7 @@ HOTEL_TEMPLATE = """<!doctype html>
     {check_block}
   </section>
 
-  <section class="dining"
-           data-claude-section
-           data-claude-topic="dining"
-           data-claude-prompt="Ask Claude what's open tonight">
+  <section class="dining">
     <header class="dining__head">
       <h2>Two ways to settle in.</h2>
       <p>Both venues are inside the hotel — no driving required.</p>
@@ -575,8 +527,6 @@ HOTEL_TEMPLATE = """<!doctype html>
   {visit_row}
 
   {dock}
-
-  <script src="/assets/js/claude.js" defer></script>
 
 </body>
 </html>
@@ -601,24 +551,17 @@ CATEGORY_TEMPLATE = """<!doctype html>
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
   {topbar}
 
-  <header class="page-head"
-          data-claude-section
-          data-claude-topic="{topic}"
-          data-claude-prompt="{bar_prompt}">
+  <header class="page-head">
     <h1>{headline}</h1>
     <p class="page-head__sub">{intro}</p>
   </header>
 
-  <section class="list"
-           data-claude-section
-           data-claude-topic="{topic}"
-           data-claude-prompt="{list_prompt}">
+  <section class="list">
     <div class="list__grid">
       {cards}
     </div>
@@ -629,7 +572,6 @@ CATEGORY_TEMPLATE = """<!doctype html>
 
   {dock}
 
-  <script src="/assets/js/claude.js" defer></script>
   <script src="/assets/js/filters.js" defer></script>
 
 </body>
@@ -656,26 +598,19 @@ MAP_TEMPLATE = """<!doctype html>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
   {topbar}
 
   <main class="map-page">
-    <section class="map-wrap"
-             data-claude-section
-             data-claude-topic="map"
-             data-claude-prompt="Ask Claude what's closest">
+    <section class="map-wrap">
       <div id="map" class="map"
            role="application"
            aria-label="Interactive map of guide recommendations"></div>
     </section>
 
-    <section class="map-key"
-             data-claude-section
-             data-claude-topic="map"
-             data-claude-prompt="Ask Claude to plan a route">
+    <section class="map-key">
       <header class="map-key__head">
         <h2 class="map-key__title">{stop_count} stops on the map</h2>
         <p class="map-key__sub">Tap a name to centre the map and open it.</p>
@@ -699,8 +634,6 @@ MAP_TEMPLATE = """<!doctype html>
   </main>
 
   {dock}
-
-  <script src="/assets/js/claude.js" defer></script>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
@@ -844,12 +777,7 @@ def render_hours_block(adv: dict) -> str:
     note_html = (
         f'<p class="hours__note">{html.escape(note)}</p>' if note else ""
     )
-    return f"""<section class="hours"
-           data-claude-section
-           data-claude-topic="visit"
-           data-claude-name="{html.escape(adv['name'])}"
-           data-claude-prompt="Ask Claude about hours at {html.escape(adv['name'])}"
-           {hours_attr(adv)}>
+    return f"""<section class="hours" {hours_attr(adv)}>
     <header class="hours__head">
       <h2>Opening hours</h2>
       <span class="status" data-status-pill></span>
@@ -948,22 +876,12 @@ def render_root(hotel: dict) -> str:
 
 def render_category(group_slug: str, label: str, intro: str, advertisers: list[dict]) -> str:
     cards = [render_list_card(a) for a in sorted(advertisers, key=lambda x: x["distance_minutes"])]
-    topic = "eat-listings" if group_slug == "eat-and-drink" else "do-listings"
-    if group_slug == "eat-and-drink":
-        bar_prompt = "Ask Claude where to eat tonight"
-        list_prompt = "Ask Claude to pick one for you"
-    else:
-        bar_prompt = "Ask Claude what to do today"
-        list_prompt = "Ask Claude to narrow this down"
     return CATEGORY_TEMPLATE.format(
         label=html.escape(label),
         meta_description=html.escape(intro),
         headline=html.escape(label + " — within easy reach."),
         intro=html.escape(intro),
         cards="\n      ".join(cards),
-        topic=html.escape(topic),
-        bar_prompt=html.escape(bar_prompt),
-        list_prompt=html.escape(list_prompt),
         topbar=topbar(label, right=TOPBAR_FILTER_BUTTON),
         dock=dock("eat" if group_slug == "eat-and-drink" else "do"),
     )
@@ -1037,6 +955,138 @@ def render_map(hotel: dict, advertisers: list[dict]) -> str:
         dock=dock("map"),
     )
 
+# ── Ask page template (the concierge chat surface) ─────────────────────
+#
+# The Ask page is the single entry point for conversational use of the
+# guide. Empty state surfaces a time-aware greeting and six starter
+# chips; once a guest sends a message, the chips collapse and the log
+# fills with the back-and-forth.
+#
+# The page inlines a slim venue table so the responder can render
+# venue cards client-side without a fetch. The hotel phone number is
+# inlined too so the "out of scope" hand-off can offer a tap-to-call.
+
+ASK_STARTERS = [
+    "We want a casual dinner tonight",
+    "Plan our Saturday with two kids",
+    "Something to do if it rains",
+    "Where's good for a quiet morning coffee",
+    "Surprise us with something unique",
+    "How do I get a late checkout?",
+]
+
+ASK_TEMPLATE = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ask — The Beachcomber Guide</title>
+  <meta name="description" content="Local recommendations and answers, built into the guide. Ask the Beachcomber concierge what to do, where to eat, and how to make the most of your stay." />
+  <meta name="theme-color" content="#FFFFFF" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/tokens.css" />
+  <link rel="stylesheet" href="/assets/css/guide.css" />
+  <link rel="stylesheet" href="/assets/css/ask.css" />
+</head>
+<body class="body--ask">
+
+  {topbar}
+
+  <main class="ask" data-ask>
+    <section class="ask__intro" data-intro>
+      <p class="ask__positioning">Local recommendations and answers, built into the guide.</p>
+      <h1 class="ask__greeting" data-greeting>{fallback_greeting}</h1>
+    </section>
+
+    <section class="ask__log" data-log aria-live="polite" aria-label="Conversation"></section>
+
+    <section class="ask__starters" data-starters aria-label="Starter prompts">
+      <p class="ask__starters-label">Try one of these</p>
+      <div class="ask__chips">
+        {starter_chips}
+      </div>
+    </section>
+  </main>
+
+  <form class="ask-compose" data-form aria-label="Send a message">
+    <div class="ask-compose__inner">
+      <input class="ask-compose__input"
+             type="text"
+             placeholder="Ask the concierge…"
+             data-input
+             autocomplete="off"
+             enterkeyhint="send" />
+      <button class="ask-compose__send" type="submit" aria-label="Send" data-send disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </button>
+    </div>
+  </form>
+
+  {dock}
+
+  <script>
+    window.GUIDE = {{
+      hotel: {hotel_js},
+      venues: {venues_js}
+    }};
+  </script>
+  <script src="/assets/js/ask.js" defer></script>
+
+</body>
+</html>
+"""
+
+def render_starter_chips() -> str:
+    return "\n        ".join(
+        f'<button type="button" class="ask__chip" data-starter>{html.escape(s)}</button>'
+        for s in ASK_STARTERS
+    )
+
+def _ask_venue_payload(a: dict) -> dict:
+    """Slim venue object inlined into /ask/ — just what the responder needs
+    to render cards. Stays small so we don't ship the whole content tree."""
+    return {
+        "slug": a["slug"],
+        "name": a["name"],
+        "category": a.get("category", ""),
+        "group": a.get("category_group", ""),
+        "suburb": a.get("suburb", ""),
+        "distance": a.get("distance_minutes", 0),
+        "image": hero_img(a["slug"]),
+        "booking_url": a.get("booking_url") or "",
+        "phone": a.get("phone") or "",
+        "address": a.get("address") or "",
+        "perk": a.get("offer_headline", ""),
+        "subtitle": a.get("hero_subtitle", ""),
+    }
+
+def render_ask_page(hotel: dict, advertisers: list[dict]) -> str:
+    venues = [_ask_venue_payload(a) for a in advertisers]
+    hotel_payload = {
+        "name": hotel["name"],
+        "phone": hotel.get("phone", ""),
+        "phone_href": tel_href(hotel.get("phone")) if hotel.get("phone") else "",
+        "address": hotel.get("address", ""),
+    }
+    # Static fallback used until the client-side time-aware greeting kicks in.
+    fallback_greeting = "Hello there. What's on?"
+    return ASK_TEMPLATE.format(
+        topbar=topbar("Ask"),
+        dock=dock("ask"),
+        starter_chips=render_starter_chips(),
+        fallback_greeting=html.escape(fallback_greeting),
+        hotel_js=json.dumps(hotel_payload),
+        venues_js=json.dumps(venues),
+    )
+
 # ── Main ────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -1080,6 +1130,11 @@ def main() -> None:
     (ROOT / "map").mkdir(parents=True, exist_ok=True)
     (ROOT / "map" / "index.html").write_text(render_map(hotel, advertisers), encoding="utf-8")
     print(f"  generated /map/ ({len(advertisers) + 1} pins)")
+
+    # Ask page (the concierge chat surface)
+    (ROOT / "ask").mkdir(parents=True, exist_ok=True)
+    (ROOT / "ask" / "index.html").write_text(render_ask_page(hotel, advertisers), encoding="utf-8")
+    print(f"  generated /ask/ ({len(advertisers)} venues inlined)")
 
     # Root index
     (ROOT / "index.html").write_text(render_root(hotel), encoding="utf-8")

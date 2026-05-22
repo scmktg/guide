@@ -16,7 +16,6 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
@@ -28,19 +27,13 @@
   </header>
 
   <main class="map-page">
-    <section class="map-wrap"
-             data-claude-section
-             data-claude-topic="map"
-             data-claude-prompt="Ask Claude what's closest">
+    <section class="map-wrap">
       <div id="map" class="map"
            role="application"
            aria-label="Interactive map of guide recommendations"></div>
     </section>
 
-    <section class="map-key"
-             data-claude-section
-             data-claude-topic="map"
-             data-claude-prompt="Ask Claude to plan a route">
+    <section class="map-key">
       <header class="map-key__head">
         <h2 class="map-key__title">22 stops on the map</h2>
         <p class="map-key__sub">Tap a name to centre the map and open it.</p>
@@ -84,25 +77,16 @@
     </section>
   </main>
 
-  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
+  <!-- ─── Dock (bottom nav) ──────────────────────────────────────── -->
   <aside class="dock" aria-label="Guide controls">
-    <div class="dock__inner">
-      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
-        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
-        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
-        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-      </button>
-      <div class="dock__divider" aria-hidden="true"></div>
-      <nav class="dock__nav" aria-label="Guide sections">
-        <a href="/hotel/">Hotel</a>
-        <a href="/eat-and-drink/">Eat</a>
-        <a href="/things-to-do/">Do</a>
-        <a href="/map/" aria-current="page">Map</a>
-      </nav>
-    </div>
+    <nav class="dock__nav" aria-label="Guide sections">
+      <a href="/hotel/">Hotel</a>
+      <a href="/eat-and-drink/">Eat</a>
+      <a href="/things-to-do/">Do</a>
+      <a href="/map/" aria-current="page">Map</a>
+      <a href="/ask/" class="dock__nav-ask"><span class="dock__nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H11l-4 4v-4H7.5A2.5 2.5 0 0 1 5 12.5z"/></svg></span><span>Ask</span></a>
+    </nav>
   </aside>
-
-  <script src="/assets/js/claude.js" defer></script>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>

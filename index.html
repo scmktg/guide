@@ -15,15 +15,17 @@
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
-  <!-- ─── Hotel hero (no topbar on home) ──────────────────────────── -->
-  <section class="hero"
-           data-claude-section
-           data-claude-topic="hotel"
-           data-claude-prompt="Ask Claude about the hotel">
+  <!-- ─── Topbar ──────────────────────────────────────────────────── -->
+  <header class="topbar topbar--fixed">
+    <span aria-hidden="true"></span>
+    <h1 class="topbar__title"></h1>
+    <div class="topbar__right"><div class="topbar__utility" role="group" aria-label="Concierge and itinerary"><a href="/ask/" class="topbar__util topbar__util--ask" aria-label="Ask Claude"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></a><a href="/itinerary/" class="topbar__util topbar__util--itinerary" aria-label="Your itinerary"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg><span class="topbar__util-count" data-itinerary-count hidden>0</span></a></div></div>
+  </header>
+
+  <section class="hero">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
@@ -35,10 +37,7 @@
     </div>
   </section>
 
-  <section class="cats"
-           data-claude-section
-           data-claude-topic="guide"
-           data-claude-prompt="Ask Claude what to do today">
+  <section class="cats">
     <header class="cats__head">
       <h2>Your companion to the stay.</h2>
     </header>
@@ -60,7 +59,7 @@
       <a class="cat-card" href="/things-to-do/">
         <img class="cat-card__img" src="https://images.unsplash.com/photo-1502209524164-acea936639a2?auto=format&fit=crop&w=900&q=80" alt="" loading="lazy" decoding="async" width="900" height="1100" />
         <div class="cat-card__body">
-          <span class="cat-card__title">Things to do</span>
+          <span class="cat-card__title">Explore</span>
           <span class="cat-card__desc">Experiences, tours and standout local stops.</span>
         </div>
       </a>
@@ -74,25 +73,16 @@
     </div>
   </section>
 
-  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
-  <aside class="dock" aria-label="Guide controls">
-    <div class="dock__inner">
-      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
-        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
-        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
-        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-      </button>
-      <div class="dock__divider" aria-hidden="true"></div>
-      <nav class="dock__nav" aria-label="Guide sections">
-        <a href="/hotel/">Hotel</a>
-        <a href="/eat-and-drink/">Eat</a>
-        <a href="/things-to-do/">Do</a>
-        <a href="/map/">Map</a>
-      </nav>
-    </div>
+  <!-- ─── Dock (bottom nav) ──────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide sections">
+    <nav class="dock__nav" aria-label="Guide sections">
+      <a href="/hotel/">Hotel</a>
+      <a href="/eat-and-drink/">Eat & Drink</a>
+      <a href="/things-to-do/">Explore</a>
+    </nav>
   </aside>
 
-  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/itinerary.js" defer></script>
 
 </body>
 </html>

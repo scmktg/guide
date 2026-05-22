@@ -19,7 +19,6 @@
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/plain-janes-store.css" />
 </head>
 <body>
@@ -28,16 +27,11 @@
   <header class="topbar topbar--fixed">
     <a class="topbar__back" href="/things-to-do/" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></a>
     <h1 class="topbar__title">Plain Janes Store</h1>
-    <span aria-hidden="true"></span>
+    <div class="topbar__right"><div class="topbar__utility" role="group" aria-label="Concierge and itinerary"><a href="/ask/" class="topbar__util topbar__util--ask" aria-label="Ask Claude"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></a><a href="/itinerary/" class="topbar__util topbar__util--itinerary" aria-label="Your itinerary"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg><span class="topbar__util-count" data-itinerary-count hidden>0</span></a></div></div>
   </header>
 
   <!-- ─── Hero ───────────────────────────────────────────────────── -->
-  <section class="hero"
-           data-claude-section
-           data-claude-topic="place"
-           data-claude-name="Plain Janes Store"
-           data-claude-prompt="Ask Claude about Plain Janes Store"
-            data-hours="{&quot;mon&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;tue&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;wed&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;thu&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;fri&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sat&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sun&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]]}">
+  <section class="hero"  data-hours="{&quot;mon&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;tue&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;wed&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;thu&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;fri&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sat&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sun&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
@@ -54,37 +48,24 @@
   <!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
     <a class="btn" href="https://plainjanesstore.com/">Visit website</a>
+    <button type="button" class="btn btn--save" data-save-toggle="plain-janes-store" aria-label="Save Plain Janes Store to your itinerary" aria-pressed="false"><span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg></span><span data-save-label>Save</span></button>
   </div>
 
 
-  <section class="description"
-           data-claude-section
-           data-claude-topic="place"
-           data-claude-name="Plain Janes Store"
-           data-claude-prompt="Ask Claude about the experience at Plain Janes Store">
+  <section class="description">
     <h2>Simple, stylish, every day.</h2>
     <p>Plain Janes is the brainchild of fabric-loving sisters and Central Coast locals who have been shaping Long Jetty&#x27;s main street since 2015. The racks are tightly edited: easy, wearable women&#x27;s pieces, plus a thoughtful selection of kids&#x27; clothing, accessories and homewares.</p>
     <p>The store is white-walled and bright, the kind of browse that feels like a treat rather than a chore. Pop in between brunch and the beach for a piece you will actually wear back home.</p>
   </section>
 
-  <aside class="offer"
-         aria-label="Offer for Guide readers"
-         data-claude-section
-         data-claude-topic="perk"
-         data-claude-name="Plain Janes Store"
-         data-claude-prompt="Ask Claude how to redeem this perk">
+  <aside class="offer" aria-label="Offer for Guide readers">
     <span class="offer__label">Guest perk</span>
     <h3>Ten percent off any full-priced item in store.</h3>
     <p>Show this page at the counter before payment. One transaction per guest, in store only.</p>
     <span class="offer__code">GUIDE / LINEN</span>
   </aside>
 
-  <section class="hours"
-           data-claude-section
-           data-claude-topic="visit"
-           data-claude-name="Plain Janes Store"
-           data-claude-prompt="Ask Claude about hours at Plain Janes Store"
-            data-hours="{&quot;mon&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;tue&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;wed&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;thu&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;fri&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sat&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sun&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]]}">
+  <section class="hours"  data-hours="{&quot;mon&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;tue&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;wed&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;thu&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;fri&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sat&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]],&quot;sun&quot;:[[&quot;09:30&quot;,&quot;16:30&quot;]]}">
     <header class="hours__head">
       <h2>Opening hours</h2>
       <span class="status" data-status-pill></span>
@@ -93,17 +74,12 @@
     <p class="hours__note">Open 7 days.</p>
   </section>
 
-  <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="Plain Janes Store" data-claude-prompt="Ask Claude about getting to Plain Janes Store">
+  <section class="visit-row" aria-label="Visit and contact">
     <span class="visit-row__label">Visit</span>
     <a href="tel:+61243032934">Call</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="mailto:plainjanesstore@icloud.com">Email</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://maps.google.com/?q=Plain+Janes+Store+346+The+Entrance+Road%2C+Long+Jetty+NSW+2261">Directions</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://plainjanesstore.com/">Website</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://instagram.com/_plainjanes">Instagram</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.facebook.com/plainjaneslongjetty/">Facebook</a>
   </section>
 
-  <section class="gallery-section"
-           aria-label="Gallery"
-           data-claude-section
-           data-claude-topic="gallery"
-           data-claude-name="Plain Janes Store"
-           data-claude-prompt="Ask Claude about visiting Plain Janes Store">
+  <section class="gallery-section" aria-label="Gallery">
     <header class="gallery-section__head">
       <h2>A look around.</h2>
       <span class="gallery-section__head__hint">Plain Janes Store</span>
@@ -118,25 +94,16 @@
     </div>
   </section>
 
-  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
-  <aside class="dock" aria-label="Guide controls">
-    <div class="dock__inner">
-      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
-        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
-        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
-        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-      </button>
-      <div class="dock__divider" aria-hidden="true"></div>
-      <nav class="dock__nav" aria-label="Guide sections">
-        <a href="/hotel/">Hotel</a>
-        <a href="/eat-and-drink/">Eat</a>
-        <a href="/things-to-do/" aria-current="page">Do</a>
-        <a href="/map/">Map</a>
-      </nav>
-    </div>
+  <!-- ─── Dock (bottom nav) ──────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide sections">
+    <nav class="dock__nav" aria-label="Guide sections">
+      <a href="/hotel/">Hotel</a>
+      <a href="/eat-and-drink/">Eat & Drink</a>
+      <a href="/things-to-do/" aria-current="page">Explore</a>
+    </nav>
   </aside>
 
-  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/itinerary.js" defer></script>
   <script src="/assets/js/filters.js" defer></script>
 
 </body>

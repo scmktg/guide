@@ -19,7 +19,6 @@
 
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
   <link rel="stylesheet" href="/assets/css/pages/the-savoy-bar-and-music.css" />
 </head>
 <body>
@@ -28,16 +27,11 @@
   <header class="topbar topbar--fixed">
     <a class="topbar__back" href="/eat-and-drink/" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></a>
     <h1 class="topbar__title">The Savoy Bar &amp; Music</h1>
-    <span aria-hidden="true"></span>
+    <div class="topbar__right"><div class="topbar__utility" role="group" aria-label="Concierge and itinerary"><a href="/ask/" class="topbar__util topbar__util--ask" aria-label="Ask Claude"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></a><a href="/itinerary/" class="topbar__util topbar__util--itinerary" aria-label="Your itinerary"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg><span class="topbar__util-count" data-itinerary-count hidden>0</span></a></div></div>
   </header>
 
   <!-- ─── Hero ───────────────────────────────────────────────────── -->
-  <section class="hero"
-           data-claude-section
-           data-claude-topic="place"
-           data-claude-name="The Savoy Bar &amp; Music"
-           data-claude-prompt="Ask Claude about The Savoy Bar &amp; Music"
-            data-hours="{&quot;mon&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;tue&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;wed&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;thu&quot;:[[&quot;15:00&quot;,&quot;24:00&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sun&quot;:[[&quot;12:00&quot;,&quot;22:00&quot;]]}">
+  <section class="hero"  data-hours="{&quot;mon&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;tue&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;wed&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;thu&quot;:[[&quot;15:00&quot;,&quot;24:00&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sun&quot;:[[&quot;12:00&quot;,&quot;22:00&quot;]]}">
     <picture class="hero__art" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=2400&q=80" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
     </picture>
@@ -54,37 +48,24 @@
   <!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
     <a class="btn" href="https://www.thesavoybarandmusic.com.au/">Visit website</a>
+    <button type="button" class="btn btn--save" data-save-toggle="the-savoy-bar-and-music" aria-label="Save The Savoy Bar &amp; Music to your itinerary" aria-pressed="false"><span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg></span><span data-save-label>Save</span></button>
   </div>
 
 
-  <section class="description"
-           data-claude-section
-           data-claude-topic="place"
-           data-claude-name="The Savoy Bar &amp; Music"
-           data-claude-prompt="Ask Claude about the experience at The Savoy Bar &amp; Music">
+  <section class="description">
     <h2>Live music in a restored cinema.</h2>
     <p>Behind the restored Savoy facade is a buzzy little venue that doubles as neighbourhood bar, music room and event space. The kitchen turns out Napoli-style pizzas, charcuterie and cheese boards, while the bar leans into natural wine, low-sulphur drops and creative cocktails.</p>
     <p>Trivia on Wednesdays, open mic Thursdays and live music through the weekend keep the calendar humming. It is the sort of room you wander into for one drink and leave three hours later.</p>
   </section>
 
-  <aside class="offer"
-         aria-label="Offer for Guide readers"
-         data-claude-section
-         data-claude-topic="perk"
-         data-claude-name="The Savoy Bar &amp; Music"
-         data-claude-prompt="Ask Claude how to redeem this perk">
+  <aside class="offer" aria-label="Offer for Guide readers">
     <span class="offer__label">Guest perk</span>
     <h3>A complimentary Savoy spritz with any pizza ordered after 5pm.</h3>
     <p>Show this page at the bar when ordering. One per guest, dine-in only.</p>
     <span class="offer__code">GUIDE / SAVOY</span>
   </aside>
 
-  <section class="hours"
-           data-claude-section
-           data-claude-topic="visit"
-           data-claude-name="The Savoy Bar &amp; Music"
-           data-claude-prompt="Ask Claude about hours at The Savoy Bar &amp; Music"
-            data-hours="{&quot;mon&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;tue&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;wed&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;thu&quot;:[[&quot;15:00&quot;,&quot;24:00&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sun&quot;:[[&quot;12:00&quot;,&quot;22:00&quot;]]}">
+  <section class="hours"  data-hours="{&quot;mon&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;tue&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;wed&quot;:[[&quot;15:00&quot;,&quot;23:00&quot;]],&quot;thu&quot;:[[&quot;15:00&quot;,&quot;24:00&quot;]],&quot;fri&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sat&quot;:[[&quot;12:00&quot;,&quot;24:00&quot;]],&quot;sun&quot;:[[&quot;12:00&quot;,&quot;22:00&quot;]]}">
     <header class="hours__head">
       <h2>Opening hours</h2>
       <span class="status" data-status-pill></span>
@@ -93,17 +74,12 @@
     <p class="hours__note">&#x27;Midday to late&#x27; — live music Thu-Sun, bottomless lunch Fri-Sun 12-3pm.</p>
   </section>
 
-  <section class="visit-row" aria-label="Visit and contact" data-claude-section data-claude-topic="visit" data-claude-name="The Savoy Bar &amp; Music" data-claude-prompt="Ask Claude about getting to The Savoy Bar &amp; Music">
+  <section class="visit-row" aria-label="Visit and contact">
     <span class="visit-row__label">Visit</span>
     <a href="tel:+61406461122">Call</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://maps.google.com/?q=The+Savoy+Bar+%26+Music+2%2F391+The+Entrance+Road%2C+Long+Jetty+NSW+2261">Directions</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.thesavoybarandmusic.com.au/">Website</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://instagram.com/thesavoybarandmusic">Instagram</a><span class="visit-row__sep" aria-hidden="true">·</span><a href="https://www.facebook.com/thesavoybarandmusic/">Facebook</a>
   </section>
 
-  <section class="gallery-section"
-           aria-label="Gallery"
-           data-claude-section
-           data-claude-topic="gallery"
-           data-claude-name="The Savoy Bar &amp; Music"
-           data-claude-prompt="Ask Claude about visiting The Savoy Bar &amp; Music">
+  <section class="gallery-section" aria-label="Gallery">
     <header class="gallery-section__head">
       <h2>A look around.</h2>
       <span class="gallery-section__head__hint">The Savoy Bar &amp; Music</span>
@@ -118,25 +94,16 @@
     </div>
   </section>
 
-  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
-  <aside class="dock" aria-label="Guide controls">
-    <div class="dock__inner">
-      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
-        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
-        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
-        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-      </button>
-      <div class="dock__divider" aria-hidden="true"></div>
-      <nav class="dock__nav" aria-label="Guide sections">
-        <a href="/hotel/">Hotel</a>
-        <a href="/eat-and-drink/" aria-current="page">Eat</a>
-        <a href="/things-to-do/">Do</a>
-        <a href="/map/">Map</a>
-      </nav>
-    </div>
+  <!-- ─── Dock (bottom nav) ──────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide sections">
+    <nav class="dock__nav" aria-label="Guide sections">
+      <a href="/hotel/">Hotel</a>
+      <a href="/eat-and-drink/" aria-current="page">Eat & Drink</a>
+      <a href="/things-to-do/">Explore</a>
+    </nav>
   </aside>
 
-  <script src="/assets/js/claude.js" defer></script>
+  <script src="/assets/js/itinerary.js" defer></script>
   <script src="/assets/js/filters.js" defer></script>
 
 </body>

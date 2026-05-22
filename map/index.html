@@ -16,31 +16,24 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/guide.css" />
-  <link rel="stylesheet" href="/assets/css/claude.css" />
 </head>
 <body>
 
   <!-- ─── Topbar ──────────────────────────────────────────────────── -->
   <header class="topbar topbar--sticky topbar--solid">
-    <span aria-hidden="true"></span>
+    <a class="topbar__back" href="/things-to-do/" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></a>
     <h1 class="topbar__title">Map</h1>
-    <span aria-hidden="true"></span>
+    <div class="topbar__right"><div class="topbar__utility" role="group" aria-label="Concierge and itinerary"><a href="/ask/" class="topbar__util topbar__util--ask" aria-label="Ask Claude"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></a><a href="/itinerary/" class="topbar__util topbar__util--itinerary" aria-label="Your itinerary"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg><span class="topbar__util-count" data-itinerary-count hidden>0</span></a></div></div>
   </header>
 
   <main class="map-page">
-    <section class="map-wrap"
-             data-claude-section
-             data-claude-topic="map"
-             data-claude-prompt="Ask Claude what's closest">
+    <section class="map-wrap">
       <div id="map" class="map"
            role="application"
            aria-label="Interactive map of guide recommendations"></div>
     </section>
 
-    <section class="map-key"
-             data-claude-section
-             data-claude-topic="map"
-             data-claude-prompt="Ask Claude to plan a route">
+    <section class="map-key">
       <header class="map-key__head">
         <h2 class="map-key__title">22 stops on the map</h2>
         <p class="map-key__sub">Tap a name to centre the map and open it.</p>
@@ -84,25 +77,14 @@
     </section>
   </main>
 
-  <!-- ─── Dock (Claude + nav) ────────────────────────────────────── -->
-  <aside class="dock" aria-label="Guide controls">
-    <div class="dock__inner">
-      <button class="dock__claude" type="button" data-claude-open aria-label="Ask Claude">
-        <span class="dock__claude-mark" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>
-        <span class="dock__claude-prompt" data-bar-prompt>Ask Claude about the guide</span>
-        <span class="dock__claude-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></span>
-      </button>
-      <div class="dock__divider" aria-hidden="true"></div>
-      <nav class="dock__nav" aria-label="Guide sections">
-        <a href="/hotel/">Hotel</a>
-        <a href="/eat-and-drink/">Eat</a>
-        <a href="/things-to-do/">Do</a>
-        <a href="/map/" aria-current="page">Map</a>
-      </nav>
-    </div>
+  <!-- ─── Dock (bottom nav) ──────────────────────────────────────── -->
+  <aside class="dock" aria-label="Guide sections">
+    <nav class="dock__nav" aria-label="Guide sections">
+      <a href="/hotel/">Hotel</a>
+      <a href="/eat-and-drink/">Eat & Drink</a>
+      <a href="/things-to-do/" aria-current="page">Explore</a>
+    </nav>
   </aside>
-
-  <script src="/assets/js/claude.js" defer></script>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
@@ -192,6 +174,8 @@
       });
     });
   </script>
+
+  <script src="/assets/js/itinerary.js" defer></script>
 
 </body>
 </html>

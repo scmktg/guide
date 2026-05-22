@@ -331,23 +331,32 @@
   color: var(--ink-soft);
   letter-spacing: -0.003em;
 }
-.handoff__call {
+.msg__body a.handoff__call {
+  /* Specificity beats the generic .msg__body a rule above so the
+     button's white ink isn't lost to the terra accent text colour. */
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   align-self: flex-start;
-  padding: 0.55rem 0.85rem;
+  padding: 0.6rem 1rem;
   border-radius: 999px;
   background: var(--ask-accent);
-  color: var(--ask-accent-ink);
+  color: #FFFFFF;
   text-decoration: none;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: -0.003em;
+  white-space: nowrap;
   transition: background 0.2s var(--ease);
 }
-.handoff__call:hover { background: color-mix(in oklab, var(--ask-accent) 88%, black 8%); }
-.handoff__call svg { width: 0.95rem; height: 0.95rem; }
+.msg__body a.handoff__call:hover {
+  background: color-mix(in oklab, var(--ask-accent) 88%, black 8%);
+}
+.msg__body a.handoff__call svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: 0 0 auto;
+}
 
 /* ── Compose bar ────────────────────────────────────────────────────── */
 .ask-compose {

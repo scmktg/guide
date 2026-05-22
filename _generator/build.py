@@ -981,8 +981,8 @@ ASK_TEMPLATE = """<!doctype html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Ask — The Beachcomber Guide</title>
-  <meta name="description" content="Local recommendations and answers, built into the guide. Ask the Beachcomber concierge what to do, where to eat, and how to make the most of your stay." />
+  <title>Ask Claude — The Beachcomber Guide</title>
+  <meta name="description" content="Ask Claude about the hotel, where to eat, and how to spend the day at The Beachcomber on the NSW Central Coast." />
   <meta name="theme-color" content="#FFFFFF" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1019,7 +1019,7 @@ ASK_TEMPLATE = """<!doctype html>
     <div class="ask-compose__inner">
       <input class="ask-compose__input"
              type="text"
-             placeholder="Ask the concierge…"
+             placeholder="Ask Claude…"
              data-input
              autocomplete="off"
              enterkeyhint="send" />
@@ -1078,7 +1078,7 @@ def render_ask_page(hotel: dict, advertisers: list[dict]) -> str:
         "address": hotel.get("address", ""),
     }
     # Static fallback used until the client-side time-aware greeting kicks in.
-    fallback_greeting = "Hello there. What's on?"
+    fallback_greeting = "Hi, I'm Claude. What's on?"
     return ASK_TEMPLATE.format(
         topbar=topbar("Ask"),
         dock=dock("ask"),

@@ -529,6 +529,39 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
 }
 .btn--ghost:hover { border-color: var(--ink); box-shadow: none; }
 
+/* Quiet ghost variant — for less-prominent secondary actions like "Clear
+   all" on the itinerary page. */
+.btn--quiet {
+  color: var(--ink-soft);
+}
+.btn--quiet:hover { color: var(--ink); }
+
+/* The Save toggle — bookmark icon + label, no trailing chevron.
+   Sits in the CTA row alongside the primary action. */
+.btn--save {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--rule);
+  box-shadow: none;
+  padding: 0.85rem 1.2rem;
+}
+.btn--save:hover { border-color: var(--ink); box-shadow: none; transform: none; }
+.btn--save::after { content: none; }
+.btn--save .btn__icon {
+  display: inline-flex;
+  width: 1.05rem;
+  height: 1.05rem;
+}
+.btn--save .btn__icon svg { width: 100%; height: 100%; }
+/* Saved state — terra fill + filled bookmark glyph. */
+.btn--save.is-saved {
+  background: var(--claude);
+  color: #FFFFFF;
+  border-color: var(--claude);
+}
+.btn--save.is-saved:hover { background: var(--claude-soft); border-color: var(--claude-soft); }
+.btn--save.is-saved .btn__icon svg { fill: currentColor; }
+
 /* ── Page head (category + map) ──────────────────────────────────────── */
 .page-head {
   max-width: 46rem;
@@ -1093,9 +1126,9 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
 
 .dock__nav {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0.2rem;
-  max-width: 36rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.3rem;
+  max-width: 32rem;
   margin: 0 auto;
 }
 .dock__nav a {
@@ -1103,8 +1136,8 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
   align-items: center;
   justify-content: center;
   min-height: 2.6rem;
-  padding: 0.3rem 0.4rem;
-  font-size: 0.9rem;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: -0.005em;
   color: var(--ink-muted);
@@ -1117,30 +1150,6 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
   color: var(--ink);
   font-weight: 600;
 }
-
-/* ── Ask tab — Claude-branded entry point ───────────────────────────── */
-/* The Ask tab is the entry point to the Claude-powered concierge. It
-   carries the Claude spokes mark, a soft terra tint when inactive, and
-   the full terra fill when current. Specificity beats the base rules
-   above because both selectors are 0,2,1. */
-.dock__nav a.dock__nav-ask {
-  gap: 0.35rem;
-  background: var(--claude-tint);
-  color: var(--claude);
-  font-weight: 600;
-}
-.dock__nav a.dock__nav-ask:hover { color: var(--claude); }
-.dock__nav a.dock__nav-ask[aria-current="page"] {
-  background: var(--claude);
-  color: #FFFFFF;
-}
-.dock__nav-glyph {
-  display: inline-flex;
-  width: 0.95rem;
-  height: 0.95rem;
-  flex: 0 0 auto;
-}
-.dock__nav-glyph svg { width: 100%; height: 100%; }
 
 /* ── Status pill (Open / Closed / By appointment) ────────────────────── */
 .status {
@@ -1186,9 +1195,23 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
   top: calc(0.85rem + env(safe-area-inset-top, 0px) + 3.5rem);
 }
 
-/* ── Topbar action button (filter, etc) ──────────────────────────── */
-.topbar__action {
+/* ── Topbar right cluster (filter + utility) ──────────────────────── */
+.topbar__right {
   justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.topbar__utility {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Topbar action buttons — the filter button and the two utility links
+   (Ask, Itinerary) share the same circular-pill shape. */
+.topbar__action,
+.topbar__util {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -1202,27 +1225,91 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   cursor: pointer;
+  text-decoration: none;
   transition: background 0.2s var(--ease), color 0.2s var(--ease);
 }
-.topbar__action:hover { background: rgba(0, 0, 0, 0.34); }
-.topbar__action:active { transform: scale(0.96); }
-.topbar__action svg {
+.topbar__action:hover,
+.topbar__util:hover { background: rgba(0, 0, 0, 0.34); }
+.topbar__action:active,
+.topbar__util:active { transform: scale(0.96); }
+.topbar__action svg,
+.topbar__util svg {
   width: 1.05rem;
   height: 1.05rem;
   stroke: currentColor;
   fill: none;
-  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+.topbar__action svg { stroke-width: 2; }
+.topbar__util svg { stroke-width: 1.8; }
+
 .topbar--solid .topbar__action,
-.topbar.is-solid .topbar__action {
+.topbar.is-solid .topbar__action,
+.topbar--solid .topbar__util,
+.topbar.is-solid .topbar__util {
   background: var(--paper-soft);
   color: var(--ink);
 }
 .topbar--solid .topbar__action:hover,
-.topbar.is-solid .topbar__action:hover {
+.topbar.is-solid .topbar__action:hover,
+.topbar--solid .topbar__util:hover,
+.topbar.is-solid .topbar__util:hover {
   background: var(--rule-soft);
+}
+
+/* Ask utility — Claude-branded so the entry into the chat reads as
+   the Claude surface across every page. */
+.topbar__util--ask,
+.topbar--solid .topbar__util--ask,
+.topbar.is-solid .topbar__util--ask {
+  background: var(--claude);
+  color: #FFFFFF;
+}
+.topbar__util--ask:hover,
+.topbar--solid .topbar__util--ask:hover,
+.topbar.is-solid .topbar__util--ask:hover {
+  background: var(--claude-soft);
+}
+
+/* Active state — when the user is on /ask/ or /itinerary/, the
+   matching utility shows a tight ring. */
+.topbar__util.is-active::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  pointer-events: none;
+}
+.topbar__util--ask.is-active::after { border-color: var(--claude); }
+.topbar--fixed .topbar__util--ask.is-active::after,
+.topbar:not(.is-solid):not(.topbar--solid) .topbar__util.is-active::after {
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+/* Itinerary count badge — a small terra pip in the corner of the
+   bookmark button when the guest has saved stops. */
+.topbar__util-count {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--claude);
+  color: #FFFFFF;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.05rem;
+  text-align: center;
+  border: 2px solid var(--paper);
+  box-sizing: content-box;
+}
+.topbar:not(.is-solid):not(.topbar--solid) .topbar__util-count {
+  border-color: rgba(255, 255, 255, 0.6);
 }
 /* Small peach dot when at least one filter is active. */
 .topbar__action.is-active::after {
@@ -1532,8 +1619,195 @@ p { margin: 0 0 1rem; max-width: var(--measure); }
   font-style: italic;
 }
 
+/* ── Itinerary page ──────────────────────────────────────────────────── */
+.itin {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem) var(--gutter) 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.itin__head h1 {
+  font-size: var(--step-3);
+  font-weight: 500;
+  letter-spacing: -0.022em;
+  margin: 0 0 0.35rem;
+}
+.itin__sub {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: var(--step-0);
+  letter-spacing: -0.005em;
+}
+.itin__actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.itin__actions .btn {
+  padding: 0.65rem 1.1rem;
+  font-size: 0.92rem;
+  box-shadow: none;
+}
+.itin__actions .btn::after { content: none; }
+
+.itin__shared {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--claude-tint);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+.itin__shared p { margin: 0; color: var(--ink); }
+.itin__shared .btn { padding: 0.65rem 1.2rem; font-size: 0.92rem; box-shadow: none; }
+.itin__shared .btn::after { content: none; }
+
+.itin__empty {
+  padding: 1.25rem 1.1rem 1.5rem;
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-soft);
+}
+.itin__empty p { margin: 0 0 0.35rem; color: var(--ink-soft); }
+.itin__empty p:last-child { margin-bottom: 0; }
+.itin__empty-lede {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.itin__empty a { color: var(--claude); text-decoration: underline; text-underline-offset: 2px; }
+
+.itin__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.itin__share-status {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--claude);
+  padding: 0.45rem 0.8rem;
+  background: var(--claude-tint);
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+/* Venue card — used in chat replies and on the itinerary page. */
+.venue-card {
+  display: block;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease),
+              box-shadow 0.2s var(--ease);
+}
+.venue-card:hover {
+  border-color: var(--claude);
+  box-shadow: var(--shadow-2);
+}
+.venue-card__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--paper-soft);
+}
+.venue-card__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.venue-card__body {
+  padding: 0.85rem 0.95rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.venue-card__cat {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.venue-card__name {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+  margin: 0;
+  line-height: 1.2;
+}
+.venue-card__meta {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  letter-spacing: 0;
+  line-height: 1.4;
+  margin: 0;
+}
+.venue-card__perk {
+  font-size: 0.82rem;
+  color: var(--claude);
+  margin: 0.25rem 0 0;
+  line-height: 1.4;
+}
+.venue-card__perk::before {
+  content: "★";
+  display: inline-block;
+  margin-right: 0.3rem;
+  font-size: 0.78rem;
+}
+.venue-card__actions {
+  display: flex;
+  gap: 0.25rem;
+  border-top: 1px solid var(--rule-soft);
+  margin-top: 0.6rem;
+}
+.venue-card__action {
+  flex: 1;
+  text-align: center;
+  padding: 0.7rem 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-right: 1px solid var(--rule-soft);
+  transition: background 0.18s var(--ease), color 0.18s var(--ease);
+}
+.venue-card__action:last-child { border-right: 0; }
+.venue-card__action:hover { background: var(--claude-tint); color: var(--claude); }
+.venue-card__action--primary { color: var(--claude); }
+
+/* Remove button — itinerary page only; tiny, quiet, ink-muted. */
+.venue-card__remove {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--ink-muted);
+  padding: 0.55rem 0.95rem;
+  font-size: 0.82rem;
+  letter-spacing: -0.003em;
+  cursor: pointer;
+  text-align: left;
+  border-top: 1px solid var(--rule-soft);
+  width: 100%;
+  transition: color 0.18s var(--ease), background 0.18s var(--ease);
+}
+.venue-card__remove:hover { color: var(--ink); background: var(--paper-soft); }
+
 /* ── Defensive: footer disabled ──────────────────────────────────────── */
 .guide-foot { display: none; }
+
+/* The HTML `hidden` attribute should always hide, even on elements we've
+   set to `display: flex` elsewhere. */
+[hidden] { display: none !important; }
 
 /* ── A11y ────────────────────────────────────────────────────────────── */
 :focus-visible {

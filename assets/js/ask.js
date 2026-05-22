@@ -316,6 +316,7 @@
     actions.appendChild(linkAction("View page", "/" + v.slug + "/", "primary"));
     if (v.booking_url) actions.appendChild(linkAction("Book", v.booking_url));
     actions.appendChild(linkAction("Directions", directionsHref(v)));
+    actions.appendChild(saveAction(v));
 
     card.appendChild(media);
     card.appendChild(body);
@@ -331,6 +332,20 @@
     /* Don't trigger the card's wrapping link. */
     a.addEventListener("click", (e) => e.stopPropagation());
     return a;
+  }
+
+  function saveAction(v) {
+    /* Bookmark toggle. The itinerary.js delegated handler picks this up
+       via [data-save-toggle] and reads/writes localStorage. */
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "venue-card__action venue-card__action--save";
+    btn.setAttribute("data-save-toggle", v.slug);
+    btn.setAttribute("aria-label", "Save " + v.name + " to your itinerary");
+    btn.setAttribute("aria-pressed", "false");
+    btn.innerHTML = '<span data-save-label>Save</span>';
+    btn.addEventListener("click", (e) => e.stopPropagation());
+    return btn;
   }
 
   function pushUser(text) {
@@ -356,11 +371,26 @@
     const m = el("div", "msg msg--concierge");
     m.appendChild(buildMark());
     const body = el("div", "msg__body");
+    const rendered = [];
     slugs.forEach(slug => {
       const card = renderVenueCard(slug);
-      if (card) body.appendChild(card);
+      if (card) { body.appendChild(card); rendered.push(slug); }
     });
-    if (!body.children.length) return; /* don't render empty wrappers */
+    if (!rendered.length) return; /* don't render empty wrappers */
+    /* When Claude suggests an itinerary (2+ venues), offer a single-tap
+       way to save the whole thing. itinerary.js handles the click via
+       [data-save-many]. */
+    if (rendered.length >= 2) {
+      const bulk = document.createElement("button");
+      bulk.type = "button";
+      bulk.className = "save-many";
+      bulk.setAttribute("data-save-many", rendered.join(","));
+      bulk.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg>' +
+        '<span data-save-many-label>Save these to my itinerary</span>';
+      body.appendChild(bulk);
+    }
     m.appendChild(body);
     logEl.appendChild(m);
   }

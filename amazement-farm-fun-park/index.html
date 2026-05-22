@@ -27,7 +27,7 @@
   <header class="topbar topbar--fixed">
     <a class="topbar__back" href="/things-to-do/" aria-label="Back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></a>
     <h1 class="topbar__title">Amazement Farm &amp; Fun Park</h1>
-    <span aria-hidden="true"></span>
+    <div class="topbar__right"><div class="topbar__utility" role="group" aria-label="Concierge and itinerary"><a href="/ask/" class="topbar__util topbar__util--ask" aria-label="Ask Claude"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></a><a href="/itinerary/" class="topbar__util topbar__util--itinerary" aria-label="Your itinerary"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg><span class="topbar__util-count" data-itinerary-count hidden>0</span></a></div></div>
   </header>
 
   <!-- ─── Hero ───────────────────────────────────────────────────── -->
@@ -48,6 +48,7 @@
   <!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
     <a class="btn" href="https://www.amazement.com.au/tickets/">Book</a>
+    <button type="button" class="btn btn--save" data-save-toggle="amazement-farm-fun-park" aria-label="Save Amazement Farm &amp; Fun Park to your itinerary" aria-pressed="false"><span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/></svg></span><span data-save-label>Save</span></button>
   </div>
 
 
@@ -94,16 +95,15 @@
   </section>
 
   <!-- ─── Dock (bottom nav) ──────────────────────────────────────── -->
-  <aside class="dock" aria-label="Guide controls">
+  <aside class="dock" aria-label="Guide sections">
     <nav class="dock__nav" aria-label="Guide sections">
       <a href="/hotel/">Hotel</a>
-      <a href="/eat-and-drink/">Eat</a>
-      <a href="/things-to-do/" aria-current="page">Do</a>
-      <a href="/map/">Map</a>
-      <a href="/ask/" class="dock__nav-ask"><span class="dock__nav-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span><span>Ask</span></a>
+      <a href="/eat-and-drink/">Eat & Drink</a>
+      <a href="/things-to-do/" aria-current="page">Explore</a>
     </nav>
   </aside>
 
+  <script src="/assets/js/itinerary.js" defer></script>
   <script src="/assets/js/filters.js" defer></script>
 
 </body>

@@ -169,22 +169,66 @@ TOPBAR_CHEVRON_SVG = (
     '<path d="M15 6l-6 6 6 6"/></svg>'
 )
 
+# The Claude spokes mark — same glyph used inside the chat surface so the
+# brand thread carries through from nav into conversation.
+TOPBAR_ASK_GLYPH_SVG = (
+    '<svg viewBox="0 0 24 24" aria-hidden="true">'
+    '<path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66'
+    'M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" '
+    'stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/>'
+    '</svg>'
+)
+TOPBAR_ITINERARY_GLYPH_SVG = (
+    '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" '
+    'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+    'stroke-linejoin="round">'
+    '<path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/>'
+    '</svg>'
+)
+
 TOPBAR_FILTER_BUTTON = (
-    '<button type="button" class="topbar__action" data-filter-open aria-label="Filter">'
+    '<button type="button" class="topbar__action topbar__action--filter" '
+    'data-filter-open aria-label="Filter">'
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
     '<path d="M3 5h18l-7 9v6l-4 2v-8L3 5z"/>'
     '</svg></button>'
 )
 
+def topbar_utility(active: str = "") -> str:
+    """Render the persistent Ask + Itinerary cluster for the topbar right slot.
+    `active` is one of: 'ask', 'itinerary' (or '' on every other page)."""
+    ask_aria = ' aria-current="page"' if active == "ask" else ""
+    ask_cls = "topbar__util topbar__util--ask"
+    if active == "ask": ask_cls += " is-active"
+
+    itin_aria = ' aria-current="page"' if active == "itinerary" else ""
+    itin_cls = "topbar__util topbar__util--itinerary"
+    if active == "itinerary": itin_cls += " is-active"
+
+    return (
+        '<div class="topbar__utility" role="group" aria-label="Concierge and itinerary">'
+        f'<a href="/ask/" class="{ask_cls}"{ask_aria} aria-label="Ask Claude">'
+        f'{TOPBAR_ASK_GLYPH_SVG}'
+        '</a>'
+        f'<a href="/itinerary/" class="{itin_cls}"{itin_aria} aria-label="Your itinerary">'
+        f'{TOPBAR_ITINERARY_GLYPH_SVG}'
+        '<span class="topbar__util-count" data-itinerary-count hidden>0</span>'
+        '</a>'
+        '</div>'
+    )
+
 def topbar(title: str, back_href: str | None = None, over_hero: bool = False,
-           right: str | None = None) -> str:
+           extra_right: str | None = None, utility_active: str = "") -> str:
     """Render the sticky/fixed topbar.
     - `title`: centered page title (visible only when solid)
     - `back_href`: optional URL for the back chevron on the left
     - `over_hero`: True for pages with a hero photo (topbar floats over it,
       starts transparent and turns solid as the user scrolls past the hero)
-    - `right`: optional HTML for the right slot (eg. a filter button).
+    - `extra_right`: optional HTML to render BEFORE the utility cluster
+      (used by category pages for the filter button)
+    - `utility_active`: 'ask' or 'itinerary' to mark the corresponding
+      utility button as the current page.
     """
     cls = "topbar topbar--fixed" if over_hero else "topbar topbar--sticky topbar--solid"
     if back_href:
@@ -194,48 +238,32 @@ def topbar(title: str, back_href: str | None = None, over_hero: bool = False,
         )
     else:
         left = '<span aria-hidden="true"></span>'
-    rt = right if right else '<span aria-hidden="true"></span>'
+
+    right_inner = (extra_right or "") + topbar_utility(utility_active)
     return f"""<!-- ─── Topbar ──────────────────────────────────────────────────── -->
   <header class="{cls}">
     {left}
     <h1 class="topbar__title">{html.escape(title)}</h1>
-    {rt}
+    <div class="topbar__right">{right_inner}</div>
   </header>"""
 
-# ── The dock (bottom nav — five sections, Ask is the concierge tab) ────
-
-# The Ask tab is the entry point to Claude. We lead with the Claude
-# spokes mark — same glyph used in the chat surface itself — so the
-# brand thread is consistent from the nav into the conversation.
-DOCK_ASK_GLYPH_SVG = (
-    '<svg viewBox="0 0 24 24" aria-hidden="true">'
-    '<path d="M12 2v8M12 14v8M2 12h8M14 12h8M4.93 4.93l5.66 5.66'
-    'M13.41 13.41l5.66 5.66M4.93 19.07l5.66-5.66M13.41 10.59l5.66-5.66" '
-    'stroke="currentColor" stroke-width="2.4" stroke-linecap="round" fill="none"/>'
-    '</svg>'
-)
+# ── The dock (bottom nav — three primary sections) ─────────────────────
+# Reference categories live in the bottom dock; conversational and
+# planning surfaces (Ask · Itinerary) live in the topbar so the bottom
+# can stay quiet and the two modes don't compete.
 
 def dock(active: str = "") -> str:
-    """Bottom dock — five-tab nav.
-    `active` is one of: 'hotel', 'eat', 'do', 'map', 'ask' (or '' for home)."""
-    def item(href: str, key: str, label: str, extra_cls: str = "", inner: str | None = None) -> str:
+    """Bottom dock — three-tab nav.
+    `active` is one of: 'hotel', 'eat', 'explore' (or '' for home/ask/etc)."""
+    def item(href: str, key: str, label: str) -> str:
         ac = ' aria-current="page"' if active == key else ""
-        cls = f' class="{extra_cls}"' if extra_cls else ""
-        body = inner if inner is not None else label
-        return f'<a href="{href}"{cls}{ac}>{body}</a>'
-
-    ask_inner = (
-        f'<span class="dock__nav-glyph" aria-hidden="true">{DOCK_ASK_GLYPH_SVG}</span>'
-        f'<span>Ask</span>'
-    )
+        return f'<a href="{href}"{ac}>{label}</a>'
     return f"""<!-- ─── Dock (bottom nav) ──────────────────────────────────────── -->
-  <aside class="dock" aria-label="Guide controls">
+  <aside class="dock" aria-label="Guide sections">
     <nav class="dock__nav" aria-label="Guide sections">
       {item('/hotel/', 'hotel', 'Hotel')}
-      {item('/eat-and-drink/', 'eat', 'Eat')}
-      {item('/things-to-do/', 'do', 'Do')}
-      {item('/map/', 'map', 'Map')}
-      {item('/ask/', 'ask', 'Ask', extra_cls='dock__nav-ask', inner=ask_inner)}
+      {item('/eat-and-drink/', 'eat', 'Eat & Drink')}
+      {item('/things-to-do/', 'explore', 'Explore')}
     </nav>
   </aside>"""
 
@@ -267,20 +295,46 @@ def render_visit_row(adv: dict) -> str:
         "\n  </section>"
     )
 
-def render_cta_block(adv: dict) -> str:
-    """Single primary CTA where possible; ghost fallback for website."""
-    buttons = []
+SAVE_GLYPH_SVG = (
+    '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" '
+    'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" '
+    'stroke-linejoin="round">'
+    '<path d="M6 4h12a1 1 0 0 1 1 1v15l-7-4-7 4V5a1 1 0 0 1 1-1z"/>'
+    '</svg>'
+)
+
+def render_save_button(slug: str, name: str) -> str:
+    """Bookmark toggle that adds/removes this venue from the itinerary.
+    Initial state is set client-side by itinerary.js on load."""
+    return (
+        '<button type="button" class="btn btn--save" '
+        f'data-save-toggle="{html.escape(slug)}" '
+        f'aria-label="Save {html.escape(name)} to your itinerary" '
+        'aria-pressed="false">'
+        f'<span class="btn__icon" aria-hidden="true">{SAVE_GLYPH_SVG}</span>'
+        '<span data-save-label>Save</span>'
+        '</button>'
+    )
+
+def render_cta_block(adv: dict, savable: bool = True) -> str:
+    """Primary CTA + Save toggle. `savable=False` skips the Save button
+    (used on the hotel page — it isn't a stop you add to an itinerary)."""
+    primary = ""
     if adv.get("booking_url"):
-        buttons.append(f'<a class="btn" href="{adv["booking_url"]}">Book</a>')
+        primary = f'<a class="btn" href="{adv["booking_url"]}">Book</a>'
     elif adv.get("website"):
-        buttons.append(f'<a class="btn" href="{adv["website"]}">Visit website</a>')
+        primary = f'<a class="btn" href="{adv["website"]}">Visit website</a>'
     elif adv.get("address"):
-        buttons.append(f'<a class="btn" href="{directions_url(adv["name"], adv["address"])}">Get directions</a>')
-    if not buttons:
+        primary = f'<a class="btn" href="{directions_url(adv["name"], adv["address"])}">Get directions</a>'
+
+    save_btn = render_save_button(adv["slug"], adv["name"]) if savable else ""
+
+    if not primary and not save_btn:
         return ""
     return f"""<!-- ─── Primary CTA ────────────────────────────────────────────── -->
   <div class="cta-row">
-    {buttons[0]}
+    {primary}
+    {save_btn}
   </div>
 """
 
@@ -364,6 +418,7 @@ PAGE_TEMPLATE = """<!doctype html>
 
   {dock}
 
+  <script src="/assets/js/itinerary.js" defer></script>
   <script src="/assets/js/filters.js" defer></script>
 
 </body>
@@ -405,7 +460,8 @@ ROOT_TEMPLATE = """<!doctype html>
 </head>
 <body>
 
-  <!-- ─── Hotel hero (no topbar on home) ──────────────────────────── -->
+  {topbar}
+
   <section class="hero">
     <picture class="hero__art" aria-hidden="true">
       <img src="{hero_image}" alt="" loading="eager" fetchpriority="high" decoding="async" width="2400" height="1400" />
@@ -440,7 +496,7 @@ ROOT_TEMPLATE = """<!doctype html>
       <a class="cat-card" href="/things-to-do/">
         <img class="cat-card__img" src="{cat_img_do}" alt="" loading="lazy" decoding="async" width="900" height="1100" />
         <div class="cat-card__body">
-          <span class="cat-card__title">Things to do</span>
+          <span class="cat-card__title">Explore</span>
           <span class="cat-card__desc">Experiences, tours and standout local stops.</span>
         </div>
       </a>
@@ -455,6 +511,8 @@ ROOT_TEMPLATE = """<!doctype html>
   </section>
 
   {dock}
+
+  <script src="/assets/js/itinerary.js" defer></script>
 
 </body>
 </html>
@@ -529,6 +587,8 @@ HOTEL_TEMPLATE = """<!doctype html>
 
   {dock}
 
+  <script src="/assets/js/itinerary.js" defer></script>
+
 </body>
 </html>
 """
@@ -573,6 +633,7 @@ CATEGORY_TEMPLATE = """<!doctype html>
 
   {dock}
 
+  <script src="/assets/js/itinerary.js" defer></script>
   <script src="/assets/js/filters.js" defer></script>
 
 </body>
@@ -725,6 +786,8 @@ MAP_TEMPLATE = """<!doctype html>
     }});
   </script>
 
+  <script src="/assets/js/itinerary.js" defer></script>
+
 </body>
 </html>
 """
@@ -810,7 +873,7 @@ def render_business_page(a: dict, hotel: dict) -> str:
     name = a["name"]
     group = a["category_group"]
     suburb_line = f"{a['suburb']} · {distance_label(a)}" if a.get("suburb") else distance_label(a)
-    active = "eat" if group == "eat-and-drink" else ("do" if group == "things-to-do" else "")
+    active = "eat" if group == "eat-and-drink" else ("explore" if group == "things-to-do" else "")
     return PAGE_TEMPLATE.format(
         name=html.escape(name),
         meta_description=html.escape(a["hero_subtitle"]),
@@ -850,7 +913,7 @@ def render_hotel_page(hotel: dict, on_site: list[dict]) -> str:
         suburb=html.escape(hotel["suburb"]),
         hero_name_html=hero_name_html(name),
         hero_subtitle=html.escape(hotel["hero_subtitle"]),
-        cta_block=render_cta_block(hotel),
+        cta_block=render_cta_block(hotel, savable=False),
         description_headline=html.escape(hotel["description_headline"]),
         description_p1=html.escape(hotel["description_p1"]),
         description_p2=html.escape(hotel["description_p2"]),
@@ -872,6 +935,7 @@ def render_root(hotel: dict) -> str:
         cat_img_eat=_unsplash("beach-restaurant", 900, 1100),
         cat_img_do=_unsplash("boat-hire", 900, 1100),
         cat_img_map=_unsplash("coast-1", 900, 1100),
+        topbar=topbar("", over_hero=True),
         dock=dock(""),
     )
 
@@ -883,8 +947,8 @@ def render_category(group_slug: str, label: str, intro: str, advertisers: list[d
         headline=html.escape(label + " — within easy reach."),
         intro=html.escape(intro),
         cards="\n      ".join(cards),
-        topbar=topbar(label, right=TOPBAR_FILTER_BUTTON),
-        dock=dock("eat" if group_slug == "eat-and-drink" else "do"),
+        topbar=topbar(label, extra_right=TOPBAR_FILTER_BUTTON),
+        dock=dock("eat" if group_slug == "eat-and-drink" else "explore"),
     )
 
 def render_map_stop(slug: str, name: str, suburb: str, distance_minutes: int,
@@ -952,8 +1016,8 @@ def render_map(hotel: dict, advertisers: list[dict]) -> str:
         spots_js=spots_js,
         stop_count=len(geo_adv) + 1,
         stops_html=stops_html,
-        topbar=topbar("Map"),
-        dock=dock("map"),
+        topbar=topbar("Map", back_href="/things-to-do/"),
+        dock=dock("explore"),
     )
 
 # ── Ask page template (the concierge chat surface) ─────────────────────
@@ -1039,6 +1103,7 @@ ASK_TEMPLATE = """<!doctype html>
       venues: {venues_js}
     }};
   </script>
+  <script src="/assets/js/itinerary.js" defer></script>
   <script src="/assets/js/ask.js" defer></script>
 
 </body>
@@ -1080,10 +1145,94 @@ def render_ask_page(hotel: dict, advertisers: list[dict]) -> str:
     # Static fallback used until the client-side time-aware greeting kicks in.
     fallback_greeting = "Hi, I'm Claude. What's on?"
     return ASK_TEMPLATE.format(
-        topbar=topbar("Ask"),
-        dock=dock("ask"),
+        topbar=topbar("Ask Claude", utility_active="ask"),
+        dock=dock(""),
         starter_chips=render_starter_chips(),
         fallback_greeting=html.escape(fallback_greeting),
+        hotel_js=json.dumps(hotel_payload),
+        venues_js=json.dumps(venues),
+    )
+
+# ── Itinerary page (the guest's saved-venues list) ─────────────────────
+#
+# The page is server-rendered as a shell. The actual list is populated
+# client-side from localStorage (or a shared ?stops=... query) by the
+# inlined controller below. We inline the same slim venue table that
+# the Ask page uses so cards can render without a fetch.
+
+ITINERARY_TEMPLATE = """<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Itinerary — The Beachcomber Guide</title>
+  <meta name="description" content="Your saved stops on the Central Coast — what to do, where to eat, and how the day strings together." />
+  <meta name="theme-color" content="#FFFFFF" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/css/tokens.css" />
+  <link rel="stylesheet" href="/assets/css/guide.css" />
+</head>
+<body>
+
+  {topbar}
+
+  <main class="itin" data-itin>
+    <header class="itin__head">
+      <h1>Your itinerary</h1>
+      <p class="itin__sub" data-sub>What you've saved for the trip.</p>
+    </header>
+
+    <section class="itin__shared" data-shared hidden>
+      <p>This is a shared itinerary. Tap below to add the stops to your own.</p>
+      <button type="button" class="btn" data-import>Add to my itinerary</button>
+    </section>
+
+    <section class="itin__actions" data-actions hidden>
+      <button type="button" class="btn btn--ghost" data-share>Share itinerary</button>
+      <button type="button" class="btn btn--ghost btn--quiet" data-clear>Clear all</button>
+    </section>
+
+    <section class="itin__empty" data-empty>
+      <p class="itin__empty-lede">No stops yet.</p>
+      <p>Tap the bookmark on any venue page to add it here. Or <a href="/ask/">ask Claude</a> to plan your day and save the result.</p>
+    </section>
+
+    <section class="itin__list" data-list aria-label="Saved stops"></section>
+
+    <p class="itin__share-status" data-share-status hidden></p>
+  </main>
+
+  {dock}
+
+  <script>
+    window.GUIDE = {{
+      hotel: {hotel_js},
+      venues: {venues_js}
+    }};
+  </script>
+  <script src="/assets/js/itinerary.js" defer></script>
+  <script src="/assets/js/itinerary-page.js" defer></script>
+
+</body>
+</html>
+"""
+
+def render_itinerary_page(hotel: dict, advertisers: list[dict]) -> str:
+    venues = [_ask_venue_payload(a) for a in advertisers]
+    hotel_payload = {
+        "name": hotel["name"],
+        "phone": hotel.get("phone", ""),
+        "phone_href": tel_href(hotel.get("phone")) if hotel.get("phone") else "",
+    }
+    return ITINERARY_TEMPLATE.format(
+        topbar=topbar("Itinerary", utility_active="itinerary"),
+        dock=dock(""),
         hotel_js=json.dumps(hotel_payload),
         venues_js=json.dumps(venues),
     )
@@ -1136,6 +1285,11 @@ def main() -> None:
     (ROOT / "ask").mkdir(parents=True, exist_ok=True)
     (ROOT / "ask" / "index.html").write_text(render_ask_page(hotel, advertisers), encoding="utf-8")
     print(f"  generated /ask/ ({len(advertisers)} venues inlined)")
+
+    # Itinerary page (the guest's saved-venues list)
+    (ROOT / "itinerary").mkdir(parents=True, exist_ok=True)
+    (ROOT / "itinerary" / "index.html").write_text(render_itinerary_page(hotel, advertisers), encoding="utf-8")
+    print(f"  generated /itinerary/")
 
     # Root index
     (ROOT / "index.html").write_text(render_root(hotel), encoding="utf-8")
